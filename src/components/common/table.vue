@@ -1,0 +1,575 @@
+<script setup>
+import { ref, nextTick } from 'vue';
+import { checkedTypeCellval } from '@/utils/index';
+
+const fromRef = ref(null);
+const renderDom = {
+    props: ['row', 'column', 'render'],
+    render: data => {
+        return data.render(data.row, data.column);
+    },
+};
+/**
+ * @description props详情
+ * @param tableFromOption.isShowForm 是否显示表单
+ * @param tableFromOption.modelFormValue 表单v-model字段
+ * @param tableFromOption.labelWidth 表单标签的长度
+ * @param tableFromOption.fromItem 表单控件列表
+ * @param tableFromOption.fromItem.type 表单控件类型
+ * @param tableFromOption.fromItem.label 表单控件标签
+ * @param tableFromOption.fromItem.labelWidth 控件标签的长度
+ * @param tableFromOption.fromItem.prop 表单控件prop
+ * @param tableFromOption.fromItem.rules 表单控件验证规则列表
+ * @param tableFromOption.fromItem.placeholder 表单控件placeholder
+ * @param tableFromOption.fromItem.style 表单控件样式
+ * @param tableFromOption.isShowOperateBtn 是否显示操作按钮
+ * @param tableFromOption.isShowOtherBtn 是否显示其他按钮
+ * @param tableFromOption.otherBtnList 其他按钮列表
+ * @param tableFromOption.isShowTable 是否显示表格
+ * @param tableFromOption.tableObj 表格数据详情
+ * @param tableFromOption.tableObj.tableData 表格数据
+ * @param tableFromOption.tableObj.tableHeader 表格头部数据
+ * @param tableFromOption.tableObj.isMultiple 是否多选
+ * @param tableFromOption.tableObj.serialNumber 是否显示序号
+ * @param tableFromOption.tableObj.operatesBtnObj 操作按钮详情
+ * @param tableFromOption.tableObj.operatesBtnObj.isOperatesBtn 操作按钮是否显示
+ * @param tableFromOption.tableObj.operatesBtnObj.operatesBtnList 操作按钮列表
+ * @param tableFromOption.totalCount 总数
+ * @param tableFromOption.pageSize 每页条数
+ * @param tableFromOption.pageNo 页码
+ */
+const props = defineProps({
+    tableFromOption: {
+        type: Object,
+        default: () => {},
+    },
+});
+const emit = defineEmits([
+    'handleSelectionChange',
+    'handleCellClick',
+    'rowClick',
+    'handleCurrentChange',
+    'handleSizeChange',
+]);
+const resetForm = () => {
+    fromRef.value?.resetFields();
+    props.tableFromOption.pageNo = 1;
+};
+const queryList = () => {
+    const obj = {
+        ...props.tableFromOption.modelFormValue,
+        pageSize: props.tableFromOption.pageSize,
+        pageNo: props.tableFromOption.pageNo,
+    };
+    console.log(obj);
+};
+defineExpose({
+    resetForm,
+});
+// 转换el-date-picker type="month" 时 月份不为数字
+const monthObj = {
+    一月: '01月',
+    二月: '02月',
+    三月: '03月',
+    四月: '04月',
+    五月: '05月',
+    六月: '06月',
+    七月: '07月',
+    八月: '08月',
+    九月: '09月',
+    十月: '10月',
+    十一月: '11月',
+    十二月: '12月',
+};
+let numMonthArr = [
+    '01月',
+    '02月',
+    '03月',
+    '04月',
+    '05月',
+    '06月',
+    '07月',
+    '08月',
+    '09月',
+    '10月',
+    '11月',
+    '12月',
+];
+function monthDictionary(month) {
+    return monthObj[month];
+}
+function focusFn() {
+    nextTick(() => {
+        let monthArr = document.querySelectorAll('div>.cell');
+        if (monthArr && monthArr.length && numMonthArr.includes(monthArr[0].innerHTML)) {
+            return;
+        }
+        for (let i = 0; i < monthArr.length; i++) {
+            let aDom = monthArr[i];
+            aDom.innerHTML = monthDictionary(aDom.innerHTML);
+        }
+    });
+}
+// 多行选中
+function handleSelectionChange(val) {
+    emit('handleSelectionChange', val);
+}
+// 点击选择某行
+function handleCellClick(row, column, cell, event) {
+    emit('handleCellClick', row, column, cell, event);
+}
+// 某一行被点击
+function rowClick(row, column, event) {
+    emit('rowClick', row, column, event);
+}
+// 切换页码
+function handleCurrentChange(val) {
+    emit('handleCurrentChange', val);
+}
+// 切换条数
+function handleSizeChange(val) {
+    emit('handleSizeChange', val);
+}
+function formatterCellval(row, column, cellValue) {
+    if (checkedTypeCellval(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
+        return '-';
+    } else {
+        return cellValue;
+    }
+}
+</script>
+
+<template>
+    <div class="table_module">
+        <!-- form 表单-->
+        <template v-if="props.tableFromOption.isShowForm">
+            <div class="query_form">
+                <div class="formContent">
+                    <el-form
+                        ref="fromRef"
+                        status-icon
+                        :model="props.tableFromOption.modelFormValue"
+                        :label-width="`${props.tableFromOption.labelWidth}px`"
+                    >
+                        <template v-for="item in props.tableFromOption.fromItem" :key="item.label">
+                            <el-form-item
+                                :label="item.label"
+                                :prop="item.prop"
+                                :rules="item.rules"
+                                :label-width="`${item.labelWidth}px`"
+                            >
+                                <!-- 输入框 -->
+                                <template v-if="item.type === 'input'">
+                                    <el-input
+                                        :placeholder="item.placeholder"
+                                        :style="item.style"
+                                        v-model="
+                                            props.tableFromOption.modelFormValue[`${item.prop}`]
+                                        "
+                                    />
+                                </template>
+                                <!-- 下拉框 -->
+                                <template v-if="item.type === 'select'">
+                                    <el-select
+                                        v-model="
+                                            props.tableFromOption.modelFormValue[`${item.prop}`]
+                                        "
+                                        :placeholder="item.placeholder"
+                                        :style="item.style"
+                                        popper-class="selectPopperClass"
+                                    >
+                                        <el-option
+                                            v-for="option in item.options"
+                                            :key="option.label"
+                                            :label="option.label"
+                                            :value="option.value"
+                                        />
+                                    </el-select>
+                                </template>
+                                <!-- 月 -->
+                                <template v-if="item.type === 'monthPicker'">
+                                    <el-date-picker
+                                        v-model="
+                                            props.tableFromOption.modelFormValue[`${item.prop}`]
+                                        "
+                                        :style="item.style"
+                                        type="month"
+                                        :editable="false"
+                                        :placeholder="item.placeholder"
+                                        popper-class="nonScopePickerClass"
+                                        @focus="focusFn"
+                                        @panel-change="focusFn"
+                                        format="YYYY-MM"
+                                        value-format="YYYY-MM"
+                                        :shortcuts="[
+                                            {
+                                                text: '今天',
+                                                value: new Date(),
+                                            },
+                                        ]"
+                                    />
+                                </template>
+                                <!-- 年 -->
+                                <template v-if="item.type === 'yaerPicker'">
+                                    <el-date-picker
+                                        v-model="
+                                            props.tableFromOption.modelFormValue[`${item.prop}`]
+                                        "
+                                        :style="item.style"
+                                        type="year"
+                                        :editable="false"
+                                        :placeholder="item.placeholder"
+                                        popper-class="nonScopePickerClass"
+                                        format="YYYY"
+                                        value-format="YYYY"
+                                        :shortcuts="[
+                                            {
+                                                text: '今天',
+                                                value: new Date(),
+                                            },
+                                        ]"
+                                    />
+                                </template>
+                                <!-- 日 -->
+                                <template v-if="item.type === 'datePicker'">
+                                    <el-date-picker
+                                        v-model="
+                                            props.tableFromOption.modelFormValue[`${item.prop}`]
+                                        "
+                                        :style="item.style"
+                                        type="date"
+                                        :editable="false"
+                                        :placeholder="item.placeholder"
+                                        popper-class="nonScopePickerClass"
+                                        format="YYYY-MM-DD"
+                                        value-format="YYYY-MM-DD"
+                                        @panel-change="focusFn"
+                                        :shortcuts="[
+                                            {
+                                                text: '今天',
+                                                value: new Date(),
+                                            },
+                                        ]"
+                                    />
+                                </template>
+                                <!-- 日期时间范围 -->
+                                <template v-if="item.type === 'datetimerange'">
+                                    <el-date-picker
+                                        v-model="
+                                            props.tableFromOption.modelFormValue[`${item.prop}`]
+                                        "
+                                        type="datetimerange"
+                                        popper-class="scopePickerClass"
+                                        range-separator="~"
+                                        :editable="false"
+                                        :style="item.style"
+                                        :start-placeholder="item.startPlaceholder"
+                                        :end-placeholder="item.endPlaceholder"
+                                        format="YYYY-MM-DD HH:mm:ss"
+                                        value-format="YYYY-MM-DD HH:mm:ss"
+                                        prefix-icon=""
+                                    />
+                                </template>
+                            </el-form-item>
+                        </template>
+                    </el-form>
+                    <!-- 查询重置按钮 -->
+                    <div class="queryBtnList">
+                        <el-button color="#0d151e" @click="queryList">查询</el-button>
+                        <el-button color="#0d151e" @click="resetForm">重置</el-button>
+                    </div>
+                </div>
+                <!-- 操作按钮 -->
+                <div class="operateBtnList" v-if="props.tableFromOption.isShowOperateBtn">
+                    <!-- 操作按钮 -->
+                    <el-button v-hasPermi="['add']" color="#0d151e">新增</el-button>
+                    <el-button v-hasPermi="['del']" color="#0d151e">修改</el-button>
+                    <el-button v-hasPermi="['update']" color="#0d151e">删除</el-button>
+                    <template v-if="props.tableFromOption.isShowOtherBtn">
+                        <el-button
+                            v-for="item in props.tableFromOption.otherBtnList"
+                            :key="item.name"
+                            color="#0d151e"
+                            @click="item.handlerClick"
+                        >
+                            {{ item.name }}
+                        </el-button>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <!-- table 表格 -->
+        <template v-if="props.tableFromOption.isShowTable">
+            <div class="query_table">
+                <el-table
+                    ref="elTable"
+                    :data="props.tableFromOption.tableObj.tableData"
+                    :header-cell-style="{
+                        background: 'rgba(0, 0, 0, 0)',
+                        fontSize: '12px',
+                        textAlign: 'center',
+                        color: '#FFFFFF',
+                        letterSpacing: '2px',
+                    }"
+                    :cell-style="{
+                        height: '10px',
+                        fontSize: '12px',
+                        padding: '3px 0',
+                    }"
+                    @selection-change="handleSelectionChange"
+                    @cell-click="handleCellClick"
+                    @row-click="rowClick"
+                    class="tableStyle"
+                    height="100%"
+                >
+                    <template v-if="props.tableFromOption.tableObj.isMultiple">
+                        <el-table-column
+                            type="selection"
+                            width="45"
+                            ref="multipleTable"
+                            label=""
+                            align="center"
+                        ></el-table-column>
+                    </template>
+                    <template v-else-if="props.tableFromOption.tableObj.serialNumber">
+                        <el-table-column
+                            type="index"
+                            align="center"
+                            label=""
+                            width="65"
+                        ></el-table-column>
+                    </template>
+                    <el-table-column
+                        v-for="(col, c) in props.tableFromOption.tableObj.tableHeader"
+                        :key="c"
+                        :prop="col.prop"
+                        :label="col.label"
+                        :width="col.width"
+                        :min-width="col.minWidth"
+                        :align="col.align || 'center'"
+                        :type="col.type"
+                        :show-overflow-tooltip="col.popover || false"
+                    >
+                        <template #default="scope">
+                            <template v-if="col.children">
+                                <el-table-column
+                                    v-for="(ch, o) in col.children"
+                                    :key="o"
+                                    :label="ch.label"
+                                    :prop="ch.prop"
+                                    :width="ch.width"
+                                    :min-width="ch.minWidth"
+                                    :align="ch.align || 'center'"
+                                    :show-overflow-tooltip="ch.popover || false"
+                                >
+                                    <template #default="sonScope">
+                                        <template v-if="ch.render">
+                                            <renderDom
+                                                :row="sonScope.row"
+                                                :column="ch"
+                                                :render="ch.render"
+                                            ></renderDom>
+                                        </template>
+                                        <template v-else-if="ch.formatter">
+                                            <span v-html="ch.formatter(sonScope.row, ch)" />
+                                        </template>
+                                        <template v-else-if="ch.handlerClick">
+                                            <span
+                                                style="cursor: pointer"
+                                                @click="ch.handlerClick(sonScope.row, ch)"
+                                            >
+                                                {{ sonScope.row[ch.prop] || '--' }}
+                                            </span>
+                                        </template>
+                                        <template v-else-if="ch.slotName">
+                                            <slot
+                                                :name="ch.slotName"
+                                                :scope="{ row: sonScope.row, header: ch }"
+                                            ></slot>
+                                        </template>
+                                        <template v-else>
+                                            <span
+                                                v-html="
+                                                    formatterCellval(
+                                                        sonScope.row,
+                                                        ch,
+                                                        sonScope.row[ch.prop]
+                                                    )
+                                                "
+                                            ></span>
+                                        </template>
+                                    </template>
+                                </el-table-column>
+                            </template>
+                            <template v-else-if="col.render">
+                                <renderDom
+                                    :row="scope.row"
+                                    :column="col"
+                                    :render="col.render"
+                                ></renderDom>
+                            </template>
+                            <template v-else-if="col.formatter">
+                                <span v-html="col.formatter(scope.row, col)" />
+                            </template>
+                            <template v-else-if="col.handlerClick">
+                                <span
+                                    style="cursor: pointer"
+                                    @click="col.handlerClick(scope.row, col)"
+                                >
+                                    {{ scope.row[col.prop] || '--' }}
+                                </span>
+                            </template>
+                            <template v-else-if="col.slotName">
+                                <slot
+                                    :name="col.slotName"
+                                    :scope="{ row: scope.row, header: col }"
+                                ></slot>
+                            </template>
+                            <template v-else>
+                                <span
+                                    v-html="formatterCellval(scope.row, col, scope.row[col.prop])"
+                                ></span>
+                            </template>
+                        </template>
+                    </el-table-column>
+                    <!-- 按钮组 -->
+                    <template
+                        v-if="
+                            props.tableFromOption.tableObj.operatesBtnObj &&
+                            props.tableFromOption.tableObj.operatesBtnObj.isOperatesBtn
+                        "
+                    >
+                        <el-table-column
+                            :label="props.tableFromOption.tableObj.operatesBtnObj.title || '操作'"
+                            :align="props.tableFromOption.tableObj.operatesBtnObj.align || 'center'"
+                            :min-width="props.tableFromOption.tableObj.operatesBtnObj.minWidth"
+                            :width="props.tableFromOption.tableObj.operatesBtnObj.width"
+                            :fixed="props.tableFromOption.tableObj.operatesBtnObj.fixed"
+                        >
+                            <template #default="scope">
+                                <template
+                                    v-for="item in props.tableFromOption.tableObj.operatesBtnObj
+                                        .operatesBtnList"
+                                >
+                                    <renderDom :row="scope.row" :render="item.render"></renderDom>
+                                </template>
+                            </template>
+                        </el-table-column>
+                    </template>
+                </el-table>
+            </div>
+        </template>
+        <!-- pagination 分页 -->
+        <template v-if="props.tableFromOption.totalCount">
+            <div class="query_pagination">
+                <el-pagination
+                    small
+                    layout="slot, prev, pager, next"
+                    :total="props.tableFromOption.totalCount"
+                    v-model:current-page="props.tableFromOption.pageNo"
+                    v-model:page-size="props.tableFromOption.pageSize"
+                    :page-sizes="[100, 200, 300, 400]"
+                    @current-change="handleCurrentChange"
+                    @size-change="handleSizeChange"
+                >
+                    <span class="el-pagination__total">
+                        共{{ props.tableFromOption.totalCount }}条记录
+                    </span>
+                </el-pagination>
+            </div>
+        </template>
+    </div>
+</template>
+
+<style scoped lang="scss">
+@import '@/assets/css/elementDefault.scss';
+.table_module {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    .query_form {
+        display: flex;
+        justify-content: space-between;
+        .formContent {
+            display: flex;
+            justify-content: flex-start;
+            .el-form {
+                display: flex;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                .el-form-item {
+                    margin-right: 10px;
+                    height: 24px;
+                    :deep(.el-form-item__label) {
+                        height: 24px;
+                        line-height: 24px;
+                        color: #cccccc;
+                    }
+                }
+            }
+            .queryBtnList {
+                margin-left: 30px;
+                display: flex;
+            }
+        }
+    }
+    .query_table {
+        height: 0;
+        flex-grow: 1;
+        width: 100%;
+        .tableStyle {
+            font-weight: 400;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-family: PingFang SC;
+            color: #ffffff;
+        }
+    }
+    .query_pagination {
+        padding: 26px 0 0 0;
+        height: 24px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+:deep(.el-pagination) {
+    --el-pagination-button-width-small: 20px;
+    --el-pagination-button-height-small: 20px;
+
+    .el-pagination__total {
+        font-weight: 500;
+        font-size: 12px;
+        color: #ffffff;
+    }
+
+    .el-pager {
+        li {
+            background: none;
+            font-weight: 500;
+            font-size: 12px;
+            color: #ffffff;
+        }
+
+        li.is-active {
+            color: #32fdfc;
+        }
+    }
+}
+:deep(.el-table) {
+    --el-table-border-color: rgba(0, 0, 0, 0);
+    --el-table-tr-bg-color: rgba(0, 0, 0, 0);
+    --el-table-border: 0;
+    --el-table-bg-color: rgba(0, 0, 0, 0);
+    --el-table-row-hover-bg-color: rgba(2, 50, 64, 1);
+    .el-table__row:nth-child(2n + 1) {
+        background-color: rgba(2, 50, 64, 0.6);
+    }
+    .el-table__row:nth-child(2n) {
+        background-color: rgba(0, 0, 0, 0);
+    }
+}
+</style>

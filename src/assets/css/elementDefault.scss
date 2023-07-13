@@ -1,0 +1,115 @@
+:deep(.el-input__wrapper) {
+  height: 20px;
+  background-color: #0d151e;
+  border-radius: 0px;
+  box-shadow: 0 0 0 0;
+  border: 1px solid #334249;
+
+  .el-input__inner {
+    height: 18px;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: left;
+    color: #CCCCCC;
+  }
+
+  .el-input__inner::placeholder {
+    font-weight: 500;
+    font-size: 12px;
+    text-align: left;
+    color: #cccccc;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 0 !important;
+    border: 1px solid #334249;
+  }
+}
+
+:deep(.el-date-editor) {
+  box-sizing: border-box;
+  height: 24px;
+
+  .el-range__icon {
+    margin-right: 8px;
+  }
+
+  .el-range-separator {
+    font-weight: 500;
+    color: #CCCCCC;
+  }
+
+  .el-range-input {
+    height: 20px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #CCCCCC;
+  }
+}
+
+// --------- el-select 按钮样式的修改   ---------
+:deep(.el-select .el-input.is-focus .el-input__wrapper) {
+  box-shadow: 0 0 0 0 !important;
+  border: 1px solid #334249;
+}
+
+:deep(.el-select .el-input__wrapper.is-focus) {
+  box-shadow: 0 0 0 0 !important;
+  border: 1px solid #334249;
+}
+
+//下拉框的文本颜色
+.el-select-dropdown__item {
+  box-shadow: 0 0 0 0 !important;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: left;
+  color: #FFFFFF;
+  margin-bottom: 1px;
+  padding-left: 7px;
+}
+
+// 鼠标滑过样式
+.el-select-dropdown__item:hover {
+  background: linear-gradient(to left, rgba(31, 255, 147, 0.5), rgba(31, 255, 147, 0.5));
+  box-shadow: 0 0 0 0 !important;
+}
+
+// 选中之后的背景
+.el-select-dropdown__item.hover {
+  background: linear-gradient(to left, rgba(31, 255, 147, 0.5), rgba(31, 255, 147, 0.5));
+  box-shadow: 0 0 0 0 !important;
+}
+
+// 选中之后的颜色
+.el-select-dropdown__item.selected {
+  background: linear-gradient(to left, rgba(31, 255, 147, 0.5), rgba(31, 255, 147, 0.5));
+  box-shadow: 0 0 0 0 !important;
+}
+
+// --------- el-button 按钮样式的修改   ---------
+.el-button {
+  min-width: 70px;
+  height: 24px;
+  border: 1px solid #334249;
+  padding: 0 22px;
+  border-radius: 0px;
+  margin-bottom: 18px;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 2px;
+
+  &:hover {
+    color: #00ff84;
+    background-color: #0d151e;
+    border-color: #00ff84;
+  }
+
+  &:focus {
+    color: #00ff84;
+    background-color: #0d151e;
+    border-color: #00ff84;
+  }
+}
