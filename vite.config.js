@@ -53,9 +53,9 @@ export default defineConfig(({ mode }) => {
       cssTarget: "chrome61", //防止 vite 将 rgba() 颜色转化为 #RGBA 十六进制符号的形式  (要兼容的场景是安卓微信中的 webview 时,它不支持 CSS 中的 #RGBA 十六进制颜色符号)
       rollupOptions: {
         output: {
-          chunkFileNames: 'static/js/[name]-[hash].js',
-          entryFileNames: 'static/js/[name]-[hash].js',
-          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+          // chunkFileNames: 'static/js/[name]-[hash].js',
+          // entryFileNames: 'static/js/[name]-[hash].js',
+          // assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
           manualChunks(id) {
             if (id.includes("node_modules")) {
               return id
