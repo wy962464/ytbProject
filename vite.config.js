@@ -30,14 +30,14 @@ export default defineConfig(({ mode }) => {
       Components({
         resolvers: [ElementPlusResolver()],
       }),
-      viteCompression({
-        verbose: true,
-        disable: false,
-        threshold: 10240,
-        algorithm: "gzip",
-        ext: ".gz",
-        deleteOriginFile: true
-      })
+      // viteCompression({
+      //   verbose: true,
+      //   disable: false,
+      //   threshold: 10240,
+      //   algorithm: "gzip",
+      //   ext: ".gz",
+      //   deleteOriginFile: true
+      // })
     ],
     resolve: {
       alias,
