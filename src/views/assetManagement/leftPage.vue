@@ -22,8 +22,5 @@ function handlerClick() {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    display: grid;
-    grid-template-rows: 100%;
-    grid-gap: 20px 0;
 }
 </style>

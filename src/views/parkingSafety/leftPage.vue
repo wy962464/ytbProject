@@ -19,8 +19,8 @@ function handlerClick() {
 
 <template>
     <div class="page">
-        <CardBox v-model:cardProps="cardPropsTop"></CardBox>
-        <CardBox v-model:cardProps="cardPropsBottom" @handlerClick="handlerClick">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsTop"></CardBox>
+        <CardBox class="CardBox" v-model:cardProps="cardPropsBottom" @handlerClick="handlerClick">
             <template #topRight>过车管理</template>
         </CardBox>
         <floorList left="470" bottom="0" />
@@ -32,8 +32,14 @@ function handlerClick() {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    display: grid;
-    grid-template-rows: calc(100% / 3 - 10px) 1fr;
-    grid-gap: 20px 0;
+    display: flex;
+    flex-direction: column;
+    .CardBox:nth-child(1) {
+        height: calc(100% / 2 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(2) {
+        flex-grow: 1;
+    }
 }
 </style>

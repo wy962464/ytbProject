@@ -74,7 +74,7 @@ const centerList = [
 
 <template>
     <div class="page">
-        <CardBox v-model:cardProps="cardPropsTop">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsTop">
             <template #main>
                 <div class="cardPropsTop_main">
                     <div class="left"></div>
@@ -91,7 +91,7 @@ const centerList = [
                 </div>
             </template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsCenter" @handlerClick="handlerClick">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsCenter" @handlerClick="handlerClick">
             <template #topRight>今日运营车辆：393辆</template>
             <template #main>
                 <div class="cardPropsCenter_main">
@@ -122,7 +122,7 @@ const centerList = [
                 </div>
             </template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsBottom">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsBottom">
             <template #main>
                 <Echarts :options="optionsPie" />
             </template>
@@ -135,9 +135,19 @@ const centerList = [
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    display: grid;
-    grid-template-rows: calc(100% / 3 - 10px) calc(100% / 3 - 10px) calc(100% / 3 - 20px);
-    grid-gap: 20px 0;
+    display: flex;
+    flex-direction: column;
+    .CardBox:nth-child(1) {
+        height: calc(100% / 3 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(2) {
+        height: calc(100% / 3 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(3) {
+        height: calc(100% / 3 - 20px);
+    }
     .cardPropsTop_main {
         box-sizing: border-box;
         height: 100%;

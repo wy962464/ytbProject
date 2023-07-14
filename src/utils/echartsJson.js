@@ -1,4 +1,6 @@
 import * as echarts from 'echarts';
+import { fontSize } from '@/utils/index.js';
+
 const dataArr = [
     { value: 262, name: '视频监控', percentage: 41.85 },
     { value: 24, name: '拍照识别', percentage: 3.84 },
@@ -15,18 +17,18 @@ export const optionsPie = {
         orient: 'vertical',
         textStyle: {
             color: '#ffffff',
-            fontSize: 14,
+            fontSize: fontSize(14),
             fontWeight: 400,
             rich: {
                 name: {
                     color: '#ffffff',
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     width: 80,
                     align: 'right',
                 },
                 value: {
                     color: '#00FF84',
-                    fontSize: 14,
+                    fontSize: fontSize(14),
                     width: 65,
                     align: 'right',
                 },
@@ -57,18 +59,18 @@ export const optionsPie = {
                 show: true,
                 position: 'center',
                 color: '#ffffff',
-                fontSize: 16,
+                fontSize: fontSize(16),
                 rich: {
                     total: {
-                        fontSize: 26,
+                        fontSize: fontSize(26),
                         color: '#00FF84',
                     },
                     unit: {
-                        fontSize: 12,
+                        fontSize: fontSize(12),
                         color: '#00FF84',
                     },
                     text: {
-                        fontSize: 12,
+                        fontSize: fontSize(12),
                         color: '#ffffff',
                         padding: [4, 0, 0, 0],
                     },

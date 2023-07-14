@@ -94,12 +94,12 @@ const list = [
 
 <template>
     <div class="page">
-        <CardBox v-model:cardProps="cardPropsTop">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsTop">
             <template #main>
                 <Echarts :options="optionsStacking" />
             </template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsCenter">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsCenter">
             <template #main>
                 <div class="center_main">
                     <div class="details" v-for="item in list" :key="item.name">
@@ -111,7 +111,7 @@ const list = [
                 </div>
             </template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsBottom">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsBottom">
             <template #main>
                 <Echarts :options="optionsFold" />
             </template>
@@ -124,9 +124,19 @@ const list = [
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    display: grid;
-    grid-template-rows: calc(100% / 3 - 10px) calc(100% / 3 - 10px) calc(100% / 3 - 20px);
-    grid-gap: 20px 0;
+    display: flex;
+    flex-direction: column;
+    .CardBox:nth-child(1) {
+        height: calc(100% / 3 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(2) {
+        height: calc(100% / 3 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(3) {
+        height: calc(100% / 3 - 20px);
+    }
     .center_main {
         height: 100%;
         width: 100%;

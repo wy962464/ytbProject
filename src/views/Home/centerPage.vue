@@ -19,13 +19,13 @@ function handlerClick() {
 
 <template>
     <div class="page">
-        <CardBox v-model:cardProps="cardPropsLeft" @handlerClick="handlerClick">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsLeft" @handlerClick="handlerClick">
             <template #main>
                 <Echarts :options="optionsStackingLeft" />
             </template>
             <template #topRight>总数：346个</template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsRight" @handlerClick="handlerClick">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsRight" @handlerClick="handlerClick">
             <template #main>
                 <Echarts :options="optionsStackingRight" />
             </template>
@@ -36,11 +36,19 @@ function handlerClick() {
 
 <style scoped lang="scss">
 .page {
-    display: grid;
-    grid-gap: 0 20px;
-    grid-template-columns: repeat(2, calc(50% - 10px));
+    display: flex;
+    justify-content: space-between;
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+
+    .CardBox:nth-child(1) {
+        height: 100%;
+        width: calc(100% / 2 - 10px);
+    }
+    .CardBox:nth-child(2) {
+        height: 100%;
+        width: calc(100% / 2 - 10px);
+    }
 }
 </style>

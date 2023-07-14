@@ -27,3 +27,14 @@ export function getKeepAliveRouterName(menuList = [], keepAliveArr = []) {
 export function checkedTypeCellval(target) {
     return Object.prototype.toString.call(target).slice(8, -1);
 }
+// 字体转换 px -> rem
+export function fontSize(res) {
+    let docEl = document.documentElement,
+        clientWidth =
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+    if (!clientWidth) return;
+    let fontSize = clientWidth / 1920;
+    return res * fontSize;
+}

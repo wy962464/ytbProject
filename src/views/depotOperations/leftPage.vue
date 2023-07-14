@@ -177,7 +177,7 @@ function handlerClickBottom() {
 
 <template>
     <div class="page">
-        <CardBox v-model:cardProps="cardPropsTop" @handlerClick="handlerClickTop">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsTop" @handlerClick="handlerClickTop">
             <template #main>
                 <div class="main_top">
                     <div class="img"></div>
@@ -188,7 +188,11 @@ function handlerClickBottom() {
                 </div>
             </template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsCenter" @handlerClick="handlerClickCenter">
+        <CardBox
+            class="CardBox"
+            v-model:cardProps="cardPropsCenter"
+            @handlerClick="handlerClickCenter"
+        >
             <template #main>
                 <div class="main_center">
                     <div class="bg"></div>
@@ -208,7 +212,11 @@ function handlerClickBottom() {
                 </div>
             </template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsBottom" @handlerClick="handlerClickBottom">
+        <CardBox
+            class="CardBox"
+            v-model:cardProps="cardPropsBottom"
+            @handlerClick="handlerClickBottom"
+        >
             <template #main>
                 <div class="main_bottom">
                     <div class="main_bottom_left"></div>
@@ -244,10 +252,20 @@ function handlerClickBottom() {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    display: grid;
-    grid-template-rows: calc(100% / 3 - 10px) calc(100% / 3 - 10px) calc(100% / 3 - 20px);
-    grid-gap: 20px 0;
+    display: flex;
+    flex-direction: column;
     position: relative;
+    .CardBox:nth-child(1) {
+        height: calc(100% / 3 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(2) {
+        height: calc(100% / 3 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(3) {
+        height: calc(100% / 3 - 20px);
+    }
     .main_top {
         width: 100%;
         height: 100%;

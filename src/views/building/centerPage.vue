@@ -13,8 +13,12 @@ function handlerClick() {
 
 <template>
     <div class="page">
-        <CardBox v-model:cardProps="cardProps" @handlerClick="handlerClick"></CardBox>
-        <CardBox @handlerClick="handlerClick">
+        <CardBox
+            class="CardBox"
+            v-model:cardProps="cardProps"
+            @handlerClick="handlerClick"
+        ></CardBox>
+        <CardBox class="CardBox" @handlerClick="handlerClick">
             <template #topRight>今日运营车辆：393辆</template>
         </CardBox>
     </div>
@@ -22,11 +26,18 @@ function handlerClick() {
 
 <style scoped lang="scss">
 .page {
-    display: grid;
-    grid-gap: 0 20px;
-    grid-template-columns: repeat(2, calc(50% - 10px));
+    display: flex;
+    justify-content: space-between;
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+    .CardBox:nth-child(1) {
+        height: 100%;
+        width: calc(100% / 2 - 10px);
+    }
+    .CardBox:nth-child(2) {
+        height: 100%;
+        width: calc(100% / 2 - 10px);
+    }
 }
 </style>

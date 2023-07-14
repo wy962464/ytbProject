@@ -219,7 +219,7 @@ let tableFromOption = reactive({
 
 <template>
     <div class="page">
-        <CardBox v-model:cardProps="cardPropsTop" @handlerClick="handlerClickTop">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsTop" @handlerClick="handlerClickTop">
             <template #main>
                 <div class="main_top">
                     <div class="img"></div>
@@ -243,7 +243,7 @@ let tableFromOption = reactive({
                             </el-space>
                         </div>
                         <div class="text_bottom">
-                            <el-space :size="45">
+                            <el-space :size="35">
                                 <div class="text_main">
                                     <p>
                                         <span class="valueColor" style="color: #eb3c34">13</span>
@@ -271,7 +271,11 @@ let tableFromOption = reactive({
                 </div>
             </template>
         </CardBox>
-        <CardBox v-model:cardProps="cardPropsBottom" @handlerClick="handlerClickBottom">
+        <CardBox
+            class="CardBox"
+            v-model:cardProps="cardPropsBottom"
+            @handlerClick="handlerClickBottom"
+        >
             <template #main>
                 <div class="main_bottom">
                     <div class="main_bottom_top">
@@ -330,13 +334,21 @@ let tableFromOption = reactive({
 <style scoped lang="scss">
 .page {
     height: 100%;
-    width: 100%;
+    width: 450px;
     box-sizing: border-box;
-    display: grid;
-    grid-template-rows: calc(100% / 3 - 10px) 1fr;
-    grid-gap: 20px 0;
+    display: flex;
+    flex-direction: column;
     position: relative;
+
+    .CardBox:nth-child(1) {
+        height: calc(100% / 2 - 10px);
+        margin-bottom: 20px;
+    }
+    .CardBox:nth-child(2) {
+        flex-wrap: 1;
+    }
     .main_top {
+        box-sizing: border-box;
         width: 100%;
         height: 100%;
         display: flex;
@@ -463,10 +475,9 @@ let tableFromOption = reactive({
         }
         .table {
             box-sizing: border-box;
-            width: 450px;
+            width: 100%;
             flex-grow: 1;
             padding: 20px 16px 10px 16px;
-            position: relative;
         }
     }
     .leftBtnList {
