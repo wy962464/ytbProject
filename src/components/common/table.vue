@@ -23,10 +23,14 @@ const renderDom = {
  * @param tableFromOption.fromItem.placeholder 表单控件placeholder
  * @param tableFromOption.fromItem.style 表单控件样式
  * @param tableFromOption.isShowOperateBtn 是否显示操作按钮
- * @param tableFromOption.isShowOtherBtn 是否显示其他按钮
+ * @param tableFromOption.isBasicOperateBtn 是否显示基本操作按钮
  * @param tableFromOption.otherBtnList 其他按钮列表
  * @param tableFromOption.isShowTable 是否显示表格
  * @param tableFromOption.tableObj 表格数据详情
+ * @param tableFromOption.tableObj.headerRowStyle 表格头部行的样式
+ * @param tableFromOption.tableObj.headerCellStyle 表格头部单元格的样式
+ * @param tableFromOption.tableObj.isRowClick 表格行是否可以点击
+ * @param tableFromOption.tableObj.cellStyle 表格内单元格的样式
  * @param tableFromOption.tableObj.tableData 表格数据
  * @param tableFromOption.tableObj.tableHeader 表格头部数据
  * @param tableFromOption.tableObj.isMultiple 是否多选
@@ -114,13 +118,15 @@ function focusFn() {
 function handleSelectionChange(val) {
     emit('handleSelectionChange', val);
 }
-// 点击选择某行
+// 点击选择某个单元格
 function handleCellClick(row, column, cell, event) {
     emit('handleCellClick', row, column, cell, event);
 }
 // 某一行被点击
 function rowClick(row, column, event) {
-    emit('rowClick', row, column, event);
+    if (props.tableFromOption.tableObj.isRowClick) {
+        emit('rowClick', row, column, event);
+    }
 }
 // 切换页码
 function handleCurrentChange(val) {
@@ -282,10 +288,17 @@ function formatterCellval(row, column, cellValue) {
                 <!-- 操作按钮 -->
                 <div class="operateBtnList" v-if="props.tableFromOption.isShowOperateBtn">
                     <!-- 操作按钮 -->
-                    <el-button v-hasPermi="['add']" color="#0d151e">新增</el-button>
-                    <el-button v-hasPermi="['del']" color="#0d151e">修改</el-button>
-                    <el-button v-hasPermi="['update']" color="#0d151e">删除</el-button>
-                    <template v-if="props.tableFromOption.isShowOtherBtn">
+                    <template v-if="props.tableFromOption.isBasicOperateBtn">
+                        <el-button v-hasPermi="['add']" color="#0d151e">新增</el-button>
+                        <el-button v-hasPermi="['del']" color="#0d151e">修改</el-button>
+                        <el-button v-hasPermi="['update']" color="#0d151e">删除</el-button>
+                    </template>
+                    <template
+                        v-if="
+                            props.tableFromOption.otherBtnList &&
+                            props.tableFromOption.otherBtnList.length > 0
+                        "
+                    >
                         <el-button
                             v-for="item in props.tableFromOption.otherBtnList"
                             :key="item.name"
@@ -304,17 +317,23 @@ function formatterCellval(row, column, cellValue) {
                 <el-table
                     ref="elTable"
                     :data="props.tableFromOption.tableObj.tableData"
+                    :header-row-style="{
+                        ...props.tableFromOption.tableObj.headerRowStyle,
+                    }"
                     :header-cell-style="{
                         background: 'rgba(0, 0, 0, 0)',
                         fontSize: '12px',
                         textAlign: 'center',
                         color: '#FFFFFF',
                         letterSpacing: '2px',
+                        ...props.tableFromOption.tableObj.headerCellStyle,
                     }"
                     :cell-style="{
                         height: '10px',
                         fontSize: '12px',
                         padding: '3px 0',
+                        cursor: props.tableFromOption.tableObj.isRowClick ? 'pointer' : '',
+                        ...props.tableFromOption.tableObj.cellStyle,
                     }"
                     @selection-change="handleSelectionChange"
                     @cell-click="handleCellClick"
@@ -489,7 +508,7 @@ function formatterCellval(row, column, cellValue) {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    padding-top: 10px;
     .query_form {
         display: flex;
         justify-content: space-between;
@@ -523,7 +542,6 @@ function formatterCellval(row, column, cellValue) {
         .tableStyle {
             font-weight: 400;
             font-size: 12px;
-            letter-spacing: 2px;
             font-family: PingFang SC;
             color: #ffffff;
         }

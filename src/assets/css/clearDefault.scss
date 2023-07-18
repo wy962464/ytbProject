@@ -577,6 +577,9 @@ body {
       border: 1px solid #334249 !important;
 
       .el-time-panel__footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         .el-button.is-text:not(.is-disabled):hover {
           background-color: #0d151e;

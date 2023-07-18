@@ -21,6 +21,7 @@ export const DialogStore = defineStore({
                 path: "",
                 width: 700,
                 height: 570,
+                obj: {}
             }
         }
     },

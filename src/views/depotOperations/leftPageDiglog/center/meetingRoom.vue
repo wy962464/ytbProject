@@ -5,6 +5,7 @@ import tableBox from '@/components/common/table.vue';
 let tableFromOption = reactive({
     isShowForm: true,
     isShowOperateBtn: true,
+    isBasicOperateBtn: true,
     isShowTable: true,
     modelFormValue: {},
     labelWidth: 0,

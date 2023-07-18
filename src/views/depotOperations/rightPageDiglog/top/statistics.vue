@@ -41,8 +41,11 @@ function handlerBtn(value) {
                     v-model="value1"
                     style="width: 257px"
                     popper-class="scopePickerClass"
+                    :editable="false"
                     type="daterange"
-                    range-separator="至"
+                    range-separator="~"
+                    format="YYYY-MM-DD"
+                    value-format="YYYY-MM-DD"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                 />
