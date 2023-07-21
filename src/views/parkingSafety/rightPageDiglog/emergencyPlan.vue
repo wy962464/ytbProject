@@ -39,6 +39,7 @@ function handlerBasicInfor(row) {
                         title: '应急预案',
                         isShow: true,
                         backBtn: false,
+                        tabSeletNum: 0,
                         width: 1279,
                         height: 685,
                         path: [
