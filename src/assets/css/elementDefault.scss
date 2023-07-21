@@ -21,10 +21,37 @@
   }
 
   &:hover {
-    box-shadow: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0;
     border: 1px solid #334249;
   }
 }
+
+:deep(.el-form-item.is-error .el-input__wrapper) {
+  box-shadow: 0 0 0 1px var(--el-color-danger) inset;
+  --el-select-border-color-hover: var(--el-color-danger);
+}
+
+:deep(.el-select) {
+  --el-select-border-color-hover: "#334249";
+}
+
+:deep(.el-textarea__inner) {
+  min-height: 54px !important;
+  color: #ffffff;
+  background-color: #0d151e;
+  border-radius: 0px;
+  box-shadow: 0 0 0 0;
+  border: 1px solid #334249;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: left;
+  color: #CCCCCC;
+
+  &:hover {
+    border: 1px solid #334249;
+  }
+}
+
 
 :deep(.el-date-editor) {
   box-sizing: border-box;

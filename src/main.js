@@ -11,8 +11,11 @@ import 'css/clearDefault.scss';
 import "amfe-flexible/index.js";
 // 时间格式化
 import dayjs from 'dayjs'
+// 组织架构图插件
+import vue3TreeOrg from 'vue3-tree-org';
+import "vue3-tree-org/lib/vue3-tree-org.css";
 
 let app = createApp(App)
-app.use(router).use(store).use(directives).use(elementIcon).mount('#app')
+app.use(router).use(store).use(directives).use(elementIcon).use(vue3TreeOrg).mount('#app')
 // 全局挂载
 // app.config.globalProperties.$dayjs = dayjs

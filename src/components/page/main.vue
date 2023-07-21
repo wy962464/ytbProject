@@ -23,6 +23,9 @@ const authStore = AuthStore();
                 <transition appear name="left-transform" mode="out-in">
                     <component :is="sidebarStore.getLeftSidebarPath"></component>
                 </transition>
+                <div class="frameLeft">
+                    <div class="frameLeftBg"></div>
+                </div>
             </div>
             <!-- 中间栏 -->
             <div
@@ -41,6 +44,9 @@ const authStore = AuthStore();
                 <transition appear name="right-transform" mode="out-in">
                     <component :is="sidebarStore.getRightSidebarPath"></component>
                 </transition>
+                <div class="frameRight">
+                    <div class="frameRightBg"></div>
+                </div>
             </div>
             <footer>
                 <footers />
@@ -85,14 +91,27 @@ const authStore = AuthStore();
         align-items: flex-end;
         box-sizing: border-box;
         padding: 0 20px 20px 20px;
-        background: url('@/assets/images/pageImages/frame.png') no-repeat;
-        background-size: 100% 100%;
+
         .leftSidebar {
             text-align: center;
             height: 100%;
             width: 450px;
             position: relative;
             left: 0%;
+            .frameLeft {
+                height: 100%;
+                width: 20px;
+                display: flex;
+                position: absolute;
+                top: 0;
+                left: -20px;
+                .frameLeftBg {
+                    background: url('@/assets/images/pageImages/frameLeft.png') no-repeat;
+                    background-size: 100% 100%;
+                    height: 100%;
+                    width: 9px;
+                }
+            }
         }
         .centerSidebar {
             box-sizing: border-box;
@@ -109,15 +128,32 @@ const authStore = AuthStore();
             position: relative;
             right: 0%;
         }
+        .frameRight {
+            height: 100%;
+            width: 20px;
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            top: 0;
+            right: -20px;
+            .frameRightBg {
+                background: url('@/assets/images/pageImages/frameRight.png') no-repeat;
+                background-size: 100% 100%;
+                height: 100%;
+                width: 9px;
+            }
+        }
         footer {
+            width: calc(100% - 20px);
             position: absolute;
             bottom: 0;
             left: 0;
             height: 20px;
-            width: 100%;
             box-sizing: border-box;
             display: flex;
             justify-content: center;
+            align-items: center;
+            margin: 0 10px;
         }
     }
 }

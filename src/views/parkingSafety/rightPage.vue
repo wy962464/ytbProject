@@ -75,6 +75,23 @@ let tableFromOption = reactive({
         },
     },
 });
+const emergencyList = [
+    {
+        name: '应急预案',
+        until: '项',
+        value: '6',
+    },
+    {
+        name: '应急事件',
+        until: '项',
+        value: '7',
+    },
+    {
+        name: '安全风险源',
+        until: '项',
+        value: '1',
+    },
+];
 function handlerClickCenter() {
     dialogStore.$patch({
         dialogInfor: {
@@ -83,6 +100,31 @@ function handlerClickCenter() {
             width: 1279,
             height: 685,
             path: '/parkingSafety/rightPageDiglog/alarmManage',
+        },
+    });
+}
+function handlerClickEmergency(key) {
+    dialogStore.$patch({
+        dialogInfor: {
+            title: '应急预案',
+            isShow: true,
+            tabSeletNum: key,
+            width: 1279,
+            height: 685,
+            path: [
+                {
+                    name: '应急预案',
+                    component: '/parkingSafety/rightPageDiglog/emergencyPlan',
+                },
+                {
+                    name: '应急事件',
+                    component: '/parkingSafety/rightPageDiglog/emergencyEvents',
+                },
+                {
+                    name: '安全风险源',
+                    component: '/parkingSafety/rightPageDiglog/securityRisk',
+                },
+            ],
         },
     });
 }
@@ -123,26 +165,17 @@ function handlerClickCenter() {
                 <div class="CardBox_center">
                     <div class="CardBox_center_bg">
                         <div class="CardBox_center_main">
-                            <div class="CardBox_center_text">
+                            <div
+                                class="CardBox_center_text"
+                                v-for="(item, index) in emergencyList"
+                                :key="index"
+                                @click="handlerClickEmergency(index)"
+                            >
                                 <p>
-                                    6
-                                    <span class="until">(项)</span>
+                                    {{ item.value }}
+                                    <span class="until">({{ item.until }})</span>
                                 </p>
-                                <p>应急预案</p>
-                            </div>
-                            <div class="CardBox_center_text">
-                                <p>
-                                    7
-                                    <span class="until">(项)</span>
-                                </p>
-                                <p>应急事件</p>
-                            </div>
-                            <div class="CardBox_center_text">
-                                <p>
-                                    1
-                                    <span class="until">(项)</span>
-                                </p>
-                                <p>安全风险源</p>
+                                <p>{{ item.name }}</p>
                             </div>
                         </div>
                     </div>
@@ -308,6 +341,7 @@ function handlerClickCenter() {
                 display: flex;
                 justify-content: space-around;
                 .CardBox_center_text {
+                    cursor: pointer;
                     p:nth-child(1) {
                         color: #ffffffff;
                         font-weight: 900;

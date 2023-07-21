@@ -40,6 +40,11 @@ function handlerSeletTab(obj, index) {
                             {{ item.name }}
                         </div>
                     </div>
+                    <div
+                        class="back"
+                        @click="dialogStore.dialogInfor.handlerClickBack()"
+                        v-if="dialogStore.dialogInfor.backBtn"
+                    ></div>
                 </div>
                 <div class="card-main-bottom">
                     <component
@@ -50,7 +55,7 @@ function handlerSeletTab(obj, index) {
                         "
                     ></component>
                     <component
-                        v-else-if="checkedTypeCellval(dialogStore.dialogInfor.path) === 'String'"
+                        v-if="checkedTypeCellval(dialogStore.dialogInfor.path) === 'String'"
                         :is="dialogStore.getComponentPath"
                     ></component>
                 </div>
@@ -120,14 +125,17 @@ function handlerSeletTab(obj, index) {
             flex-direction: column;
             .card-main-top {
                 width: 100%;
+                display: flex;
+                justify-content: space-between;
                 .tab {
                     height: 30px;
-                    width: 100%;
                     margin-bottom: 20px;
                     display: flex;
                     .tabBtn {
                         height: 30px;
-                        width: 98px;
+                        min-width: 98px;
+                        box-sizing: border-box;
+                        padding: 0 15px;
                         background: url('@/assets/images/pageImages/tabBtn.png') no-repeat;
                         background-size: 100% 100%;
                         cursor: pointer;
@@ -143,6 +151,14 @@ function handlerSeletTab(obj, index) {
                             color: #32fdfc;
                         }
                     }
+                }
+                .back {
+                    height: 30px;
+                    width: 30px;
+                    margin-bottom: 20px;
+                    cursor: pointer;
+                    background: url('@/assets/images/homeImages/parkingSafety/back.png') no-repeat;
+                    background-size: 100% 100%;
                 }
             }
             .card-main-bottom {

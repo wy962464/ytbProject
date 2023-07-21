@@ -22,6 +22,7 @@ const renderDom = {
  * @param tableFromOption.fromItem.rules 表单控件验证规则列表
  * @param tableFromOption.fromItem.placeholder 表单控件placeholder
  * @param tableFromOption.fromItem.style 表单控件样式
+ * @param tableFromOption.isQueryBtn 是否显示查询重置按钮
  * @param tableFromOption.isShowOperateBtn 是否显示操作按钮
  * @param tableFromOption.isBasicOperateBtn 是否显示基本操作按钮
  * @param tableFromOption.otherBtnList 其他按钮列表
@@ -54,6 +55,7 @@ const emit = defineEmits([
     'rowClick',
     'handleCurrentChange',
     'handleSizeChange',
+    'handlerClickAdd',
 ]);
 const resetForm = () => {
     fromRef.value?.resetFields();
@@ -69,6 +71,7 @@ const queryList = () => {
 };
 defineExpose({
     resetForm,
+    fromRef,
 });
 // 转换el-date-picker type="month" 时 月份不为数字
 const monthObj = {
@@ -136,6 +139,10 @@ function handleCurrentChange(val) {
 function handleSizeChange(val) {
     emit('handleSizeChange', val);
 }
+// 新增
+function handlerClickAdd() {
+    emit('handlerClickAdd');
+}
 function formatterCellval(row, column, cellValue) {
     if (checkedTypeCellval(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
         return '-';
@@ -153,9 +160,9 @@ function formatterCellval(row, column, cellValue) {
                 <div class="formContent">
                     <el-form
                         ref="fromRef"
-                        status-icon
                         :model="props.tableFromOption.modelFormValue"
                         :label-width="`${props.tableFromOption.labelWidth}px`"
+                        :inline="props.tableFromOption.inline || false"
                     >
                         <template v-for="item in props.tableFromOption.fromItem" :key="item.label">
                             <el-form-item
@@ -172,6 +179,18 @@ function formatterCellval(row, column, cellValue) {
                                         v-model="
                                             props.tableFromOption.modelFormValue[`${item.prop}`]
                                         "
+                                    />
+                                </template>
+                                <!-- 文本域 -->
+                                <template v-if="item.type === 'textarea'">
+                                    <el-input
+                                        autosize
+                                        v-model="
+                                            props.tableFromOption.modelFormValue[`${item.prop}`]
+                                        "
+                                        :style="item.style"
+                                        :placeholder="item.placeholder"
+                                        type="textarea"
                                     />
                                 </template>
                                 <!-- 下拉框 -->
@@ -280,7 +299,7 @@ function formatterCellval(row, column, cellValue) {
                         </template>
                     </el-form>
                     <!-- 查询重置按钮 -->
-                    <div class="queryBtnList">
+                    <div class="queryBtnList" v-if="props.tableFromOption.isQueryBtn">
                         <el-button color="#0d151e" @click="queryList">查询</el-button>
                         <el-button color="#0d151e" @click="resetForm">重置</el-button>
                     </div>
@@ -289,7 +308,9 @@ function formatterCellval(row, column, cellValue) {
                 <div class="operateBtnList" v-if="props.tableFromOption.isShowOperateBtn">
                     <!-- 操作按钮 -->
                     <template v-if="props.tableFromOption.isBasicOperateBtn">
-                        <el-button v-hasPermi="['add']" color="#0d151e">新增</el-button>
+                        <el-button v-hasPermi="['add']" @click="handlerClickAdd" color="#0d151e">
+                            新增
+                        </el-button>
                         <el-button v-hasPermi="['del']" color="#0d151e">修改</el-button>
                         <el-button v-hasPermi="['update']" color="#0d151e">删除</el-button>
                     </template>
@@ -521,10 +542,10 @@ function formatterCellval(row, column, cellValue) {
                 flex-wrap: wrap;
                 .el-form-item {
                     margin-right: 10px;
-                    height: 24px;
+                    align-items: center;
                     :deep(.el-form-item__label) {
-                        height: 24px;
-                        line-height: 24px;
+                        font-weight: 400;
+                        font-size: 12px;
                         color: #cccccc;
                     }
                 }

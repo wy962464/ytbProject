@@ -103,7 +103,7 @@ function handlerClickClose() {
             box-sizing: border-box;
             height: calc(100% - 22px);
             width: 100%;
-            padding: 20px 20px;
+            padding: 20px 20px 0 20px;
         }
     }
 }

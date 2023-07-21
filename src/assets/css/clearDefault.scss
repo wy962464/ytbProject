@@ -638,6 +638,45 @@ body {
   }
 }
 
+.zm-tree-org {
+  background-color: rgba(0, 0, 0, 0) !important;
+
+  .draggable {
+    cursor: pointer;
+  }
+
+  .tree-org-node__children:before {
+    border-color: #01874d !important;
+  }
+
+  .tree-org-node:after {
+    height: 9px !important;
+    border-color: #01874d !important;
+  }
+
+  .tree-org-node:not(:first-child):before,
+  .tree-org-node:not(:last-child):after {
+    border-color: #01874d !important;
+  }
+
+  .tree-org-node__children {
+    .tree-org-node__inner::before {
+      position: absolute;
+      content: "";
+      display: block;
+      top: -12px;
+      left: calc(50% - -1px);
+      transform: translate(-50%, 0);
+      width: 8px;
+      height: 8px;
+      background: rgba(0, 255, 132, 0.5) !important;
+      border-radius: 50% !important;
+    }
+  }
+}
+
+
+
 // 改变进度条颜色
 // #nprogress .bar {
 //   background: red !important;

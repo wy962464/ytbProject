@@ -6,6 +6,7 @@ import { reactive } from 'vue';
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
+    isQueryBtn: true,
     modelFormValue: {},
     fromItem: [
         {

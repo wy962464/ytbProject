@@ -38,3 +38,11 @@ export function fontSize(res) {
     let fontSize = clientWidth / 1920;
     return res * fontSize;
 }
+// 判断是否有内容
+export function isContent(cellValue, symbol = '--') {
+    if (checkedTypeCellval(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
+        return symbol;
+    } else {
+        return cellValue;
+    }
+}

@@ -8,6 +8,7 @@ const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
+    isQueryBtn: true,
     isShowOperateBtn: true,
     isShowOtherBtn: true,
     otherBtnList: [
@@ -64,7 +65,7 @@ let tableFromOption = reactive({
         },
         {
             type: 'select',
-            prop: 'Entrance',
+            prop: 'status',
             placeholder: '警报状态',
             style: {
                 width: '124px',
@@ -188,7 +189,7 @@ function handleRowClick(row, column, cell, event) {
         detailsDialogInfor: {
             title: `警报编号${row.berthCode}`,
             isShow: true,
-            path: '',
+            path: '/parkingSafety/rightPageDiglog/tablerRowDetails',
             obj: {
                 ...row,
             },

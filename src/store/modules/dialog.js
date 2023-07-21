@@ -10,9 +10,12 @@ export const DialogStore = defineStore({
             dialogInfor: {
                 title: "",
                 isShow: false,
+                backBtn: false,
                 tabSeletNum: 0,
                 width: 850,
                 height: 615,
+                // 返回的点击事件
+                handlerClickBack: null,
                 path: null  // Array || String
             },
             detailsDialogInfor: {
