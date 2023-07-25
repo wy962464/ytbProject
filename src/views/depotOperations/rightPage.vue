@@ -489,7 +489,7 @@ let tableFromOption = reactive({
         bottom: 0;
         .btnStyle {
             box-sizing: border-box;
-            width: 130px;
+            min-width: 130px;
             height: 50px;
             line-height: 50px;
             background: url('@/assets/images/pageImages/bottomFrame.png') no-repeat;

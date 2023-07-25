@@ -32,25 +32,21 @@ const centerList = [
         name: '修车沟',
         value: 12,
         unit: '间',
-        imgUrl: '/src/assets/images/homeImages/depotOperations/car.png',
     },
     {
         name: '会议室',
         value: 6,
         unit: '间',
-        imgUrl: '/src/assets/images/homeImages/depotOperations/Room.png',
     },
     {
         name: 'RFID',
         value: 34,
         unit: '个',
-        imgUrl: '/src/assets/images/homeImages/depotOperations/RFID.png',
     },
     {
         name: '显示屏',
         value: 125,
         unit: '个',
-        imgUrl: '/src/assets/images/homeImages/depotOperations/led.png',
     },
 ];
 const bottomList = [
@@ -197,12 +193,7 @@ function handlerClickBottom() {
                 <div class="main_center">
                     <div class="bg"></div>
                     <div class="details">
-                        <div
-                            class="details_page"
-                            v-for="item in centerList"
-                            :key="item.name"
-                            :style="`background: url(${item.imgUrl}) no-repeat;background-position: bottom;`"
-                        >
+                        <div class="details_page" v-for="item in centerList" :key="item.name">
                             <div class="text">
                                 <p>{{ item.value }}</p>
                                 <p>{{ item.name }}({{ item.unit }})</p>
@@ -359,6 +350,22 @@ function handlerClickBottom() {
                         color: #1fff93;
                     }
                 }
+            }
+            .details_page:nth-child(1) {
+                background: url('@/assets/images/homeImages/depotOperations/car.png') no-repeat;
+                background-position: bottom;
+            }
+            .details_page:nth-child(2) {
+                background: url('@/assets/images/homeImages/depotOperations/Room.png') no-repeat;
+                background-position: bottom;
+            }
+            .details_page:nth-child(3) {
+                background: url('@/assets/images/homeImages/depotOperations/RFID.png') no-repeat;
+                background-position: bottom;
+            }
+            .details_page:nth-child(4) {
+                background: url('@/assets/images/homeImages/depotOperations/led.png') no-repeat;
+                background-position: bottom;
             }
         }
     }
