@@ -97,7 +97,7 @@ function handlerClickStatus(value) {
     .floorStyle {
         border: none;
         width: 70px;
-        height: 40px;
+        height: 29px;
         background: url('@/assets/images/pageImages/floorBtn.png') no-repeat;
         background-size: 100% 100%;
         color: #ffffff;
@@ -113,7 +113,7 @@ function handlerClickStatus(value) {
     .statusStyle {
         border: none;
         width: 70px;
-        height: 40px;
+        height: 29px;
         background: url('@/assets/images/pageImages/floorBtn.png') no-repeat;
         background-size: 100% 100%;
         color: #ffffff;

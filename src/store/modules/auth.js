@@ -143,6 +143,29 @@ export const AuthStore = defineStore({
                                 }
                             }
                         },
+                        // 车场安全-应急事件-应急事件详情
+                        {
+                            path: "/detailsEmergencyEvents",
+                            name: "detailsEmergencyEvents",
+                            component: "/parkingSafety/rightPageDiglog/detailsEmergencyEvents",
+                            meta: {
+                                isHide: true,
+                                title: "",
+                                isModel: false,
+                                leftSidebar: {
+                                    path: "",
+                                    isShow: false
+                                },
+                                centerSidebar: {
+                                    path: "",
+                                    isShow: false
+                                },
+                                rightSidebar: {
+                                    path: "",
+                                    isShow: false
+                                }
+                            }
+                        },
                     ]
                     resolve(routerLists)
                 }, 2000)

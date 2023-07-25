@@ -650,6 +650,7 @@ body {
   }
 
   .tree-org-node:after {
+    width: calc(50% - 1px) !important;
     height: 9px !important;
     border-color: #01874d !important;
   }

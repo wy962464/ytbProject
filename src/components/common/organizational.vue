@@ -1,8 +1,8 @@
-<!-- 应急响应程序 -->
+<!-- 组织架构 -->
 <script setup></script>
 
 <template>
-    <div>应急响应程序</div>
+    <div></div>
 </template>
 
 <style scoped lang="scss"></style>

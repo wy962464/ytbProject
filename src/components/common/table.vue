@@ -150,6 +150,13 @@ function formatterCellval(row, column, cellValue) {
         return cellValue;
     }
 }
+function removeDomain(index) {
+    if (props.tableFromOption.modelFormValue.domainList.length > 1) {
+        props.tableFromOption.modelFormValue.domainList.splice(index, 1);
+    } else {
+        ElMessage.warning('已经是最后一个了');
+    }
+}
 </script>
 
 <template>
@@ -163,139 +170,186 @@ function formatterCellval(row, column, cellValue) {
                         :model="props.tableFromOption.modelFormValue"
                         :label-width="`${props.tableFromOption.labelWidth}px`"
                         :inline="props.tableFromOption.inline || false"
+                        hide-required-asterisk
                     >
                         <template v-for="item in props.tableFromOption.fromItem" :key="item.label">
-                            <el-form-item
-                                :label="item.label"
-                                :prop="item.prop"
-                                :rules="item.rules"
-                                :label-width="`${item.labelWidth}px`"
-                            >
-                                <!-- 输入框 -->
-                                <template v-if="item.type === 'input'">
-                                    <el-input
-                                        :placeholder="item.placeholder"
-                                        :style="item.style"
-                                        v-model="
-                                            props.tableFromOption.modelFormValue[`${item.prop}`]
-                                        "
-                                    />
-                                </template>
-                                <!-- 文本域 -->
-                                <template v-if="item.type === 'textarea'">
-                                    <el-input
-                                        autosize
-                                        v-model="
-                                            props.tableFromOption.modelFormValue[`${item.prop}`]
-                                        "
-                                        :style="item.style"
-                                        :placeholder="item.placeholder"
-                                        type="textarea"
-                                    />
-                                </template>
-                                <!-- 下拉框 -->
-                                <template v-if="item.type === 'select'">
-                                    <el-select
-                                        v-model="
-                                            props.tableFromOption.modelFormValue[`${item.prop}`]
-                                        "
-                                        :placeholder="item.placeholder"
-                                        :style="item.style"
-                                        popper-class="selectPopperClass"
+                            <!-- 动态表单 -->
+                            <template v-if="item.type === 'domains'">
+                                <template
+                                    v-for="(domain, index) in props.tableFromOption.modelFormValue
+                                        .domainList"
+                                >
+                                    <el-form-item
+                                        label="程序名称："
+                                        :prop="'domainList.' + index + '.value'"
+                                        :label-width="`${item.labelWidth}px`"
                                     >
-                                        <el-option
-                                            v-for="option in item.options"
-                                            :key="option.label"
-                                            :label="option.label"
-                                            :value="option.value"
+                                        <div :style="item.style" class="domainStyle">
+                                            {{ `程序${index + 1}` }}
+                                        </div>
+                                    </el-form-item>
+                                    <el-form-item
+                                        label="程序描述："
+                                        :prop="'domainList.' + index + '.value'"
+                                        :rules="[
+                                            {
+                                                required: true,
+                                                message: `请输入程序${index + 1}的描述`,
+                                                trigger: ['change', 'blur'],
+                                            },
+                                        ]"
+                                        :label-width="`${item.labelWidth}px`"
+                                    >
+                                        <el-input
+                                            autosize
+                                            v-model="domain.value"
+                                            style="width: 430px; margin-right: 20px"
+                                            placeholder="请输入"
+                                            type="textarea"
                                         />
-                                    </el-select>
+                                        <div class="programsBtn" @click="removeDomain(index)">
+                                            删除
+                                        </div>
+                                    </el-form-item>
                                 </template>
-                                <!-- 月 -->
-                                <template v-if="item.type === 'monthPicker'">
-                                    <el-date-picker
-                                        v-model="
-                                            props.tableFromOption.modelFormValue[`${item.prop}`]
-                                        "
-                                        :style="item.style"
-                                        type="month"
-                                        :editable="false"
-                                        :placeholder="item.placeholder"
-                                        popper-class="nonScopePickerClass"
-                                        @focus="focusFn"
-                                        @panel-change="focusFn"
-                                        format="YYYY-MM"
-                                        value-format="YYYY-MM"
-                                        :shortcuts="[
-                                            {
-                                                text: '今天',
-                                                value: new Date(),
-                                            },
-                                        ]"
-                                    />
-                                </template>
-                                <!-- 年 -->
-                                <template v-if="item.type === 'yaerPicker'">
-                                    <el-date-picker
-                                        v-model="
-                                            props.tableFromOption.modelFormValue[`${item.prop}`]
-                                        "
-                                        :style="item.style"
-                                        type="year"
-                                        :editable="false"
-                                        :placeholder="item.placeholder"
-                                        popper-class="nonScopePickerClass"
-                                        format="YYYY"
-                                        value-format="YYYY"
-                                        :shortcuts="[
-                                            {
-                                                text: '今天',
-                                                value: new Date(),
-                                            },
-                                        ]"
-                                    />
-                                </template>
-                                <!-- 日 -->
-                                <template v-if="item.type === 'datePicker'">
-                                    <el-date-picker
-                                        v-model="
-                                            props.tableFromOption.modelFormValue[`${item.prop}`]
-                                        "
-                                        :style="item.style"
-                                        type="date"
-                                        :editable="false"
-                                        :placeholder="item.placeholder"
-                                        popper-class="nonScopePickerClass"
-                                        format="YYYY-MM-DD"
-                                        value-format="YYYY-MM-DD"
-                                        @panel-change="focusFn"
-                                        :shortcuts="[
-                                            {
-                                                text: '今天',
-                                                value: new Date(),
-                                            },
-                                        ]"
-                                    />
-                                </template>
-                                <!-- 日期时间范围 -->
-                                <template v-if="item.type === 'datetimerange'">
-                                    <el-date-picker
-                                        v-model="
-                                            props.tableFromOption.modelFormValue[`${item.prop}`]
-                                        "
-                                        type="datetimerange"
-                                        popper-class="scopePickerClass"
-                                        range-separator="~"
-                                        :editable="false"
-                                        :style="item.style"
-                                        :start-placeholder="item.startPlaceholder"
-                                        :end-placeholder="item.endPlaceholder"
-                                        format="YYYY-MM-DD HH:mm:ss"
-                                        value-format="YYYY-MM-DD HH:mm:ss"
-                                        prefix-icon=""
-                                    />
-                                </template>
-                            </el-form-item>
+                            </template>
+                            <template v-else>
+                                <el-form-item
+                                    :label="item.label"
+                                    :prop="item.prop"
+                                    :rules="item.rules"
+                                    :label-width="`${item.labelWidth}px`"
+                                >
+                                    <!-- 输入框 -->
+                                    <template v-if="item.type === 'input'">
+                                        <el-input
+                                            :placeholder="item.placeholder"
+                                            :style="item.style"
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                        />
+                                    </template>
+                                    <!-- 文本域 -->
+                                    <template v-if="item.type === 'textarea'">
+                                        <el-input
+                                            autosize
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :style="item.style"
+                                            :placeholder="item.placeholder"
+                                            type="textarea"
+                                        />
+                                    </template>
+                                    <!-- 下拉框 -->
+                                    <template v-if="item.type === 'select'">
+                                        <el-select
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :placeholder="item.placeholder"
+                                            :style="item.style"
+                                            popper-class="selectPopperClass"
+                                        >
+                                            <el-option
+                                                v-for="option in item.options"
+                                                :key="option.label"
+                                                :label="option.label"
+                                                :value="option.value"
+                                            />
+                                        </el-select>
+                                    </template>
+                                    <!-- 月 -->
+                                    <template v-if="item.type === 'monthPicker'">
+                                        <el-date-picker
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :style="item.style"
+                                            type="month"
+                                            :editable="false"
+                                            :placeholder="item.placeholder"
+                                            popper-class="nonScopePickerClass"
+                                            @focus="focusFn"
+                                            @panel-change="focusFn"
+                                            format="YYYY-MM"
+                                            value-format="YYYY-MM"
+                                            :shortcuts="[
+                                                {
+                                                    text: '今天',
+                                                    value: new Date(),
+                                                },
+                                            ]"
+                                        />
+                                    </template>
+                                    <!-- 年 -->
+                                    <template v-if="item.type === 'yaerPicker'">
+                                        <el-date-picker
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :style="item.style"
+                                            type="year"
+                                            :editable="false"
+                                            :placeholder="item.placeholder"
+                                            popper-class="nonScopePickerClass"
+                                            format="YYYY"
+                                            value-format="YYYY"
+                                            :shortcuts="[
+                                                {
+                                                    text: '今天',
+                                                    value: new Date(),
+                                                },
+                                            ]"
+                                        />
+                                    </template>
+                                    <!-- 日 -->
+                                    <template v-if="item.type === 'datePicker'">
+                                        <el-date-picker
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :style="item.style"
+                                            type="date"
+                                            :editable="false"
+                                            :placeholder="item.placeholder"
+                                            popper-class="nonScopePickerClass"
+                                            format="YYYY-MM-DD"
+                                            value-format="YYYY-MM-DD"
+                                            @panel-change="focusFn"
+                                            :shortcuts="[
+                                                {
+                                                    text: '今天',
+                                                    value: new Date(),
+                                                },
+                                            ]"
+                                        />
+                                    </template>
+                                    <!-- 日期时间范围 -->
+                                    <template v-if="item.type === 'datetimerange'">
+                                        <el-date-picker
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            type="datetimerange"
+                                            popper-class="scopePickerClass"
+                                            range-separator="~"
+                                            :editable="false"
+                                            :style="item.style"
+                                            :start-placeholder="item.startPlaceholder"
+                                            :end-placeholder="item.endPlaceholder"
+                                            format="YYYY-MM-DD HH:mm:ss"
+                                            value-format="YYYY-MM-DD HH:mm:ss"
+                                            prefix-icon=""
+                                        />
+                                    </template>
+                                    <!-- vnodes -->
+                                    <template v-if="item.type === 'vnodes'">
+                                        <renderDom :render="item.render"></renderDom>
+                                    </template>
+                                </el-form-item>
+                            </template>
                         </template>
                     </el-form>
                     <!-- 查询重置按钮 -->
@@ -551,7 +605,7 @@ function formatterCellval(row, column, cellValue) {
                 }
             }
             .queryBtnList {
-                margin-left: 30px;
+                margin-left: 10px;
                 display: flex;
             }
         }
@@ -610,5 +664,12 @@ function formatterCellval(row, column, cellValue) {
     .el-table__row:nth-child(2n) {
         background-color: rgba(0, 0, 0, 0);
     }
+}
+.domainStyle {
+    display: inline-block;
+    font-weight: 400;
+    font-size: 12px;
+    color: #ffffff;
+    width: '520px';
 }
 </style>

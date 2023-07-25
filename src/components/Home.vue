@@ -3,6 +3,9 @@ import headers from '@/components/page/header.vue';
 import mains from '@/components/page/main.vue';
 import DialogBox from '@/components/common/dialogBox.vue';
 import DetailsDialogBox from '@/components/common/detailsDialogBox.vue';
+import { AuthStore } from '@/store/modules/auth.js';
+
+const authStore = AuthStore();
 </script>
 
 <template>
@@ -10,7 +13,11 @@ import DetailsDialogBox from '@/components/common/detailsDialogBox.vue';
         <header>
             <headers />
         </header>
-        <main>
+        <main
+            :style="{
+                background: authStore.routePath === '/detailsEmergencyEvents' ? '#020c17' : '',
+            }"
+        >
             <mains />
         </main>
         <DialogBox />

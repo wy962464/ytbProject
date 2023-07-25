@@ -1,4 +1,4 @@
-<!-- 应急预案新增 -->
+<!-- 新增应急预案 -->
 <script setup>
 import { reactive, ref } from 'vue';
 import tableBox from '@/components/common/table.vue';

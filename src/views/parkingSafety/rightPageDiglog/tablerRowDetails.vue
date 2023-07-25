@@ -1,3 +1,4 @@
+<!-- 报警管理详情弹框 -->
 <script setup>
 import { DialogStore } from '@/store/modules/dialog.js';
 import procedure from '@/components/common/procedure.vue';

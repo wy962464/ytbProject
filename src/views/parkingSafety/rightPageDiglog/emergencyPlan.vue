@@ -23,7 +23,7 @@ function handlerClickAdd() {
             isShow: true,
             width: 750,
             height: 478,
-            path: '/parkingSafety/rightPageDiglog/addEmergencyPlan',
+            path: '/parkingSafety/rightPageDiglog/emergencyPlanContent/addEmergencyPlan',
         },
     });
 }
@@ -39,9 +39,9 @@ function handlerBasicInfor(row) {
                         title: '应急预案',
                         isShow: true,
                         backBtn: false,
-                        tabSeletNum: 0,
                         width: 1279,
                         height: 685,
+                        tabSeletNum: 0,
                         path: [
                             {
                                 name: '应急预案',
@@ -65,11 +65,13 @@ function handlerBasicInfor(row) {
             path: [
                 {
                     name: '基本信息',
-                    component: '/parkingSafety/rightPageDiglog/emergencyPlanBasicInfor',
+                    component:
+                        '/parkingSafety/rightPageDiglog/emergencyPlanContent/emergencyPlanBasicInfor',
                 },
                 {
                     name: '应急响应程序',
-                    component: '/parkingSafety/rightPageDiglog/emergencyProcedures',
+                    component:
+                        '/parkingSafety/rightPageDiglog/emergencyPlanContent/emergencyProcedures',
                 },
             ],
         },
@@ -80,7 +82,6 @@ let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
     isShowOperateBtn: true,
-    isShowOtherBtn: true,
     isBasicOperateBtn: true,
     modelFormValue: {},
     fromItem: [

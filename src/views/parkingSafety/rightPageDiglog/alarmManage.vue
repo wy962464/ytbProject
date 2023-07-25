@@ -10,7 +10,6 @@ let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
     isShowOperateBtn: true,
-    isShowOtherBtn: true,
     otherBtnList: [
         {
             name: '处置',
@@ -148,7 +147,14 @@ let tableFromOption = reactive({
                 prop: 'berthCode',
                 label: '警报编号',
                 render: row => {
-                    return <span style={{ color: '#00FF84' }}>{row.berthCode}</span>;
+                    return (
+                        <span
+                            style={{ color: '#00FF84', cursor: 'pointer' }}
+                            onClick={() => handleNameClick(row)}
+                        >
+                            {row.berthCode}
+                        </span>
+                    );
                 },
             },
             {
@@ -178,13 +184,12 @@ let tableFromOption = reactive({
             },
         ],
         serialNumber: true,
-        isRowClick: true,
     },
     totalCount: 23,
     pageSize: 13,
     pageNo: 1,
 });
-function handleRowClick(row, column, cell, event) {
+function handleNameClick(row) {
     dialogStore.$patch({
         detailsDialogInfor: {
             title: `警报编号${row.berthCode}`,
@@ -199,7 +204,7 @@ function handleRowClick(row, column, cell, event) {
 </script>
 
 <template>
-    <tableBox v-model:tableFromOption="tableFromOption" @rowClick="handleRowClick" />
+    <tableBox v-model:tableFromOption="tableFromOption" />
 </template>
 
 <style scoped lang="scss"></style>

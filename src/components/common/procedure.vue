@@ -93,7 +93,6 @@ const props = defineProps({
             justify-content: space-around;
             font-weight: 400;
             font-size: 12px;
-            text-align: right;
             color: #ffffff;
             .mainList {
                 width: 100%;
@@ -106,6 +105,7 @@ const props = defineProps({
                     align-items: center;
                     overflow: hidden;
                     .label {
+                        text-align: right;
                         min-width: 120px;
                     }
                     .value {

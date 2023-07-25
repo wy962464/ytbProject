@@ -27,7 +27,7 @@ function handlerClicks() {
 
 <template>
     <div class="btnList">
-        <div>
+        <div v-if="authStore.routePath !== '/detailsEmergencyEvents'">
             <button
                 class="leftBtn"
                 :class="{ active: item.path == authStore.routePath }"
@@ -39,7 +39,7 @@ function handlerClicks() {
                 {{ item.meta.title }}
             </button>
         </div>
-        <div>
+        <div v-if="authStore.routePath !== '/detailsEmergencyEvents'">
             <button
                 class="rightBtn"
                 :class="{ active: item.path == authStore.routePath }"
