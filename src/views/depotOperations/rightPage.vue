@@ -5,6 +5,9 @@ import CardBox from '@/components/common/cardBox.vue';
 import { DialogStore } from '@/store/modules/dialog.js';
 import tableBox from '@/components/common/table.vue';
 
+function assetsImages(url) {
+    return new URL(url, import.meta.url).href;
+}
 const dialogStore = DialogStore();
 const cardPropsTop = reactive({
     title: '车辆状况',
@@ -319,8 +322,8 @@ let tableFromOption = reactive({
                 @click="handlerClickBtn(item)"
             >
                 <div class="icon">
-                    <img v-if="item.key == btnNum" :src="item.iconSelectUrl" alt="" />
-                    <img v-else :src="item.iconUrl" alt="" />
+                    <img v-if="item.key == btnNum" :src="assetsImages(item.iconSelectUrl)" alt="" />
+                    <img v-else :src="assetsImages(item.iconUrl)" alt="" />
                 </div>
                 <div class="text">
                     <p>{{ item.name }}</p>
