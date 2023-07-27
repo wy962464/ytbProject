@@ -47,7 +47,6 @@ export function isContent(cellValue, symbol = '--') {
     }
 }
 // 获取assets静态资源
-export function getAssetsFile(url) {
-    console.log(url);
-    return new URL(`../assets/images/${url}`, import.meta.url).href
+export function getImageUrl(url) {
+    return new URL(`../assets/images/${url}`, import.meta.url).href;
 }

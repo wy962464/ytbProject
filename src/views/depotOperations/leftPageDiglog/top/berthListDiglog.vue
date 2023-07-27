@@ -4,6 +4,7 @@ import tableBox from '@/components/common/table.vue';
 import dayjs from 'dayjs';
 import { reactive, ref, watch } from 'vue';
 import { DialogStore } from '@/store/modules/dialog.js';
+import { getImageUrl } from '@/utils';
 
 const dialogStore = DialogStore();
 let tableFromOption = reactive({
@@ -306,9 +307,9 @@ let tableFromOption = reactive({
                     return (
                         <el-image
                             lazy
-                            src="/src/assets/images/loginImages/carImg.jpg"
+                            src={getImageUrl('loginImages/carImg.jpg')}
                             preview-teleported={true}
-                            preview-src-list={['/src/assets/images/loginImages/carImg.jpg']}
+                            preview-src-list={[getImageUrl('loginImages/carImg.jpg')]}
                         />
                     );
                 },

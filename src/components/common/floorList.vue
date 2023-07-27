@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import floorData from '@/assets/floor.json';
 import { buttonClick, separate, close } from '@/utils/modelMethod.js';
+import { getImageUrl } from '@/utils';
 
 const props = defineProps({
     top: {
@@ -32,12 +33,12 @@ let statusBtn = [
     {
         name: '展开',
         key: 1,
-        iconUrl: '/src/assets/images/pageImages/expand.png',
+        iconUrl: 'pageImages/expand.png',
     },
     {
         name: '合并',
         key: 0,
-        iconUrl: '/src/assets/images/pageImages/merge.png',
+        iconUrl: 'pageImages/merge.png',
     },
 ];
 function handlerClickStatus(value) {
@@ -76,7 +77,7 @@ function handlerClickStatus(value) {
             :class="{ active: item.key === statusNum }"
             @click="handlerClickStatus(item)"
         >
-            <img :src="item.iconUrl" alt="" />
+            <img :src="getImageUrl(item.iconUrl)" alt="" />
             <div>{{ item.name }}</div>
         </button>
     </div>

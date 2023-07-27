@@ -4,10 +4,7 @@ import { cameraData } from '@/utils/modelMethod.js';
 import CardBox from '@/components/common/cardBox.vue';
 import { DialogStore } from '@/store/modules/dialog.js';
 import tableBox from '@/components/common/table.vue';
-
-function getImageUrl(name) {
-    return new URL(`../../assets/images/${name}`, import.meta.url).href;
-}
+import { getImageUrl } from '@/utils';
 const dialogStore = DialogStore();
 const cardPropsTop = reactive({
     title: '车辆状况',
