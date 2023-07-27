@@ -5,8 +5,8 @@ import CardBox from '@/components/common/cardBox.vue';
 import { DialogStore } from '@/store/modules/dialog.js';
 import tableBox from '@/components/common/table.vue';
 
-function assetsImages(url) {
-    return new URL(url, import.meta.url).href;
+function getImageUrl(name) {
+    return new URL(`../../assets/images/${name}`, import.meta.url).href;
 }
 const dialogStore = DialogStore();
 const cardPropsTop = reactive({
@@ -48,24 +48,24 @@ const btnList = [
         value: 21,
         unit: '个',
         key: 0,
-        iconUrl: '/src/assets/images/pageImages/monitor.png',
-        iconSelectUrl: '/src/assets/images/pageImages/monitorSelet.png',
+        iconUrl: 'pageImages/monitor.png',
+        iconSelectUrl: 'pageImages/monitorSelet.png',
     },
     {
         name: '充电桩',
         value: 15,
         unit: '个',
         key: 1,
-        iconUrl: '/src/assets/images/pageImages/charging.png',
-        iconSelectUrl: '/src/assets/images/pageImages/chargingSelect.png',
+        iconUrl: 'pageImages/charging.png',
+        iconSelectUrl: 'pageImages/chargingSelect.png',
     },
     {
         name: '泊位',
         value: 52,
         unit: '个',
         key: 2,
-        iconUrl: '/src/assets/images/pageImages/berth.png',
-        iconSelectUrl: '/src/assets/images/pageImages/berthSelect.png',
+        iconUrl: 'pageImages/berth.png',
+        iconSelectUrl: 'pageImages/berthSelect.png',
     },
 ];
 let btnNum = ref(null);
@@ -322,8 +322,8 @@ let tableFromOption = reactive({
                 @click="handlerClickBtn(item)"
             >
                 <div class="icon">
-                    <img v-if="item.key == btnNum" :src="assetsImages(item.iconSelectUrl)" alt="" />
-                    <img v-else :src="assetsImages(item.iconUrl)" alt="" />
+                    <img v-if="item.key == btnNum" :src="getImageUrl(item.iconSelectUrl)" alt="" />
+                    <img v-else :src="getImageUrl(item.iconUrl)" alt="" />
                 </div>
                 <div class="text">
                     <p>{{ item.name }}</p>
