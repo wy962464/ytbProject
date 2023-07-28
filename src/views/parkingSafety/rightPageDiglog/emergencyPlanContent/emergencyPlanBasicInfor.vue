@@ -158,12 +158,12 @@ let orgDataList = reactive({
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            background-color: rgba(21, 63, 63, 100);
+            background-color: rgba(21, 63, 63, 0.1);
             font-weight: 400;
             font-size: 12px;
             color: #ffffff;
-            border: 1px solid rgba(51, 66, 73, 1);
-            box-shadow: 0 0 10px 2px rgba(51, 66, 73, 0.7) inset;
+            border: 1px solid rgba(21, 63, 63, 1);
+            box-shadow: 0 0 30px 2px rgba(21, 63, 63, 1) inset;
             .department {
                 font-weight: 700;
                 font-size: 14px;

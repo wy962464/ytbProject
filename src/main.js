@@ -14,8 +14,11 @@ import dayjs from 'dayjs'
 // 组织架构图插件
 import vue3TreeOrg from 'vue3-tree-org';
 import "vue3-tree-org/lib/vue3-tree-org.css";
+// 视频插件
+import vue3videoPlay from 'vue3-video-play' // 引入组件
+import 'vue3-video-play/dist/style.css' // 引入css
 
 let app = createApp(App)
-app.use(router).use(store).use(directives).use(elementIcon).use(vue3TreeOrg).mount('#app')
+app.use(router).use(store).use(directives).use(elementIcon).use(vue3TreeOrg).use(vue3videoPlay).mount('#app')
 // 全局挂载
 // app.config.globalProperties.$dayjs = dayjs

@@ -3,8 +3,10 @@
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import tableBox from '@/components/common/table.vue';
+import Crypoto from '@/utils/crypto.js';
 
 const router = useRouter();
+const crypoto = new Crypoto();
 let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
@@ -45,6 +47,22 @@ let tableFromOption = reactive({
                 company: 'Ⅰ级',
                 berthState: '处理中',
                 time: '2022-12-14 09:37:29',
+                list: [
+                    {
+                        lable: '程序1',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                        checked: false,
+                    },
+                    {
+                        lable: '程序2',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                        checked: false,
+                    },
+                ],
             },
             {
                 berthCode: '安全（反恐）专项应急预案',
@@ -54,6 +72,15 @@ let tableFromOption = reactive({
                 company: 'Ⅰ级',
                 berthState: '处理中',
                 time: '2022-12-14 09:29:54',
+                list: [
+                    {
+                        lable: '程序1',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                        checked: false,
+                    },
+                ],
             },
             {
                 berthCode: '特种设备事故专项应急预案',
@@ -63,6 +90,36 @@ let tableFromOption = reactive({
                 company: 'Ⅰ级',
                 berthState: '处理中',
                 time: '2022-12-14 09:37:29',
+                list: [
+                    {
+                        lable: '程序1',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                        checked: false,
+                    },
+                    {
+                        lable: '程序2',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                        checked: false,
+                    },
+                    {
+                        lable: '程序3',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                        checked: false,
+                    },
+                    {
+                        lable: '程序4',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                        checked: false,
+                    },
+                ],
             },
         ],
         tableHeader: [
@@ -114,10 +171,15 @@ let tableFromOption = reactive({
 function handleCurrentChange(val) {
     console.log(`页码${val}`);
 }
-function handlerClickName(obj) {
-    console.log(obj);
-    const { href } = router.resolve({ name: 'detailsEmergencyEvents' });
-    window.open(href);
+function handlerClickName(row) {
+    let obj = crypoto.encrypt(JSON.stringify(row.list));
+    const { href } = router.resolve({
+        name: 'detailsEmergencyEvents',
+        query: {
+            list: obj,
+        },
+    });
+    window.open(href, '_blank');
 }
 </script>
 

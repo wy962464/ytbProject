@@ -477,7 +477,7 @@ onMounted(() => {
                 width: 120px;
                 height: 42px;
                 margin-top: 28px;
-                border: 1px solid #334249;
+                border: 1px solid #275252;
                 box-sizing: border-box;
                 color: #ffffff;
                 line-height: 37px;

@@ -1,8 +1,9 @@
 <!-- 应急响应程序 -->
 <script setup lang="jsx">
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import tableBox from '@/components/common/table.vue';
 import { DialogStore } from '@/store/modules/dialog.js';
+import { isContent } from '@/utils/index';
 
 const dialogStore = DialogStore();
 function handlerClickAdd() {
@@ -46,14 +47,62 @@ let tableFromOption = reactive({
             {
                 berthCode: '防台风',
                 berthCodess: '防台风处置措施',
+                list: [
+                    {
+                        lable: '程序1',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                    },
+                    {
+                        lable: '程序2',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                    },
+                    {
+                        lable: '程序3',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                    },
+                    {
+                        lable: '程序4',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                    },
+                ],
             },
             {
                 berthCode: '防台风',
                 berthCodess: '防台风处置措施',
+                list: [
+                    {
+                        lable: '程序1',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                    },
+                    {
+                        lable: '程序2',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                    },
+                ],
             },
             {
                 berthCode: '防台风',
                 berthCodess: '防台风处置措施',
+                list: [
+                    {
+                        lable: '程序1',
+                        value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
+                            的垃圾、泥沙及杂物。`,
+                    },
+                ],
             },
         ],
         tableHeader: [
@@ -67,10 +116,30 @@ let tableFromOption = reactive({
             },
         ],
         serialNumber: true,
+        isRowClick: true,
     },
     totalCount: 5,
     pageSize: 10,
     pageNo: 1,
+});
+let details = reactive({
+    list: [],
+});
+function handleRowClick(row, column, cell, event) {
+    for (let key in row) {
+        if (details.hasOwnProperty(key)) {
+            details[key] = row[key];
+        }
+    }
+}
+onMounted(() => {
+    if (tableFromOption.tableObj.tableData && tableFromOption.tableObj.tableData.length > 0) {
+        for (let key in tableFromOption.tableObj.tableData[0]) {
+            if (details.hasOwnProperty(key)) {
+                details[key] = tableFromOption.tableObj.tableData[0][key];
+            }
+        }
+    }
 });
 </script>
 
@@ -79,6 +148,7 @@ let tableFromOption = reactive({
         <tableBox
             class="tableStyle"
             v-model:tableFromOption="tableFromOption"
+            @rowClick="handleRowClick"
             @handlerClickAdd="handlerClickAdd"
         />
         <div class="details">
@@ -88,47 +158,10 @@ let tableFromOption = reactive({
             </div>
             <el-scrollbar height="533px">
                 <div class="card-main">
-                    <div class="reason">
-                        <div class="lable">程序1：</div>
+                    <div class="reason" v-for="item in details.list">
+                        <div class="lable">{{ isContent(item.lable) }}：</div>
                         <div class="value">
-                            随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
-                            的垃圾、泥沙及杂物。随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
-                            的垃圾、泥沙及杂物。
-                        </div>
-                    </div>
-                    <div class="reason">
-                        <div class="lable">程序2：</div>
-                        <div class="value">
-                            确保所有紧急用品可以随时应用，如沙包、雨衣、水鞋等。
-                        </div>
-                    </div>
-                    <div class="reason">
-                        <div class="lable">程序3：</div>
-                        <div class="value">
-                            台风来前首先会刮起强风。强风有可能吹倒建筑物、高空设
-                            施，易造成人员伤亡。因此，在台风来临前，千万不要在木
-                            工棚、临时建筑、电线杆、树木、宣传牌等容易造成伤亡的
-                            地点逗留。台风来前首先会刮起强风。强风有可能吹倒建筑物、高空设
-                            施，易造成人员伤亡。因此，在台风来临前，千万不要在木
-                            工棚、临时建筑、电线杆、树木、宣传牌等容易造成伤亡的
-                            地点逗留。台风来前首先会刮起强风。强风有可能吹倒建筑物、高空设
-                            施，易造成人员伤亡。因此，在台风来临前，千万不要在木
-                            工棚、临时建筑、电线杆、树木、宣传牌等容易造成伤亡的
-                            地点逗留。台风来前首先会刮起强风。强风有可能吹倒建筑物、高空设
-                            施，易造成人员伤亡。因此，在台风来临前，千万不要在木
-                            工棚、临时建筑、电线杆、树木、宣传牌等容易造成伤亡的 地点逗留。
-                        </div>
-                    </div>
-                    <div class="reason">
-                        <div class="lable">程序4：</div>
-                        <div class="value">
-                            强风会吹落高空物品，易造成砸伤砸死事故。因此，在台风
-                            来临之前检查放置在露台和屋顶的物品，要固定好花盆、空
-                            调室外机、雨篷，建筑施工地上的零星物品等，以确保安全。强风会吹落高空物品，易造成砸伤砸死事故。因此，在台风
-                            来临之前检查放置在露台和屋顶的物品，要固定好花盆、空
-                            调室外机、雨篷，建筑施工地上的零星物品等，以确保安全。强风会吹落高空物品，易造成砸伤砸死事故。因此，在台风
-                            来临之前检查放置在露台和屋顶的物品，要固定好花盆、空
-                            调室外机、雨篷，建筑施工地上的零星物品等，以确保安全。
+                            {{ isContent(item.value) }}
                         </div>
                     </div>
                 </div>

@@ -135,7 +135,7 @@ function handlerCose() {
             font-weight: 500;
             font-size: 14px;
             box-sizing: border-box;
-            border: 1px solid #334249;
+            border: 1px solid #275252;
             &:hover {
                 border: 1px solid #00ff84;
                 color: #00ff84;
@@ -161,7 +161,7 @@ function handlerCose() {
     font-weight: 500;
     font-size: 14px;
     box-sizing: border-box;
-    border: 1px solid #334249;
+    border: 1px solid #275252;
     &:hover {
         border: 1px solid #00ff84;
         color: #00ff84;

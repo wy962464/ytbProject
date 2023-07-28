@@ -178,7 +178,7 @@ body {
 // el-select 下拉框弹窗的样式
 .selectPopperClass {
   background-color: rgba(26, 37, 46, 1) !important;
-  border: 1px solid #334249 !important;
+  border: 1px solid #275252 !important;
 
   .el-popper__arrow {
     left: 30px !important;
@@ -194,7 +194,7 @@ body {
 // 非范围 
 .nonScopePickerClass {
   background-color: rgba(26, 37, 46, 1) !important;
-  border: 1px solid #334249 !important;
+  border: 1px solid #275252 !important;
 
   .el-date-picker {
     width: 187px !important;
@@ -407,18 +407,18 @@ body {
   .el-popper__arrow {
     &::before {
       background-color: rgba(26, 37, 46, 1) !important;
-      border: 1px solid #334249 !important;
+      border: 1px solid #275252 !important;
     }
   }
 }
 
 // 范围 
 .scopePickerClass {
-  border: 1px solid #334249 !important;
+  border: 1px solid #275252 !important;
   background-color: rgba(26, 37, 46, 1);
 
   .el-picker-panel {
-    border: 1px solid #334249 !important;
+    border: 1px solid #275252 !important;
     border-radius: 0;
   }
 
@@ -503,7 +503,7 @@ body {
 
     .el-input.is-disabled .el-input__wrapper {
       // background-color: rgba(4, 8, 6, 0.6);
-      border: 1px solid #334249 !important;
+      border: 1px solid #275252 !important;
     }
 
     .el-input__wrapper {
@@ -511,7 +511,7 @@ body {
       background-color: #0d151e;
       border-radius: 0px;
       box-shadow: 0 0 0 0;
-      border: 1px solid #334249;
+      border: 1px solid #275252;
 
       .el-input__inner {
         height: 18px;
@@ -530,7 +530,7 @@ body {
 
       &:hover {
         box-shadow: 0 0 0 0 !important;
-        border: 1px solid #334249;
+        border: 1px solid #275252;
       }
     }
   }
@@ -547,7 +547,7 @@ body {
       min-width: 70px;
       height: 24px;
       background-color: #0d151e;
-      border: 1px solid #334249;
+      border: 1px solid #275252;
       padding: 0 22px;
       border-radius: 0px;
       font-weight: 500;
@@ -574,7 +574,7 @@ body {
     .el-time-panel {
       background: rgba(26, 37, 46, 1);
       color: #ffffff;
-      border: 1px solid #334249 !important;
+      border: 1px solid #275252 !important;
 
       .el-time-panel__footer {
         display: flex;
@@ -589,7 +589,7 @@ body {
           min-width: 70px;
           height: 24px;
           background-color: #0d151e;
-          border: 1px solid #334249;
+          border: 1px solid #275252;
           padding: 0 22px;
           border-radius: 0px;
           font-weight: 500;
@@ -633,13 +633,17 @@ body {
   .el-popper__arrow {
     &::before {
       background-color: rgba(26, 37, 46, 1) !important;
-      border: 1px solid #334249 !important;
+      border: 1px solid #275252 !important;
     }
   }
 }
 
 .zm-tree-org {
   background-color: rgba(0, 0, 0, 0) !important;
+
+  .tree-org-node {
+    padding-top: 54px;
+  }
 
   .draggable {
     cursor: pointer;
@@ -651,7 +655,7 @@ body {
 
   .tree-org-node:after {
     width: calc(50% - 1px) !important;
-    height: 9px !important;
+    height: 45px !important;
     border-color: #01874d !important;
   }
 
@@ -676,7 +680,13 @@ body {
   }
 }
 
+.el-tree-node__content:hover {
+  background: linear-gradient(to right, rgba(31, 255, 147, 0), rgba(31, 255, 147, 0.5)) !important;
+}
 
+.el-tree-node:focus>.el-tree-node__content {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
 
 // 改变进度条颜色
 // #nprogress .bar {
