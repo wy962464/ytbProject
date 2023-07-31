@@ -147,7 +147,7 @@ export const AuthStore = defineStore({
                         {
                             path: "/detailsEmergencyEvents",
                             name: "detailsEmergencyEvents",
-                            component: "/parkingSafety/rightPageDiglog/detailsEmergencyEvents",
+                            component: "/parkingSafety/rightPageDiglog/emergencyEventsContent/detailsEmergencyEvents",
                             meta: {
                                 isHide: true,
                                 title: "",

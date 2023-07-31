@@ -99,9 +99,11 @@ function handlerCose() {
 </script>
 
 <template>
-    <div class="addEmergencyPlan">
-        <el-scrollbar height="326px">
-            <tableBox ref="tableFromRef" v-model:tableFromOption="tableFromOption" />
+    <div class="addEmergencyProcedures">
+        <el-scrollbar>
+            <div class="top">
+                <tableBox ref="tableFromRef" v-model:tableFromOption="tableFromOption" />
+            </div>
         </el-scrollbar>
         <div class="btnClick">
             <div class="btn" @click="handlerSave">保存</div>
@@ -115,9 +117,11 @@ function handlerCose() {
 :deep(.el-input__wrapper) {
     height: 28px;
 }
-.addEmergencyPlan {
+.addEmergencyProcedures {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
     .btnClick {
         margin-top: 22px;
         width: 100%;
@@ -147,6 +151,10 @@ function handlerCose() {
         .btn:nth-child(2) {
             margin-left: 5px;
         }
+    }
+    .top {
+        flex-grow: 1;
+        width: 100%;
     }
 }
 </style>

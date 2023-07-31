@@ -17,9 +17,6 @@ const cardPropsBottom = reactive({
     title: '消防巡检',
     isMore: true,
 });
-function handlerClick() {
-    alert('点击了');
-}
 let selectInput = ref('');
 let tableFromOption = reactive({
     isShowTable: true,
@@ -92,6 +89,17 @@ const emergencyList = [
         value: '1',
     },
 ];
+function handlerClickTop() {
+    dialogStore.$patch({
+        dialogInfor: {
+            title: '视频监控',
+            isShow: true,
+            width: 1279,
+            height: 685,
+            path: '/parkingSafety/rightPageDiglog/keyAreasContent/videoMonitoring',
+        },
+    });
+}
 function handlerClickCenter() {
     dialogStore.$patch({
         dialogInfor: {
@@ -99,7 +107,28 @@ function handlerClickCenter() {
             isShow: true,
             width: 1279,
             height: 685,
-            path: '/parkingSafety/rightPageDiglog/alarmManage',
+            path: '/parkingSafety/rightPageDiglog/emergencyPlanContent/alarmManage',
+        },
+    });
+}
+function handlerClickBottom() {
+    dialogStore.$patch({
+        dialogInfor: {
+            title: '消防巡检',
+            isShow: true,
+            width: 1279,
+            height: 685,
+            path: [
+                {
+                    name: '灭火器巡检',
+                    component:
+                        '/parkingSafety/rightPageDiglog/firePatrolInspection/fireExtinguisher',
+                },
+                {
+                    name: '消防栓巡检',
+                    component: '/parkingSafety/rightPageDiglog/firePatrolInspection/fireHydrant',
+                },
+            ],
         },
     });
 }
@@ -114,17 +143,29 @@ function handlerClickEmergency(key) {
             path: [
                 {
                     name: '应急预案',
-                    component: '/parkingSafety/rightPageDiglog/emergencyPlan',
+                    component: '/parkingSafety/rightPageDiglog/emergencyPlanContent/emergencyPlan',
                 },
                 {
                     name: '应急事件',
-                    component: '/parkingSafety/rightPageDiglog/emergencyEvents',
+                    component:
+                        '/parkingSafety/rightPageDiglog/emergencyEventsContent/emergencyEvents',
                 },
                 {
                     name: '安全风险源',
-                    component: '/parkingSafety/rightPageDiglog/securityRisk',
+                    component: '/parkingSafety/rightPageDiglog/securityRiskContent/securityRisk',
                 },
             ],
+        },
+    });
+}
+function handlerClickAdd() {
+    dialogStore.$patch({
+        dialogInfor: {
+            title: '绑定区域',
+            isShow: true,
+            width: 839,
+            height: 615,
+            path: '/parkingSafety/rightPageDiglog/keyAreasContent/bindingArea',
         },
     });
 }
@@ -132,7 +173,7 @@ function handlerClickEmergency(key) {
 
 <template>
     <div class="page">
-        <CardBox class="CardBox" v-model:cardProps="cardPropsTop" @handlerClick="handlerClick">
+        <CardBox class="CardBox" v-model:cardProps="cardPropsTop" @handlerClick="handlerClickTop">
             <template #topRight>视频监控</template>
             <template #main>
                 <div class="CardBox_top">
@@ -147,7 +188,7 @@ function handlerClickEmergency(key) {
                             <el-option label="三层通道监控" value="3" />
                             <el-option label="四层通道监控" value="4" />
                         </el-select>
-                        <div class="btn">添加</div>
+                        <div class="btn" @click="handlerClickAdd">添加</div>
                     </div>
                     <div class="table">
                         <tableBox v-model:tableFromOption="tableFromOption" />
@@ -182,7 +223,11 @@ function handlerClickEmergency(key) {
                 </div>
             </template>
         </CardBox>
-        <CardBox class="CardBox" v-model:cardProps="cardPropsBottom" @handlerClick="handlerClick">
+        <CardBox
+            class="CardBox"
+            v-model:cardProps="cardPropsBottom"
+            @handlerClick="handlerClickBottom"
+        >
             <template #main>
                 <div class="CardBox_bottom">
                     <div class="top">
@@ -303,8 +348,7 @@ function handlerClickEmergency(key) {
                 font-size: 14px;
                 text-align: center;
                 line-height: 28px;
-                color: #00ff84;
-                border: 1px solid #00ff84;
+                border: 1px solid #275252;
                 cursor: pointer;
                 &:hover {
                     color: #00ff84;

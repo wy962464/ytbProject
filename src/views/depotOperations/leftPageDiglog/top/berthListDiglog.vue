@@ -322,9 +322,9 @@ let tableFromOption = reactive({
                 {
                     render: row => {
                         return (
-                            <el-text type="success" onClick={e => handlerClick(row)} size="small">
+                            <el-link type="success" onClick={e => handlerClick(row)}>
                                 查看
-                            </el-text>
+                            </el-link>
                         );
                     },
                 },

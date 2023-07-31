@@ -194,7 +194,7 @@ function handleNameClick(row) {
         detailsDialogInfor: {
             title: `警报编号${row.berthCode}`,
             isShow: true,
-            path: '/parkingSafety/rightPageDiglog/tablerRowDetails',
+            path: '/parkingSafety/rightPageDiglog/emergencyPlanContent/tablerRowDetails',
             obj: {
                 ...row,
             },

@@ -30,7 +30,7 @@ const options = reactive({
     ligthOff: false, //关灯模式
     volume: 0.3, //默认音量大小
     control: true, //是否显示控制
-    controlBtns: ['quality', 'pageFullScreen'], //显示所有按钮,
+    controlBtns: ['quality', 'fullScreen'], //显示所有按钮,
     preload: 'auto', //预加载 meta/auto/none
 });
 onMounted(() => {

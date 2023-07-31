@@ -151,7 +151,7 @@ function handlerClickName(row) {
 function handlerClickAdd() {
     dialogStore.$patch({
         detailsDialogInfor: {
-            title: '新增应急预案',
+            title: '新增安全风险',
             isShow: true,
             width: 750,
             height: 478,

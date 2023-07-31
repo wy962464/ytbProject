@@ -45,15 +45,18 @@ function handlerBasicInfor(row) {
                         path: [
                             {
                                 name: '应急预案',
-                                component: '/parkingSafety/rightPageDiglog/emergencyPlan',
+                                component:
+                                    '/parkingSafety/rightPageDiglog/emergencyPlanContent/emergencyPlan',
                             },
                             {
                                 name: '应急事件',
-                                component: '/parkingSafety/rightPageDiglog/emergencyEvents',
+                                component:
+                                    '/parkingSafety/rightPageDiglog/emergencyEventsContent/emergencyEvents',
                             },
                             {
                                 name: '安全风险源',
-                                component: '/parkingSafety/rightPageDiglog/securityRisk',
+                                component:
+                                    '/parkingSafety/rightPageDiglog/securityRiskContent/securityRisk',
                             },
                         ],
                     },
@@ -376,9 +379,10 @@ onMounted(() => {
                 <p>预案名称：{{ isContent(details.berthCode) }}</p>
                 <p>预案类型：{{ isContent(details.berthCodess) }}</p>
                 <p>适用事件：{{ isContent(details.berthType) }}</p>
+
                 <div class="reason">
                     <div class="lable">事件原因：</div>
-                    <el-scrollbar height="290px">
+                    <el-scrollbar height="300px">
                         <div class="value">{{ isContent(details.reason) }}</div>
                     </el-scrollbar>
                 </div>

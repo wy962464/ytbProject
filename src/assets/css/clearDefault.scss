@@ -439,9 +439,17 @@ body {
     box-shadow: 0 0 10px 2px #275252 inset;
   }
 
+  .el-date-range-picker__content.is-left {
+    border-right: 1px solid #275252;
+  }
+
   .el-date-table {
     border-collapse: separate;
     border-spacing: 0px 0px;
+
+    th {
+      border-bottom: solid 1px #275252;
+    }
 
     td {
       padding: 0 0;
@@ -500,9 +508,9 @@ body {
   }
 
   .el-date-range-picker__time-header {
+    border-bottom: 1px solid #275252;
 
     .el-input.is-disabled .el-input__wrapper {
-      // background-color: rgba(4, 8, 6, 0.6);
       border: 1px solid #275252 !important;
     }
 
@@ -538,6 +546,7 @@ body {
   .el-picker-panel__footer {
     background-color: rgba(26, 37, 46, 1);
     box-shadow: 0 0 10px 2px #275252 inset;
+    border-top: 1px solid #275252;
 
     .el-button.is-text:not(.is-disabled):hover {
       background-color: #0d151e;

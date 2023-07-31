@@ -1,7 +1,7 @@
 <script setup>
 import { AuthStore } from '@/store/modules/auth.js';
 import { UserStore } from '@/store/modules/user.js';
-import { ref, inject, nextTick, onMounted, reactive } from 'vue';
+import { ref, nextTick, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { initRouter } from '@/routers/initRouter.js';
 import { showLoading, hideLoading } from '@/utils/loading.js';
@@ -66,15 +66,6 @@ function handlerClick(ruleForm) {
             } finally {
             }
         }
-    });
-}
-const refreshCurrentPage = inject('refresh');
-function handlerClick1() {
-    authStore.updateAjaxCount(10);
-    refreshCurrentPage(false);
-    nextTick(() => {
-        authStore.updateAjaxCount(0);
-        refreshCurrentPage(true);
     });
 }
 function isCode() {

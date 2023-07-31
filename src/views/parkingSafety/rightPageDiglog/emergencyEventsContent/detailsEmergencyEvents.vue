@@ -3,7 +3,7 @@
 import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
 import cameraTree from '@/components/common/cameraTree.vue';
 import videoPlayer from '@/components/common/videoPlayer.vue';
-import { reactive, ref, nextTick } from 'vue';
+import { reactive, ref, inject } from 'vue';
 import { useRoute } from 'vue-router';
 import Crypoto from '@/utils/crypto.js';
 
@@ -97,9 +97,7 @@ const handlerClickCamera = () => {
     cameraList.value = !cameraList.value;
 };
 const handlerClickView = arr => {
-    nextTick(() => {
-        monitorList.list = arr;
-    });
+    monitorList.list = arr;
 };
 </script>
 
@@ -154,7 +152,7 @@ const handlerClickView = arr => {
                     </template>
                 </vue3-tree-org>
             </div>
-            <div class="center_right" v-if="cameraList">
+            <div class="center_right" v-show="cameraList">
                 <detailsInforStyle>
                     <template #name>视频区域</template>
                     <template #main>
@@ -345,7 +343,6 @@ const handlerClickView = arr => {
         .videos {
             width: 100%;
             height: 100%;
-            position: relative;
             display: grid;
             grid-template-columns: repeat(3, 203px);
             grid-gap: 10px 10px;

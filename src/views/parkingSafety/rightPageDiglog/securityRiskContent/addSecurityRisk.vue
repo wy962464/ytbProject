@@ -213,9 +213,11 @@ function handlerBack() {
 </script>
 
 <template>
-    <div class="addEmergencyPlan">
-        <el-scrollbar height="326px">
-            <tableBox ref="tableFromRef" v-model:tableFromOption="tableFromOption" />
+    <div class="addSecurityRisk">
+        <el-scrollbar>
+            <div class="top">
+                <tableBox ref="tableFromRef" v-model:tableFromOption="tableFromOption" />
+            </div>
         </el-scrollbar>
         <div class="btnClick">
             <div class="btn" @click="handlerSave">保存</div>
@@ -229,9 +231,11 @@ function handlerBack() {
 :deep(.el-input__wrapper) {
     height: 28px;
 }
-.addEmergencyPlan {
+.addSecurityRisk {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
     .btnClick {
         margin-top: 22px;
         width: 100%;
@@ -261,6 +265,10 @@ function handlerBack() {
         .btn:nth-child(2) {
             margin-left: 5px;
         }
+    }
+    .top {
+        flex-grow: 1;
+        width: 100%;
     }
 }
 </style>

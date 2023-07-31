@@ -36,9 +36,9 @@ const renderDom = {
  * @param tableFromOption.tableObj.tableHeader 表格头部数据
  * @param tableFromOption.tableObj.isMultiple 是否多选
  * @param tableFromOption.tableObj.serialNumber 是否显示序号
- * @param tableFromOption.tableObj.operatesBtnObj 操作按钮详情
- * @param tableFromOption.tableObj.operatesBtnObj.isOperatesBtn 操作按钮是否显示
- * @param tableFromOption.tableObj.operatesBtnObj.operatesBtnList 操作按钮列表
+ * @param tableFromOption.tableObj.operatesBtnObj 表格操作按钮详情
+ * @param tableFromOption.tableObj.operatesBtnObj.isOperatesBtn 表格操作按钮是否显示
+ * @param tableFromOption.tableObj.operatesBtnObj.operatesBtnList 表格操作按钮列表
  * @param tableFromOption.totalCount 总数
  * @param tableFromOption.pageSize 每页条数
  * @param tableFromOption.pageNo 页码
@@ -324,6 +324,24 @@ function removeDomain(index) {
                                                     value: new Date(),
                                                 },
                                             ]"
+                                        />
+                                    </template>
+                                    <!-- 日期范围 -->
+                                    <template v-if="item.type === 'daterange'">
+                                        <el-date-picker
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            type="daterange"
+                                            popper-class="scopePickerClass"
+                                            range-separator="~"
+                                            :editable="false"
+                                            :style="item.style"
+                                            :start-placeholder="item.startPlaceholder"
+                                            :end-placeholder="item.endPlaceholder"
+                                            format="YYYY-MM-DD"
+                                            value-format="YYYY-MM-DD"
+                                            prefix-icon=""
                                         />
                                     </template>
                                     <!-- 日期时间范围 -->

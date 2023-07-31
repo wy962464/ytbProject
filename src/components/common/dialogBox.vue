@@ -89,7 +89,7 @@ function handlerSeletTab(obj, index) {
         cursor: default;
         background: url('@/assets/images/pageImages/dialogFrame.png') no-repeat;
         background-size: 100% 100%;
-        padding: 30px 20px 30px 30px;
+        padding: 30px 20px 30px 20px;
         box-sizing: border-box;
         // box-shadow: 0 0 23px 0px rgba(0, 0, 0, 0.5);
         .card-title {
@@ -163,6 +163,7 @@ function handlerSeletTab(obj, index) {
             }
             .card-main-bottom {
                 flex-grow: 1;
+                height: 0;
                 width: 100%;
             }
         }

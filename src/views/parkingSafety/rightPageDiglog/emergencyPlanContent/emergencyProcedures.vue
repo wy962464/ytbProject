@@ -156,16 +156,16 @@ onMounted(() => {
                 <div class="card-name">详细信息</div>
                 <div class="card-line"></div>
             </div>
-            <el-scrollbar height="533px">
-                <div class="card-main">
+            <div class="card-main">
+                <el-scrollbar>
                     <div class="reason" v-for="item in details.list">
                         <div class="lable">{{ isContent(item.lable) }}：</div>
                         <div class="value">
                             {{ isContent(item.value) }}
                         </div>
                     </div>
-                </div>
-            </el-scrollbar>
+                </el-scrollbar>
+            </div>
         </div>
     </div>
 </template>
@@ -223,7 +223,7 @@ onMounted(() => {
             box-sizing: border-box;
             height: calc(100% - 22px);
             width: 100%;
-            padding: 30px 20px 0 20px;
+            padding: 30px 20px 25px 20px;
             font-weight: 400;
             font-size: 14px;
             text-align: left;
