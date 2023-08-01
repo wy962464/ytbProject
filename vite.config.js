@@ -106,9 +106,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     // 打包去除 console.log && debugger
-    // esbuild: {
-    //   pure: ["console.log", "debugger"],
-    // },
+    esbuild: {
+      pure: ["console.log", "debugger"],
+    },
     assetsInclude: ["**/*.glb", "**/*.fbx"],
   }
 })
