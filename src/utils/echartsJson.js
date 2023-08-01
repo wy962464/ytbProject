@@ -9,7 +9,7 @@ const dataArr = [
 ];
 const color = ['#52a0ec', '#01ff85', '#ff931f', '#f65252'];
 
-// 饼图
+// 摄像头信息
 export const optionsPie = {
     legend: {
         top: 'center',
@@ -88,7 +88,7 @@ export const optionsPie = {
     ]
 }
 
-// 柱状堆叠图 左
+// 充电桩统计
 export const optionsStackingLeft = {
     tooltip: {
         trigger: 'axis',
@@ -265,7 +265,7 @@ export const optionsStackingLeft = {
     ],
 }
 
-// 柱状堆叠图 右
+// 泊位实时统计
 export const optionsStackingRight = {
     tooltip: {
         trigger: 'axis',
@@ -385,7 +385,7 @@ export const optionsStackingRight = {
     ],
 }
 
-// 折线图
+// 进出场统计
 export const optionsFold = {
     tooltip: {
         trigger: 'axis',
@@ -525,7 +525,7 @@ export const optionsFold = {
     ],
 }
 
-// 柱状图
+// 资产信息
 export const optionsStacking = {
     tooltip: {
         trigger: 'axis',
@@ -612,7 +612,7 @@ export const optionsStacking = {
     ],
 }
 
-//圆柱堆叠柱状图
+// 泊位管理-泊位分类
 export const optionsCylinder = {
     grid: {
         left: '3%',
@@ -790,7 +790,7 @@ export const optionsCylinder = {
     ]
 }
 
-//圆柱柱状图
+// 充电情况-充电统计
 export const optionsDepotOperations = {
     grid: {
         left: '3%',
@@ -893,7 +893,7 @@ export const optionsDepotOperations = {
     ]
 }
 
-// 折线图
+// 车辆状况-进出场统计
 export const optionsStatistics = {
     tooltip: {
         trigger: 'axis',
@@ -1029,6 +1029,218 @@ export const optionsStatistics = {
                 color: 'rgba(211, 204, 87, 1)',
             },
             data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301],
+        },
+    ],
+}
+
+// 资产可视化
+export const assetVisualization = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow',
+        },
+        backgroundColor: '#001e28',
+        borderColor: '#4d989b',
+        extraCssText: 'box-shadow: 0 0 4px 4px rgba(77, 152, 155, 0.3);',
+        textStyle: {
+            color: '#fff',
+        },
+        formatter: function (params) {
+            let text = '';
+            let title = `<p style="text-align: left" >${params[0].name}</p>`;
+            let total = 0;
+            params.map(item => {
+                if (!item.seriesName.includes('series')) {
+                    total += item.value;
+                    text += `<p style="text-align: left">${item.marker}${item.seriesName}：${item.value}</p>`;
+                }
+            });
+            return title + text;
+        },
+    },
+    legend: {
+        top: 0,
+        right: 30,
+        itemWidth: 15,
+        itemHeight: 15,
+        textStyle: {
+            color: '#ffffff',
+        },
+        width: 350,
+        selectedMode: false
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+    },
+    xAxis: {
+        type: 'category',
+        axisLabel: {
+            color: '#ffffff',
+        },
+        data: [
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '10',
+            '11',
+            '12',
+            '13',
+            '14',
+            '15',
+            '16',
+            '17',
+            '18',
+            '19',
+            '20',
+            '21',
+        ],
+        axisLabel: {
+            interval: 0
+        }
+    },
+    yAxis: {
+        name: '(平方米)',
+        nameTextStyle: {
+            color: '#CCCCCC',
+        },
+        type: 'value',
+        axisLabel: {
+            color: '#ffffff',
+        },
+        axisLine: {
+            show: true,
+        },
+    },
+    series: [
+        {
+            name: '负一层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#003E20'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '一层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#036F3B'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '二层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#009F52'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '三层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#00CD6A'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '四层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#1FFF93'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '五层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#85FFC4'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '六层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#005567'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '七层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#007891'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '八层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#06A8CB'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '九层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#46DEFF'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '十层',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#AEF1FF'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
+        },
+        {
+            name: '屋顶',
+            type: 'bar',
+            stack: 'total',
+            barWidth: "40%",
+            itemStyle: {
+                color: '#00FCFF'
+            },
+            data: [320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320, 320, 302, 301, 334, 390, 330, 320],
         },
     ],
 }

@@ -289,7 +289,7 @@ let tableFromOption = reactive({
                 align-items: center;
                 justify-content: center;
                 .table_top_btn {
-                    width: 140px;
+                    min-width: 140px;
                     height: 100%;
                     background: url('@/assets/images/homeImages/parkingSafety/btnStyle.png')
                         no-repeat;

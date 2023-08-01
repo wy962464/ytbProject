@@ -1,3 +1,4 @@
+<!-- 详情弹窗 -->
 <script setup>
 import { DialogStore } from '@/store/modules/dialog.js';
 

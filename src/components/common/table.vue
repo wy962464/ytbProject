@@ -434,6 +434,14 @@ function removeDomain(index) {
                     class="tableStyle"
                     height="100%"
                 >
+                    <template v-if="props.tableFromOption.tableObj.serialNumber">
+                        <el-table-column
+                            type="index"
+                            align="center"
+                            label=""
+                            width="65"
+                        ></el-table-column>
+                    </template>
                     <template v-if="props.tableFromOption.tableObj.isMultiple">
                         <el-table-column
                             type="selection"
@@ -441,14 +449,6 @@ function removeDomain(index) {
                             ref="multipleTable"
                             label=""
                             align="center"
-                        ></el-table-column>
-                    </template>
-                    <template v-else-if="props.tableFromOption.tableObj.serialNumber">
-                        <el-table-column
-                            type="index"
-                            align="center"
-                            label=""
-                            width="65"
                         ></el-table-column>
                     </template>
                     <el-table-column
@@ -689,5 +689,19 @@ function removeDomain(index) {
     font-size: 12px;
     color: #ffffff;
     width: '520px';
+}
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+    background-color: rgba(31, 255, 147, 0.8) !important;
+    border-color: rgba(31, 255, 147, 0.8) !important;
+}
+:deep(.el-checkbox__inner) {
+    background-color: rgba(2, 50, 64, 0.3) !important;
+    border-color: rgba(15, 151, 103, 100) !important;
+}
+:deep(.el-checkbox) {
+    --el-checkbox-disabled-checked-icon-color: rgba(255, 255, 255, 1);
+}
+:deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner::before) {
+    background-color: rgba(0, 0, 0, 0);
 }
 </style>

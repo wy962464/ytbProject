@@ -252,6 +252,9 @@ let data = reactive([
 :deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner::before) {
     background-color: rgba(0, 0, 0, 0);
 }
+:deep(.el-tree-node:focus > .el-tree-node__content) {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
 
 // 不可全选样式
 :deep(.el-tree-node) {
@@ -294,6 +297,11 @@ let data = reactive([
             color: #ffffff;
             background-color: rgba(0, 0, 0, 0);
             flex-grow: 1;
+            --el-tree-node-hover-bg-color: linear-gradient(
+                to right,
+                rgba(31, 255, 147, 0),
+                rgba(31, 255, 147, 0.5)
+            );
         }
     }
 }

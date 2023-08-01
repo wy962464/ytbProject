@@ -47,6 +47,8 @@ function handlerClick() {
     background: url('@/assets/images/pageImages/borderCard.png') no-repeat;
     background-size: 100% 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     .top {
         height: 40px;
         width: 100%;
@@ -107,7 +109,7 @@ function handlerClick() {
         }
     }
     .main {
-        height: calc(100% - 40px);
+        flex-grow: 1;
         width: 100%;
         box-sizing: border-box;
     }
