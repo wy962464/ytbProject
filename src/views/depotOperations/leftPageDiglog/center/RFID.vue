@@ -107,7 +107,7 @@ let tableFromOption = reactive({
                 label: '状态',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
     },
     totalCount: 100,
     pageSize: 10,

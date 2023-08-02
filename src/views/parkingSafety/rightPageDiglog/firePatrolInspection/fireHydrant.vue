@@ -188,7 +188,7 @@ let tableFromOption = reactive({
                 label: '巡检人',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
     },
     totalCount: 5,
     pageSize: 13,

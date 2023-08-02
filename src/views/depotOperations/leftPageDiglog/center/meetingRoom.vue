@@ -80,7 +80,7 @@ let tableFromOption = reactive({
                 label: '备注',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
     },
     totalCount: 100,
     pageSize: 10,

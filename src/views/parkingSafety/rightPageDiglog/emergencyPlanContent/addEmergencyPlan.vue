@@ -158,8 +158,8 @@ function handlerBack() {
             </div>
         </el-scrollbar>
         <div class="btnClick">
-            <div class="btn" @click="handlerSave">保存</div>
-            <div class="btn" @click="handlerBack">返回</div>
+            <div class="programsBtn" @click="handlerSave">保存</div>
+            <div class="programsBtn" @click="handlerBack">返回</div>
         </div>
     </div>
 </template>
@@ -174,36 +174,6 @@ function handlerBack() {
     flex-direction: column;
     height: 100%;
     width: 100%;
-    .btnClick {
-        margin-top: 22px;
-        width: 100%;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .btn {
-            width: 70px;
-            height: 30px;
-            color: #ffffff;
-            line-height: 28px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            box-sizing: border-box;
-            border: 1px solid #275252;
-            &:hover {
-                border: 1px solid #00ff84;
-                color: #00ff84;
-            }
-        }
-        .btn:nth-child(1) {
-            margin-right: 5px;
-        }
-        .btn:nth-child(2) {
-            margin-left: 5px;
-        }
-    }
     .top {
         flex-grow: 1;
         width: 100%;

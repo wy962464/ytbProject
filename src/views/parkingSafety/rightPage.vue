@@ -54,7 +54,6 @@ let tableFromOption = reactive({
             },
         ],
         operatesBtnObj: {
-            isOperatesBtn: true,
             operatesBtnList: [
                 {
                     render: row => {

@@ -79,7 +79,7 @@ function handlerBtn(value) {
     font-size: 12px;
     text-align: center;
     color: #ffffff;
-    background-color: #0d151e;
+    background-color: rgba(13, 21, 30, 0);
     border: 1px solid #153f3f;
     line-height: 24px;
     cursor: pointer;

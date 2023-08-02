@@ -345,7 +345,7 @@ let tableFromOption = reactive({
         margin-bottom: 20px;
     }
     .CardBox:nth-child(2) {
-        flex-wrap: 1;
+        flex-grow: 1;
     }
     .main_top {
         box-sizing: border-box;

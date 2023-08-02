@@ -162,7 +162,7 @@ let tableFromOption = reactive({
                 label: '启动时间',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
     },
     totalCount: 100,
     pageSize: 10,

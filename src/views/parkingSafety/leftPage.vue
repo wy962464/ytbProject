@@ -117,7 +117,6 @@ let tableFromOption = reactive({
             },
         ],
         operatesBtnObj: {
-            isOperatesBtn: true,
             title: '出场图片',
             operatesBtnList: [
                 {

@@ -225,7 +225,7 @@ let tableFromOption = reactive({
                 },
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
     },
     totalCount: 23,
     pageSize: 13,

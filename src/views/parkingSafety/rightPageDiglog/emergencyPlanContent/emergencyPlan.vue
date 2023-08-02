@@ -338,7 +338,7 @@ let tableFromOption = reactive({
                 label: '适用事件',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
         isRowClick: true,
     },
     totalCount: 23,

@@ -26,6 +26,7 @@ const renderDom = {
  * @param tableFromOption.isShowOperateBtn 是否显示操作按钮
  * @param tableFromOption.isBasicOperateBtn 是否显示基本操作按钮
  * @param tableFromOption.otherBtnList 其他按钮列表
+ * @param tableFromOption.moreActionsList 更多操作下拉按钮
  * @param tableFromOption.isShowTable 是否显示表格
  * @param tableFromOption.tableObj 表格数据详情
  * @param tableFromOption.tableObj.headerRowStyle 表格头部行的样式
@@ -35,9 +36,8 @@ const renderDom = {
  * @param tableFromOption.tableObj.tableData 表格数据
  * @param tableFromOption.tableObj.tableHeader 表格头部数据
  * @param tableFromOption.tableObj.isMultiple 是否多选
- * @param tableFromOption.tableObj.serialNumber 是否显示序号
+ * @param tableFromOption.tableObj.isSerialNumber 是否显示序号
  * @param tableFromOption.tableObj.operatesBtnObj 表格操作按钮详情
- * @param tableFromOption.tableObj.operatesBtnObj.isOperatesBtn 表格操作按钮是否显示
  * @param tableFromOption.tableObj.operatesBtnObj.operatesBtnList 表格操作按钮列表
  * @param tableFromOption.totalCount 总数
  * @param tableFromOption.pageSize 每页条数
@@ -143,6 +143,10 @@ function handleSizeChange(val) {
 function handlerClickAdd() {
     emit('handlerClickAdd');
 }
+const filterNodeMethod = (value, data, node) => {
+    if (!value) return true;
+    return data.label.includes(value);
+};
 function formatterCellval(row, column, cellValue) {
     if (checkedTypeCellval(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
         return '-';
@@ -225,6 +229,7 @@ function removeDomain(index) {
                                         <el-input
                                             :placeholder="item.placeholder"
                                             :style="item.style"
+                                            :suffix-icon="item.suffixIcon"
                                             v-model="
                                                 props.tableFromOption.modelFormValue[`${item.prop}`]
                                             "
@@ -239,6 +244,7 @@ function removeDomain(index) {
                                             "
                                             :style="item.style"
                                             :placeholder="item.placeholder"
+                                            resize="none"
                                             type="textarea"
                                         />
                                     </template>
@@ -259,6 +265,30 @@ function removeDomain(index) {
                                                 :value="option.value"
                                             />
                                         </el-select>
+                                    </template>
+                                    <!-- 树形选择 -->
+                                    <template v-if="item.type === 'treeSelect'">
+                                        <el-tree-select
+                                            popper-class="treeSelectPopperClass"
+                                            default-expand-all
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :placeholder="item.placeholder"
+                                            :style="item.style"
+                                            :data="props.tableFromOption.treeSelectList"
+                                            icon="ArrowRightBold"
+                                            filterable
+                                            :filter-node-method="filterNodeMethod"
+                                        >
+                                            <template v-slot="{ node, data }">
+                                                <span
+                                                    class="ellipsis"
+                                                    v-text="node.label"
+                                                    :title="node.label"
+                                                ></span>
+                                            </template>
+                                        </el-tree-select>
                                     </template>
                                     <!-- 月 -->
                                     <template v-if="item.type === 'monthPicker'">
@@ -372,20 +402,27 @@ function removeDomain(index) {
                     </el-form>
                     <!-- 查询重置按钮 -->
                     <div class="queryBtnList" v-if="props.tableFromOption.isQueryBtn">
-                        <el-button color="#0d151e" @click="queryList">查询</el-button>
-                        <el-button color="#0d151e" @click="resetForm">重置</el-button>
+                        <el-button color="rgba(13, 21, 30, 0)" @click="queryList">查询</el-button>
+                        <el-button color="rgba(13, 21, 30, 0)" @click="resetForm">重置</el-button>
                     </div>
                 </div>
                 <!-- 操作按钮 -->
                 <div class="operateBtnList" v-if="props.tableFromOption.isShowOperateBtn">
-                    <!-- 操作按钮 -->
+                    <!-- 基本操作按钮 -->
                     <template v-if="props.tableFromOption.isBasicOperateBtn">
-                        <el-button v-hasPermi="['add']" @click="handlerClickAdd" color="#0d151e">
+                        <el-button
+                            v-hasPermi="['add']"
+                            @click="handlerClickAdd"
+                            color="rgba(13, 21, 30, 0)"
+                        >
                             新增
                         </el-button>
-                        <el-button v-hasPermi="['del']" color="#0d151e">修改</el-button>
-                        <el-button v-hasPermi="['update']" color="#0d151e">删除</el-button>
+                        <el-button v-hasPermi="['del']" color="rgba(13, 21, 30, 0)">修改</el-button>
+                        <el-button v-hasPermi="['update']" color="rgba(13, 21, 30, 0)">
+                            删除
+                        </el-button>
                     </template>
+                    <!-- 其他操作按钮 -->
                     <template
                         v-if="
                             props.tableFromOption.otherBtnList &&
@@ -395,11 +432,33 @@ function removeDomain(index) {
                         <el-button
                             v-for="item in props.tableFromOption.otherBtnList"
                             :key="item.name"
-                            color="#0d151e"
+                            color="rgba(13, 21, 30, 0)"
                             @click="item.handlerClick"
                         >
                             {{ item.name }}
                         </el-button>
+                    </template>
+                    <!-- 更多操作按钮 -->
+                    <template
+                        v-if="
+                            props.tableFromOption.moreActionsList &&
+                            props.tableFromOption.moreActionsList.length > 0
+                        "
+                    >
+                        <el-dropdown trigger="click" popper-class="dropdownPopperClass">
+                            <el-button type="primary">更多操作</el-button>
+                            <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item
+                                        v-for="item in props.tableFromOption.moreActionsList"
+                                        :key="item.name"
+                                        @click="item.handlerClick"
+                                    >
+                                        {{ item.name }}
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </template>
+                        </el-dropdown>
                     </template>
                 </div>
             </div>
@@ -434,20 +493,19 @@ function removeDomain(index) {
                     class="tableStyle"
                     height="100%"
                 >
-                    <template v-if="props.tableFromOption.tableObj.serialNumber">
+                    <template v-if="props.tableFromOption.tableObj.isSerialNumber">
                         <el-table-column
                             type="index"
                             align="center"
                             label=""
-                            width="65"
+                            width="56"
                         ></el-table-column>
                     </template>
                     <template v-if="props.tableFromOption.tableObj.isMultiple">
                         <el-table-column
                             type="selection"
-                            width="45"
+                            width="56"
                             ref="multipleTable"
-                            label=""
                             align="center"
                         ></el-table-column>
                     </template>
@@ -548,7 +606,8 @@ function removeDomain(index) {
                     <template
                         v-if="
                             props.tableFromOption.tableObj.operatesBtnObj &&
-                            props.tableFromOption.tableObj.operatesBtnObj.isOperatesBtn
+                            props.tableFromOption.tableObj.operatesBtnObj.operatesBtnList &&
+                            props.tableFromOption.tableObj.operatesBtnObj.operatesBtnList.length > 0
                         "
                     >
                         <el-table-column
@@ -619,6 +678,7 @@ function removeDomain(index) {
                         font-weight: 400;
                         font-size: 12px;
                         color: #cccccc;
+                        padding: 0 0 0 0;
                     }
                 }
             }

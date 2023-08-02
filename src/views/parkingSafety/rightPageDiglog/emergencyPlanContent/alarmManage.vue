@@ -183,7 +183,7 @@ let tableFromOption = reactive({
                 label: '警报状态',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
     },
     totalCount: 23,
     pageSize: 13,

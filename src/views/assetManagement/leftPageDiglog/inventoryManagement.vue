@@ -1,8 +1,10 @@
 <!-- 资产清单管理 -->
-<script setup>
+<script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 let data = reactive([
     {
         id: 1,
@@ -53,11 +55,23 @@ let tableFromOption = reactive({
     isQueryBtn: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
-    otherBtnList: [
+    moreActionsList: [
         {
-            name: '更多操作',
+            name: '批量导入',
             handlerClick: () => {
-                alert('更多操作');
+                alert('批量导入');
+            },
+        },
+        {
+            name: '批量导出',
+            handlerClick: () => {
+                alert('批量导出');
+            },
+        },
+        {
+            name: '搬迁',
+            handlerClick: () => {
+                alert('搬迁');
             },
         },
     ],
@@ -216,7 +230,7 @@ let tableFromOption = reactive({
                 label: '备注',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
         isMultiple: true,
     },
     totalCount: 23,
@@ -233,6 +247,17 @@ const handlerClickClassification = () => {
 };
 const handleSelectionChange = selectList => {
     console.log(selectList);
+};
+const handlerClickAdd = () => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: '新增资产',
+            isShow: true,
+            width: 750,
+            height: 538,
+            path: '/assetManagement/leftPageDiglog/addAssets',
+        },
+    });
 };
 </script>
 
@@ -252,6 +277,8 @@ const handleSelectionChange = selectList => {
                         check-on-click-node
                         check-strictly
                         icon="ArrowRightBold"
+                        node-key="id"
+                        :current-node-key="2"
                         @check-change="handleCheckChange"
                     >
                         <template v-slot="{ node, data }">
@@ -265,6 +292,7 @@ const handleSelectionChange = selectList => {
             <tableBox
                 v-model:tableFromOption="tableFromOption"
                 @handleSelectionChange="handleSelectionChange"
+                @handlerClickAdd="handlerClickAdd"
             />
         </div>
     </div>
@@ -277,6 +305,16 @@ const handleSelectionChange = selectList => {
         rgba(31, 255, 147, 0),
         rgba(31, 255, 147, 0.5)
     ) !important;
+}
+:deep(.el-table__header .el-checkbox) {
+    display: none;
+}
+:deep(.el-table__header thead tr) {
+    th:nth-child(2) .cell {
+        &::after {
+            content: '操作';
+        }
+    }
 }
 
 .inventoryManagement {
@@ -335,7 +373,7 @@ const handleSelectionChange = selectList => {
         }
     }
     .right {
-        flex-grow: 1;
+        width: calc(100% - 260px);
         box-sizing: border-box;
     }
 }

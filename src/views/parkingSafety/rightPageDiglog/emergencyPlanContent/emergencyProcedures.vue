@@ -115,7 +115,7 @@ let tableFromOption = reactive({
                 label: '描述',
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
         isRowClick: true,
     },
     totalCount: 5,

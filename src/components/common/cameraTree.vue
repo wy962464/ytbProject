@@ -206,12 +206,7 @@ let data = reactive([
 
 <template>
     <div class="treeCamera">
-        <el-input
-            class="inputClass"
-            placeholder="请输入"
-            v-model="cameraList.inputValue"
-            suffix-icon="Search"
-        />
+        <el-input class="inputClass" placeholder="请输入" v-model="cameraList.inputValue" />
         <div class="bottom">
             <el-scrollbar>
                 <el-tree
@@ -280,9 +275,6 @@ let data = reactive([
     height: 100%;
     .inputClass {
         margin-bottom: 20px;
-        :deep(.el-input__suffix-inner) {
-            color: #1fff93 !important;
-        }
     }
 
     .bottom {

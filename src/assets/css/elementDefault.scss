@@ -1,6 +1,6 @@
 :deep(.el-input__wrapper) {
   height: 20px;
-  background-color: #0d151e;
+  background-color: rgba(13, 21, 30, 0);
   border-radius: 0px;
   box-shadow: 0 0 0 0;
   border: 1px solid #275252;
@@ -11,6 +11,10 @@
     font-size: 12px;
     text-align: left;
     color: #CCCCCC;
+  }
+
+  .el-input__suffix-inner {
+    color: #1fff93 !important;
   }
 
   .el-input__inner::placeholder {
@@ -38,7 +42,7 @@
 :deep(.el-textarea__inner) {
   min-height: 54px !important;
   color: #ffffff;
-  background-color: #0d151e;
+  background-color: rgba(13, 21, 30, 0);
   border-radius: 0px;
   box-shadow: 0 0 0 0;
   border: 1px solid #275252;
@@ -130,17 +134,31 @@
 
   &:hover {
     color: #00ff84;
-    background-color: #0d151e;
+    background-color: rgba(13, 21, 30, 0);
     border-color: #00ff84;
   }
 
   &:focus {
     color: #00ff84;
-    background-color: #0d151e;
+    background-color: rgba(13, 21, 30, 0);
     border-color: #00ff84;
   }
 }
 
 .el-button+.el-button {
   margin-left: 10px;
+}
+
+// --------- el-dropdown 下拉菜单样式的修改   ---------
+.el-dropdown {
+  margin-left: 10px;
+
+  .el-button--primary {
+    --el-button-bg-color: rgba(13, 21, 30, 0);
+  }
+
+  .el-button:focus-visible {
+    outline: 0px solid var(--el-button-outline-color);
+    outline-offset: 0px;
+  }
 }

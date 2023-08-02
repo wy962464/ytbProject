@@ -181,8 +181,6 @@ body {
   border: 1px solid #275252 !important;
 
   .el-popper__arrow {
-    left: 30px !important;
-
     &::before {
       background-color: #173139 !important;
       border: 1px solid #33464b !important;
@@ -516,7 +514,7 @@ body {
 
     .el-input__wrapper {
       height: 20px;
-      background-color: #0d151e;
+      background-color: rgba(13, 21, 30, 0);
       border-radius: 0px;
       box-shadow: 0 0 0 0;
       border: 1px solid #275252;
@@ -549,13 +547,13 @@ body {
     border-top: 1px solid #275252;
 
     .el-button.is-text:not(.is-disabled):hover {
-      background-color: #0d151e;
+      background-color: rgba(13, 21, 30, 0);
     }
 
     .el-button {
       min-width: 70px;
       height: 24px;
-      background-color: #0d151e;
+      background-color: rgba(13, 21, 30, 0);
       border: 1px solid #275252;
       padding: 0 22px;
       border-radius: 0px;
@@ -567,13 +565,13 @@ body {
 
       &:hover {
         color: #00ff84;
-        background-color: #0d151e;
+        background-color: rgba(13, 21, 30, 0);
         border-color: #00ff84;
       }
 
       &:focus {
         color: #00ff84;
-        background-color: #0d151e;
+        background-color: rgba(13, 21, 30, 0);
         border-color: #00ff84;
       }
     }
@@ -591,13 +589,13 @@ body {
         justify-content: center;
 
         .el-button.is-text:not(.is-disabled):hover {
-          background-color: #0d151e;
+          background-color: rgba(13, 21, 30, 0);
         }
 
         .el-time-panel__btn {
           min-width: 70px;
           height: 24px;
-          background-color: #0d151e;
+          background-color: rgba(13, 21, 30, 0);
           border: 1px solid #275252;
           padding: 0 22px;
           border-radius: 0px;
@@ -610,13 +608,13 @@ body {
 
           &:hover {
             color: #00ff84;
-            background-color: #0d151e;
+            background-color: rgba(13, 21, 30, 0);
             border-color: #00ff84;
           }
 
           &:focus {
             color: #00ff84;
-            background-color: #0d151e;
+            background-color: rgba(13, 21, 30, 0);
             border-color: #00ff84;
           }
         }
@@ -691,6 +689,105 @@ body {
 
 .el-tree-node__content:hover {
   background: linear-gradient(to right, rgba(31, 255, 147, 0), rgba(31, 255, 147, 0.5)) !important;
+}
+
+// el-dropdown 下拉弹框的样式
+.dropdownPopperClass {
+  border: 1px solid #275252 !important;
+  background-color: #275252 !important;
+
+  .el-dropdown-menu {
+    background-color: rgba(26, 37, 46, 1) !important;
+    border: 1px solid #275252 !important;
+
+    .el-dropdown-menu__item {
+      color: #ffffff;
+      font-size: 12px;
+      text-align: left;
+      padding: 0 32px 0 7px;
+      height: 34px;
+      line-height: 34px;
+
+      &:not(.is-disabled):focus {
+        background-color: #1c9261;
+        color: #ffffff;
+      }
+    }
+  }
+
+  .el-popper__arrow {
+    &::before {
+      background-color: #173139 !important;
+      border: 1px solid #33464b !important;
+    }
+  }
+}
+
+// treeSelect 下拉弹框的样式
+.treeSelectPopperClass {
+  background-color: rgba(26, 37, 46, 1) !important;
+  border: 1px solid #275252 !important;
+
+  .el-tree {
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0);
+    flex-grow: 1;
+    --el-tree-node-hover-bg-color: linear-gradient(to right,
+        rgba(31, 255, 147, 0),
+        rgba(31, 255, 147, 0.5));
+        .el-tree-node{
+          color: #ffffff;
+        }
+  }
+
+  .el-popper__arrow {
+    &::before {
+      background-color: #173139 !important;
+      border: 1px solid #33464b !important;
+    }
+  }
+}
+
+// 自定义按钮样式
+.programsBtn {
+  min-width: 70px;
+  height: 30px;
+  padding: 0 10px;
+  color: #ffffff;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 12px;
+  box-sizing: border-box;
+  border: 1px solid #275252;
+  background: rgba(13, 21, 30, 0.63);
+
+  &:hover {
+    border: 1px solid #00ff84;
+    color: #00ff84;
+  }
+}
+
+// 保存 关闭  返回 按钮样式
+.btnClick {
+  margin-top: 22px;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .programsBtn:nth-child(odd) {
+    margin-right: 5px;
+    margin-left: 10px;
+  }
+
+  .programsBtn:nth-child(even) {
+    margin-left: 5px;
+  }
 }
 
 // 改变进度条颜色

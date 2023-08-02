@@ -315,9 +315,8 @@ let tableFromOption = reactive({
                 },
             },
         ],
-        serialNumber: true,
+        isSerialNumber: true,
         operatesBtnObj: {
-            isOperatesBtn: true,
             operatesBtnList: [
                 {
                     render: row => {
