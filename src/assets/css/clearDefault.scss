@@ -731,15 +731,28 @@ body {
   .el-tree {
     font-weight: 400;
     font-size: 14px;
-    color: #ffffff;
     background-color: rgba(0, 0, 0, 0);
-    flex-grow: 1;
     --el-tree-node-hover-bg-color: linear-gradient(to right,
         rgba(31, 255, 147, 0),
         rgba(31, 255, 147, 0.5));
-        .el-tree-node{
-          color: #ffffff;
-        }
+    color: #ffffff;
+  }
+
+  // :has 父级选择器
+  .el-tree-node__content:has(.el-select-dropdown__item.selected) {
+    background: linear-gradient(to right,
+        rgba(31, 255, 147, 0),
+        rgba(31, 255, 147, 0.5)) !important;
+  }
+
+  .el-select-dropdown__item.selected {
+    color: #ffffff;
+  }
+
+  .el-select-dropdown__item {
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff;
   }
 
   .el-popper__arrow {
@@ -764,6 +777,7 @@ body {
   box-sizing: border-box;
   border: 1px solid #275252;
   background: rgba(13, 21, 30, 0.63);
+  margin-right: 10px;
 
   &:hover {
     border: 1px solid #00ff84;
@@ -780,13 +794,8 @@ body {
   align-items: center;
   justify-content: center;
 
-  .programsBtn:nth-child(odd) {
-    margin-right: 5px;
-    margin-left: 10px;
-  }
-
-  .programsBtn:nth-child(even) {
-    margin-left: 5px;
+  .programsBtn:last-child {
+    margin-right: 0px;
   }
 }
 

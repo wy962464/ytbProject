@@ -3,7 +3,7 @@
 const props = defineProps({
     procedureOption: {
         type: Object,
-        default: () => {},
+        default: () => [],
     },
 });
 </script>
@@ -13,7 +13,7 @@ const props = defineProps({
         <el-scrollbar height="100%">
             <div
                 class="procedure_model"
-                v-for="(item, index) in props.procedureOption.procedureData"
+                v-for="(item, index) in props.procedureOption"
                 :key="index"
             >
                 <div class="left">
@@ -96,7 +96,6 @@ const props = defineProps({
             color: #ffffff;
             .mainList {
                 width: 100%;
-                height: 105px;
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
 
@@ -115,6 +114,11 @@ const props = defineProps({
                         white-space: nowrap;
                     }
                 }
+            }
+        }
+        &:last-child {
+            .main {
+                height: 115px;
             }
         }
     }

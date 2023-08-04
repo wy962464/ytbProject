@@ -1,11 +1,12 @@
-<!-- 报警管理详情弹框 -->
+<!-- 维修清单详情弹框 -->
 <script setup>
 import { DialogStore } from '@/store/modules/dialog.js';
 import procedure from '@/components/common/procedure.vue';
 import { reactive } from 'vue';
+import { getImageUrl } from '@/utils';
 
 const dialogStore = DialogStore();
-let procedureOption = reactive([{}]);
+let procedureOption = reactive([{}, {}, {}, {}, {}]);
 </script>
 
 <template>
@@ -51,11 +52,24 @@ let procedureOption = reactive([{}]);
             </ul>
         </div>
         <div class="center">
-            <p>警情图片</p>
+            <p>维修项目</p>
             <div class="imgPath"></div>
         </div>
+        <div class="centerImg">
+            <p>维修前后对比</p>
+            <div class="content">
+                <div class="textImg">
+                    <p>维修前</p>
+                    <img :src="getImageUrl('loginImages/xiuli.png')" alt="" />
+                </div>
+                <div class="textImg">
+                    <p>维修后</p>
+                    <img :src="getImageUrl('loginImages/xiuli.png')" alt="" />
+                </div>
+            </div>
+        </div>
         <div class="bottom">
-            <p>报警处置</p>
+            <p>流程进度</p>
             <div class="procedure">
                 <procedure v-model:procedureOption="procedureOption" />
             </div>
@@ -109,9 +123,36 @@ let procedureOption = reactive([{}]);
             line-height: 28px;
         }
         .imgPath {
-            width: 100%;
+            width: 300px;
             height: 120px;
             box-shadow: 0 0 30px 0 #041d2c inset;
+        }
+    }
+    .centerImg {
+        p {
+            font-weight: 500;
+            font-size: 16px;
+            text-align: left;
+            color: #ffffff;
+            line-height: 28px;
+        }
+        .content {
+            width: 100%;
+            height: 233px;
+            display: flex;
+            justify-content: space-between;
+            .textImg {
+                p {
+                    font-weight: 400;
+                    font-size: 14px;
+                    text-align: center;
+                    color: #ffffff;
+                }
+                img {
+                    width: 309px;
+                    height: 205px;
+                }
+            }
         }
     }
     .bottom {
@@ -125,7 +166,7 @@ let procedureOption = reactive([{}]);
         }
         .procedure {
             width: 100%;
-            height: 140px;
+            height: 420px;
             box-shadow: 0 0 30px 0 #041d2c inset;
             display: flex;
             align-items: center;

@@ -1245,3 +1245,55 @@ export const assetVisualization = {
     ],
 }
 
+// 资产维修
+export const assetRepair = (percentage = 0, color = '228, 83, 83') => {
+    return {
+        series: [{
+            type: 'liquidFill',
+            name: '',
+            radius: '90%',
+            center: ['50%', '50%'],
+            shape: 'circle',
+            phase: 0, // 波的相位弧度 不设置  默认自动
+            direction: 'right', // 波浪移动的速度  两个参数  left 从右往左 right 从左往右
+            outline: {
+                show: true,
+                borderDistance: 5, // 边框线与图表的距离 数字
+                itemStyle: {
+                    opacity: 1, // 边框的透明度   默认为 1
+                    borderWidth: 2, // 边框的宽度
+                    shadowBlur: 5, // 边框的阴影范围 一旦设置了内外都有阴影
+                    shadowColor: `rgba(${color}, 1)`, // 边框的阴影颜色,
+                    borderColor: `rgba(${color}, 0.4)` // 边框颜色
+                }
+            },
+            // 图形样式
+            itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                        offset: 0,
+                        color: `rgba(${color}, 1)`,
+                    },
+
+                    {
+                        offset: 1,
+                        color: `rgba(${color}, 0.6)`,
+                    },
+                ]), // 水球显示的背景颜色
+                shadowBlur: 10 // 波浪的阴影范围
+            },
+            backgroundStyle: {
+                color: "rgba(255, 255, 255, 0.2)",
+                opacity: 0.5
+            },
+            // 图形上的文本标签
+            label: {
+                fontSize: 20,
+                fontWeight: 400,
+                color: '#fff'
+            },
+            data: [percentage] // 系列中的数据内容数组
+        }]
+    }
+}
+

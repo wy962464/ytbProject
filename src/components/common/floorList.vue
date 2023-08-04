@@ -126,11 +126,17 @@ function handlerClickStatus(value) {
         img {
             margin-right: 7px;
         }
+        &:hover {
+            width: 80px;
+            background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
+            background-size: 100% 100%;
+            color: #28dd86;
+        }
         &.active {
             width: 80px;
             background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
             background-size: 100% 100%;
-            color: #30ffff;
+            color: #28dd86;
         }
     }
 }

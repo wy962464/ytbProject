@@ -64,7 +64,6 @@ function handlerClick() {
             font-weight: 700;
             font-size: 18px;
             text-align: center;
-            letter-spacing: 3px;
             cursor: default;
         }
         .topRightTotal {

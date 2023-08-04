@@ -11,3 +11,9 @@ export function getEnterpriseInfo1(data) {
         isLoading: false
     });
 }
+
+export function getEnterpriseInfo3(data) {
+    return http.get("/getCompanlist3", data, {
+        isLoading: false
+    });
+}

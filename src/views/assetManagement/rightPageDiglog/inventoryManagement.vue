@@ -237,9 +237,9 @@ let tableFromOption = reactive({
     pageSize: 10,
     pageNo: 1,
 });
-const handleCheckChange = (data, checked, indeterminate) => {
+const handleCurrentChange = (data, node) => {
     if (!data.children) {
-        console.log(data, checked, indeterminate);
+        console.log(data, node);
     }
 };
 const handlerClickClassification = () => {
@@ -255,7 +255,7 @@ const handlerClickAdd = () => {
             isShow: true,
             width: 750,
             height: 538,
-            path: '/assetManagement/leftPageDiglog/addAssets',
+            path: '/assetManagement/rightPageDiglog/addAssets',
         },
     });
 };
@@ -274,12 +274,10 @@ const handlerClickAdd = () => {
                         ref="treeRef"
                         :data="data"
                         default-expand-all
-                        check-on-click-node
-                        check-strictly
                         icon="ArrowRightBold"
                         node-key="id"
                         :current-node-key="2"
-                        @check-change="handleCheckChange"
+                        @current-change="handleCurrentChange"
                     >
                         <template v-slot="{ node, data }">
                             <span class="ellipsis" v-text="node.label" :title="node.label"></span>
@@ -375,6 +373,7 @@ const handlerClickAdd = () => {
     .right {
         width: calc(100% - 260px);
         box-sizing: border-box;
+        padding-top: 10px;
     }
 }
 </style>

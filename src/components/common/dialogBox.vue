@@ -2,14 +2,25 @@
 <script setup>
 import { DialogStore } from '@/store/modules/dialog.js';
 import { checkedTypeCellval } from '@/utils/index';
+import { AuthStore } from '@/store/modules/auth.js';
 
 const dialogStore = DialogStore();
+const authStore = AuthStore();
 function handlerClickClose() {
     dialogStore.dialogInfor.isShow = false;
     dialogStore.$reset();
 }
 function handlerSeletTab(obj, index) {
     dialogStore.dialogInfor.tabSeletNum = index;
+    authStore.$patch({ ajaxCount: 0 });
+    // tab切换且清空（终止）上一个页面正在请求的内容
+    if (window._axiosPromiseArr && window._axiosPromiseArr.length > 0) {
+        window._axiosPromiseArr.forEach((ele, index) => {
+            ele.cancel();
+            delete window._axiosPromiseArr[index];
+        });
+    }
+    dialogStore.dialogInfor.tableLoading = false;
 }
 </script>
 
@@ -39,6 +50,7 @@ function handlerSeletTab(obj, index) {
                             @click="handlerSeletTab(item, index)"
                         >
                             {{ item.name }}
+                            <span v-if="item.value">({{ item.value }})</span>
                         </div>
                     </div>
                     <div
@@ -47,7 +59,11 @@ function handlerSeletTab(obj, index) {
                         v-if="dialogStore.dialogInfor.backBtn"
                     ></div>
                 </div>
-                <div class="card-main-bottom">
+                <div
+                    class="card-main-bottom"
+                    v-loading="dialogStore.dialogInfor.tableLoading"
+                    element-loading-background="rgba(0, 0, 0, 0.3)"
+                >
                     <component
                         v-if="checkedTypeCellval(dialogStore.dialogInfor.path) === 'Array'"
                         :is="
@@ -145,7 +161,6 @@ function handlerSeletTab(obj, index) {
                         font-size: 14px;
                         text-align: center;
                         color: #ffffff;
-                        letter-spacing: 2px;
                         &.active {
                             background: url('@/assets/images/pageImages/tabBtnSelet.png') no-repeat;
                             background-size: 100% 100%;

@@ -1,14 +1,36 @@
 <script setup>
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, watchEffect, onMounted } from 'vue';
 import { checkedTypeCellval } from '@/utils/index';
+import { useTableFrom } from '@/utils/tableFromHandler';
 
 const fromRef = ref(null);
+const {
+    tableObj,
+    getTableData,
+    pagination,
+    handlerQueryList,
+    handleCurrentChange,
+    handleResetForm,
+} = useTableFrom(props.tableFromOption.requestTable, props.tableFromOption.modelFormValue);
+watchEffect(() => {
+    if (props.tableFromOption.isShowTable && props.tableFromOption.requestTable) {
+        props.tableFromOption.tableObj.tableData = tableObj.tableData;
+        props.tableFromOption.totalCount = tableObj.totalCount;
+        props.tableFromOption.pageSize = pagination.pageSize;
+        props.tableFromOption.pageNo = pagination.pageNo;
+    }
+});
 const renderDom = {
     props: ['row', 'column', 'render'],
     render: data => {
         return data.render(data.row, data.column);
     },
 };
+onMounted(() => {
+    if (props.tableFromOption.isShowTable && props.tableFromOption.requestTable) {
+        getTableData();
+    }
+});
 /**
  * @description props详情
  * @param tableFromOption.isShowForm 是否显示表单
@@ -28,6 +50,7 @@ const renderDom = {
  * @param tableFromOption.otherBtnList 其他按钮列表
  * @param tableFromOption.moreActionsList 更多操作下拉按钮
  * @param tableFromOption.isShowTable 是否显示表格
+ * @param tableFromOption.requestTable 表格请求地址
  * @param tableFromOption.tableObj 表格数据详情
  * @param tableFromOption.tableObj.headerRowStyle 表格头部行的样式
  * @param tableFromOption.tableObj.headerCellStyle 表格头部单元格的样式
@@ -53,21 +76,18 @@ const emit = defineEmits([
     'handleSelectionChange',
     'handleCellClick',
     'rowClick',
-    'handleCurrentChange',
     'handleSizeChange',
     'handlerClickAdd',
+    'handleCurrentSelect',
 ]);
 const resetForm = () => {
     fromRef.value?.resetFields();
-    props.tableFromOption.pageNo = 1;
-};
-const queryList = () => {
-    const obj = {
-        ...props.tableFromOption.modelFormValue,
-        pageSize: props.tableFromOption.pageSize,
-        pageNo: props.tableFromOption.pageNo,
-    };
-    console.log(obj);
+    for (let key in props.tableFromOption.modelFormValue) {
+        if (checkedTypeCellval(props.tableFromOption.modelFormValue[key]) === 'Undefined') {
+            props.tableFromOption.modelFormValue[key] = '';
+        }
+    }
+    handleResetForm();
 };
 defineExpose({
     resetForm,
@@ -131,10 +151,6 @@ function rowClick(row, column, event) {
         emit('rowClick', row, column, event);
     }
 }
-// 切换页码
-function handleCurrentChange(val) {
-    emit('handleCurrentChange', val);
-}
 // 切换条数
 function handleSizeChange(val) {
     emit('handleSizeChange', val);
@@ -147,9 +163,14 @@ const filterNodeMethod = (value, data, node) => {
     if (!value) return true;
     return data.label.includes(value);
 };
+const handleCurrentSelect = (data, node) => {
+    if (!data.children) {
+        emit('handleCurrentSelect', data);
+    }
+};
 function formatterCellval(row, column, cellValue) {
     if (checkedTypeCellval(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
-        return '-';
+        return '--';
     } else {
         return cellValue;
     }
@@ -280,6 +301,7 @@ function removeDomain(index) {
                                             icon="ArrowRightBold"
                                             filterable
                                             :filter-node-method="filterNodeMethod"
+                                            @current-change="handleCurrentSelect"
                                         >
                                             <template v-slot="{ node, data }">
                                                 <span
@@ -402,7 +424,9 @@ function removeDomain(index) {
                     </el-form>
                     <!-- 查询重置按钮 -->
                     <div class="queryBtnList" v-if="props.tableFromOption.isQueryBtn">
-                        <el-button color="rgba(13, 21, 30, 0)" @click="queryList">查询</el-button>
+                        <el-button color="rgba(13, 21, 30, 0)" @click="handlerQueryList">
+                            查询
+                        </el-button>
                         <el-button color="rgba(13, 21, 30, 0)" @click="resetForm">重置</el-button>
                     </div>
                 </div>
@@ -660,7 +684,6 @@ function removeDomain(index) {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    padding-top: 10px;
     .query_form {
         display: flex;
         justify-content: space-between;

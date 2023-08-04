@@ -16,7 +16,8 @@ export const DialogStore = defineStore({
                 height: 615,
                 // 返回的点击事件
                 handlerClickBack: null,
-                path: null  // Array || String
+                path: null,  // Array || String
+                tableLoading: false
             },
             detailsDialogInfor: {
                 title: "",
@@ -37,7 +38,8 @@ export const DialogStore = defineStore({
                 return state.dialogInfor.path.map(item => {
                     return {
                         name: item.name,
-                        component: item.component ? defineAsyncComponent(modules["/src/views" + item.component + ".vue"]) : undefined
+                        component: item.component ? defineAsyncComponent(modules["/src/views" + item.component + ".vue"]) : undefined,
+                        value: item.value ? item.value : '',
                     }
                 })
             }

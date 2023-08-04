@@ -283,6 +283,7 @@ let tableList = reactive([
             flex-grow: 1;
             box-sizing: border-box;
             padding: 0 15px 10px 15px;
+            overflow: auto;
             table {
                 width: 100%;
                 thead {

@@ -1,4 +1,4 @@
-<!-- 新增应急响应程序 -->
+<!-- 新增资产 -->
 <script setup lang="jsx">
 import { reactive, ref, watch } from 'vue';
 import tableBox from '@/components/common/table.vue';
@@ -15,7 +15,7 @@ let tableFromOption = reactive({
             label: '资产类别：',
             labelWidth: 120,
             prop: 'type',
-            placeholder: '请输入',
+            placeholder: '请选择',
             suffixIcon: 'Search',
             rules: [
                 {

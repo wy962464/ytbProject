@@ -1,6 +1,8 @@
 <script setup>
 import { onActivated, onMounted, onBeforeUnmount, unref, ref, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
+import 'echarts-liquidfill';
+
 const props = defineProps({
     className: {
         type: String,
