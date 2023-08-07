@@ -56,11 +56,10 @@ function handlerClick(ruleForm) {
                 });
                 await initRouter();
                 router.replace('/Home');
-                ElNotification({
-                    title: '',
-                    message: '登陆成功',
+                ElMessage({
                     type: 'success',
                     showClose: false,
+                    message: '登陆成功',
                 });
             } catch (error) {
             } finally {

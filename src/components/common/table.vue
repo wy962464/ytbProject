@@ -5,17 +5,21 @@ import { useTableFrom } from '@/utils/tableFromHandler';
 
 const fromRef = ref(null);
 const {
-    tableObj,
-    getTableData,
+    dataListObj,
+    getDataList,
     pagination,
     handlerQueryList,
     handleCurrentChange,
     handleResetForm,
-} = useTableFrom(props.tableFromOption.requestTable, props.tableFromOption.modelFormValue);
+} = useTableFrom(props.tableFromOption.requestFun, props.tableFromOption.modelFormValue);
 watchEffect(() => {
-    if (props.tableFromOption.isShowTable && props.tableFromOption.requestTable) {
-        props.tableFromOption.tableObj.tableData = tableObj.tableData;
-        props.tableFromOption.totalCount = tableObj.totalCount;
+    if (props.tableFromOption.requestFun) {
+        if (props.tableFromOption.isShowTable) {
+            props.tableFromOption.tableObj.tableData = dataListObj.dataList;
+        } else if (props.tableFromOption.isLibrary) {
+            props.tableFromOption.memberPropertyList = dataListObj.dataList;
+        }
+        props.tableFromOption.totalCount = dataListObj.totalCount;
         props.tableFromOption.pageSize = pagination.pageSize;
         props.tableFromOption.pageNo = pagination.pageNo;
     }
@@ -27,8 +31,11 @@ const renderDom = {
     },
 };
 onMounted(() => {
-    if (props.tableFromOption.isShowTable && props.tableFromOption.requestTable) {
-        getTableData();
+    if (
+        props.tableFromOption.requestFun &&
+        (props.tableFromOption.isShowTable || props.tableFromOption.isLibrary)
+    ) {
+        getDataList();
     }
 });
 /**
@@ -50,7 +57,7 @@ onMounted(() => {
  * @param tableFromOption.otherBtnList 其他按钮列表
  * @param tableFromOption.moreActionsList 更多操作下拉按钮
  * @param tableFromOption.isShowTable 是否显示表格
- * @param tableFromOption.requestTable 表格请求地址
+ * @param tableFromOption.requestFun 请求地址
  * @param tableFromOption.tableObj 表格数据详情
  * @param tableFromOption.tableObj.headerRowStyle 表格头部行的样式
  * @param tableFromOption.tableObj.headerCellStyle 表格头部单元格的样式
@@ -62,6 +69,8 @@ onMounted(() => {
  * @param tableFromOption.tableObj.isSerialNumber 是否显示序号
  * @param tableFromOption.tableObj.operatesBtnObj 表格操作按钮详情
  * @param tableFromOption.tableObj.operatesBtnObj.operatesBtnList 表格操作按钮列表
+ * @param tableFromOption.tableObj.isLibrary  是否显示资产构建库
+ * @param tableFromOption.memberPropertyList  资产构建库列表
  * @param tableFromOption.totalCount 总数
  * @param tableFromOption.pageSize 每页条数
  * @param tableFromOption.pageNo 页码
@@ -654,6 +663,23 @@ function removeDomain(index) {
                 </el-table>
             </div>
         </template>
+        <!-- 资产构件库 -->
+        <template v-if="props.tableFromOption.isLibrary">
+            <div class="query_library">
+                <el-scrollbar>
+                    <div class="libraryBox_main">
+                        <div
+                            class="libraryBox"
+                            v-for="item in props.tableFromOption.memberPropertyList"
+                            :key="item.name"
+                        >
+                            <el-image fit="cover" :src="item.url" />
+                            <div class="lable">{{ item.name }}</div>
+                        </div>
+                    </div>
+                </el-scrollbar>
+            </div>
+        </template>
         <!-- pagination 分页 -->
         <template v-if="props.tableFromOption.totalCount">
             <div class="query_pagination">
@@ -720,6 +746,40 @@ function removeDomain(index) {
             font-size: 12px;
             font-family: PingFang SC;
             color: #ffffff;
+        }
+    }
+    .query_library {
+        height: 0;
+        flex-grow: 1;
+        width: 100%;
+        .libraryBox_main {
+            height: 100%;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px 20px;
+            .libraryBox {
+                height: 270px;
+                width: 300px;
+                box-shadow: 0 0 30px 0 #041d2c inset;
+                position: relative;
+                .el-image {
+                    height: 100%;
+                    width: 100%;
+                }
+                .lable {
+                    position: absolute;
+                    bottom: 0;
+                    height: 40px;
+                    width: 100%;
+                    background: #023240d8;
+                    font-weight: 500;
+                    font-size: 16px;
+                    text-align: center;
+                    color: #ffffff;
+                    line-height: 40px;
+                }
+            }
         }
     }
     .query_pagination {

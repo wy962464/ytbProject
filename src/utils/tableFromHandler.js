@@ -3,8 +3,8 @@ import { DialogStore } from '@/store/modules/dialog.js';
 
 const dialogStore = DialogStore();
 export function useTableFrom(request, formObj) {
-    let tableObj = reactive({
-        tableData: [],
+    let dataListObj = reactive({
+        dataList: [],
         totalCount: 0, // 总数
     })
     let pagination = reactive({
@@ -12,21 +12,20 @@ export function useTableFrom(request, formObj) {
         pageSize: 10
     })
     // 查询表格数据
-    async function getTableData() {
+    async function getDataList() {
         dialogStore.$patch({
             dialogInfor: {
                 tableLoading: true,
             },
         });
         try {
-            const { data: tableData } = await request({ ...formObj, ...pagination })
-            console.log(tableData);
-            if (Reflect.has(tableData, 'result')) {
-                let { result, totalCount } = tableData;
-                tableObj.tableData = result
-                tableObj.totalCount = 200
+            const { data: dataList } = await request({ ...formObj, ...pagination })
+            if (Reflect.has(dataList, 'result')) {
+                let { result, totalCount } = dataList;
+                dataListObj.dataList = result
+                dataListObj.totalCount = 200
             } else {
-                tableObj.tableData = tableData.data
+                dataListObj.dataList = dataList.data
             }
         } catch (e) {
             console.error(e);
@@ -40,23 +39,23 @@ export function useTableFrom(request, formObj) {
     // 查询方法
     function handlerQueryList() {
         pagination.pageNo = 1
-        getTableData()
+        getDataList()
     }
     // 重置表单
     function handleResetForm() {
         pagination.pageNo = 1;
         pagination.pageSize = 10;
-        getTableData()
+        getDataList()
     }
     // 切换页码
     function handleCurrentChange(val) {
         pagination.pageNo = val
-        getTableData()
+        getDataList()
     }
     return {
-        tableObj,
+        dataListObj,
         pagination,
-        getTableData,
+        getDataList,
         handlerQueryList,
         handleCurrentChange,
         handleResetForm

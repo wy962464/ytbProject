@@ -14,39 +14,39 @@ let procedureOption = reactive([{}, {}, {}, {}, {}]);
         <div class="top">
             <ul class="topList">
                 <li>
-                    <span class="label">警报编号：</span>
+                    <span class="label">单号：</span>
                     <span class="value">RC-20230323-232</span>
                 </li>
                 <li>
-                    <span class="label">告警源设备：</span>
+                    <span class="label">当前状态：</span>
                     <span class="value">设备XXX</span>
                 </li>
                 <li>
-                    <span class="label">警报类型：</span>
+                    <span class="label">申请人：</span>
                     <span class="value">应急预案</span>
                 </li>
                 <li>
-                    <span class="label">警报状态：</span>
+                    <span class="label">申请时间：</span>
                     <span class="value">已处理</span>
                 </li>
                 <li>
-                    <span class="label">初始警报等级：</span>
+                    <span class="label">设备名称：</span>
                     <span class="value">严重</span>
                 </li>
                 <li>
-                    <span class="label">现警报等级：</span>
+                    <span class="label">设备编码：</span>
                     <span class="value">--</span>
                 </li>
                 <li>
-                    <span class="label">告警触发时间：</span>
+                    <span class="label">具体位置：</span>
                     <span class="value">2023-03-23 09:46:15.89</span>
                 </li>
                 <li>
-                    <span class="label">告警恢复时间：</span>
+                    <span class="label">问题描述：</span>
                     <span class="value">2023-06-27 14:57:41.12</span>
                 </li>
                 <li>
-                    <span class="label">告警描述：</span>
+                    <span class="label">问题备注：</span>
                     <span class="value">应急预案已启动：充电车辆起火应急预案</span>
                 </li>
             </ul>

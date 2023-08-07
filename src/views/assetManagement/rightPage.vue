@@ -147,6 +147,18 @@ const handlerAssetRepair = index => {
         },
     });
 };
+const handlerClickMeansBIM = () => {};
+const handlerClickMember = () => {
+    dialogStore.$patch({
+        dialogInfor: {
+            title: '资产构件库',
+            isShow: true,
+            width: 1300,
+            height: 685,
+            path: '/assetManagement/rightPageDiglog/memberProperty',
+        },
+    });
+};
 </script>
 
 <template>
@@ -203,14 +215,14 @@ const handlerAssetRepair = index => {
             <template #main>
                 <div class="meansBIM">
                     <div class="left">
-                        <div class="top" @click="handlerClickInventory">
+                        <div class="top" @click="handlerClickMeansBIM">
                             <p>资产BIM</p>
                             <div class="images"></div>
                         </div>
                         <img :src="getImageUrl('homeImages/assetManagement/meansBIM.png')" alt="" />
                     </div>
                     <div class="right">
-                        <div class="top" @click="handlerClickSpace">
+                        <div class="top" @click="handlerClickMember">
                             <p>资产构件库</p>
                             <div class="images"></div>
                         </div>
