@@ -141,7 +141,30 @@ export const AuthStore = defineStore({
                                     path: "/assetManagement/rightPage",
                                     isShow: true
                                 }
-                            }
+                            },
+                            children: [
+                                {
+                                    path: "/assetMeansBIM",
+                                    name: "assetMeansBIM",
+                                    component: "/assetManagement/rightPageDiglog/assetMeansBIM",
+                                    meta: {
+                                        title: "资产BIM",
+                                        isModel: true,
+                                        leftSidebar: {
+                                            path: "",
+                                            isShow: false
+                                        },
+                                        centerSidebar: {
+                                            path: "",
+                                            isShow: false
+                                        },
+                                        rightSidebar: {
+                                            path: "",
+                                            isShow: false
+                                        }
+                                    }
+                                }
+                            ]
                         },
                         // 车场安全-应急事件-应急事件详情
                         {

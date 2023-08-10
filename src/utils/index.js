@@ -7,6 +7,17 @@ export function getFlatArr(menuList = []) {
         return flatArr;
     }, []);
 }
+// 递归查询当前路径所对应的顶级菜单对象
+export function findMenuByPath(menuList, path) {
+    for (const item of menuList) {
+        if (item.path === path) return item;
+        if (item.children) {
+            const res = findMenuByPath(item.children, path);
+            if (res) return item;
+        }
+    }
+    return null;
+}
 // 过滤 isHide == true (需要显示的菜单)
 export function showMenuList(menuList = []) {
     let newMenuList = JSON.parse(JSON.stringify(menuList));

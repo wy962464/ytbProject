@@ -47,6 +47,7 @@ watch(
 const fileBeforeUpload = rawFile => {
     return new Promise((resolve, reject) => {
         const filSize = rawFile.size / 1024 / 1024 < 3;
+        console.log(rawFile.type);
         const filType = props.accept.includes(rawFile.type);
         if (!filSize) {
             setTimeout(() => {
@@ -57,7 +58,18 @@ const fileBeforeUpload = rawFile => {
                 });
             }, 0);
             return reject(false);
-        } else {
+        }
+        //  else if (!filType) {
+        //     setTimeout(() => {
+        //         ElNotification({
+        //             title: '温馨提示',
+        //             message: `文件${rawFile.name}类型错误,只能上传${props.accept}类型的文件！`,
+        //             type: 'warning',
+        //         });
+        //     }, 0);
+        //     return reject(false);
+        // }
+        else {
             return resolve(true);
         }
     });
@@ -82,7 +94,6 @@ const handleExceed = files => {
 };
 // 文件上传错误
 const uploadError = (error, uploadFile, uploadFiles) => {
-    console.log(error, uploadFile, uploadFiles);
     setTimeout(() => {
         ElNotification({
             title: '温馨提示',

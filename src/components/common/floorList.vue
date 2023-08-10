@@ -61,25 +61,29 @@ function handlerClickStatus(value) {
             right: `${props.right}px`,
         }"
     >
-        <button
-            class="floorStyle"
-            v-for="item in floorList"
-            :key="item.name"
-            :class="{ active: item.name === floorNum }"
-            @click="handlerClick(item)"
-        >
-            {{ item.floorName }}
-        </button>
-        <button
-            class="statusStyle"
-            v-for="item in statusBtn"
-            :key="item.key"
-            :class="{ active: item.key === statusNum }"
-            @click="handlerClickStatus(item)"
-        >
-            <img :src="getImageUrl(item.iconUrl)" alt="" />
-            <div>{{ item.name }}</div>
-        </button>
+        <div class="floorBtn">
+            <button
+                class="floorStyle"
+                v-for="item in floorList"
+                :key="item.name"
+                :class="{ active: item.name === floorNum }"
+                @click="handlerClick(item)"
+            >
+                {{ item.floorName }}
+            </button>
+        </div>
+        <div class="statusBtn">
+            <button
+                class="statusStyle"
+                v-for="item in statusBtn"
+                :key="item.key"
+                :class="{ active: item.key === statusNum }"
+                @click="handlerClickStatus(item)"
+            >
+                <img :src="getImageUrl(item.iconUrl)" alt="" />
+                <div>{{ item.name }}</div>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -95,48 +99,65 @@ function handlerClickStatus(value) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .floorStyle {
-        border: none;
-        width: 70px;
-        height: 29px;
-        background: url('@/assets/images/pageImages/floorBtn.png') no-repeat;
-        background-size: 100% 100%;
-        color: #ffffff;
-        letter-spacing: 3px;
-        margin-bottom: 10px;
-        &.active {
-            width: 80px;
-            background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
+    .floorBtn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .floorStyle {
+            border: none;
+            width: 70px;
+            height: 29px;
+            background: url('@/assets/images/pageImages/floorBtn.png') no-repeat;
             background-size: 100% 100%;
-            color: #28dd86;
+            color: #ffffff;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            &.active {
+                width: 80px;
+                background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
+                background-size: 100% 100%;
+                color: #28dd86;
+            }
+            &:last-child {
+                margin-bottom: 0px;
+            }
         }
     }
-    .statusStyle {
-        border: none;
-        width: 70px;
-        height: 29px;
-        background: url('@/assets/images/pageImages/floorBtn.png') no-repeat;
-        background-size: 100% 100%;
-        color: #ffffff;
-        letter-spacing: 3px;
-        margin-bottom: 10px;
+    .statusBtn {
+        margin-top: 38px;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        img {
-            margin-right: 7px;
-        }
-        &:hover {
-            width: 80px;
-            background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
+        .statusStyle {
+            border: none;
+            width: 70px;
+            height: 29px;
+            background: url('@/assets/images/pageImages/floorBtn.png') no-repeat;
             background-size: 100% 100%;
-            color: #28dd86;
-        }
-        &.active {
-            width: 80px;
-            background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
-            background-size: 100% 100%;
-            color: #28dd86;
+            color: #ffffff;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                margin-right: 7px;
+            }
+            // &:hover {
+            //     width: 80px;
+            //     background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
+            //     background-size: 100% 100%;
+            //     color: #28dd86;
+            // }
+            &.active {
+                width: 80px;
+                background: url('@/assets/images/pageImages/floorBtnSelet.png') no-repeat;
+                background-size: 100% 100%;
+                color: #28dd86;
+            }
+            &:last-child {
+                margin-bottom: 0px;
+            }
         }
     }
 }

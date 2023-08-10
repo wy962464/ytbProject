@@ -14,7 +14,14 @@ const authStore = AuthStore();
         <div class="content_model">
             <Model />
         </div>
-        <div class="content_card">
+        <div
+            class="content_card"
+            v-if="
+                (sidebarStore.leftSidebar.isShow && sidebarStore.leftSidebar.path) ||
+                (sidebarStore.centerSidebar.isShow && sidebarStore.centerSidebar.path) ||
+                (sidebarStore.rightSidebar.isShow && sidebarStore.rightSidebar.path)
+            "
+        >
             <!-- 左侧边栏 -->
             <div
                 class="leftSidebar"
@@ -42,6 +49,15 @@ const authStore = AuthStore();
                     <component :is="sidebarStore.getRightSidebarPath"></component>
                 </transition>
             </div>
+        </div>
+        <div v-else class="content_card">
+            <router-view v-slot="{ Component, route }">
+                <transition appear name="left-transform" mode="out-in">
+                    <keep-alive :include="authStore.getKeepAliveName">
+                        <component :is="Component" :key="route.path" />
+                    </keep-alive>
+                </transition>
+            </router-view>
         </div>
         <div class="frameLeft">
             <div class="frameLeftBg"></div>
@@ -72,7 +88,7 @@ const authStore = AuthStore();
 
 <style scoped lang="scss">
 .content {
-    height: calc(100% - 20px);
+    height: calc(100% - 30px);
     width: 100%;
     position: relative;
     box-sizing: border-box;
@@ -151,7 +167,7 @@ const authStore = AuthStore();
     }
 }
 .contents {
-    height: calc(100% - 20px);
+    height: calc(100% - 30px);
     width: 100%;
     position: relative;
     box-sizing: border-box;
@@ -194,12 +210,13 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 20px;
+    height: 30px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 10px;
+    background: #00000000;
 }
 
 /* left-transform */

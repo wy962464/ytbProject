@@ -5,8 +5,10 @@ import { getImageUrl } from '@/utils';
 import { DialogStore } from '@/store/modules/dialog.js';
 import Echarts from '@/components/common/Echarts.vue';
 import { assetRepair } from '@/utils/echartsJson.js';
+import { useRouter } from 'vue-router';
 
 const dialogStore = DialogStore();
+const router = useRouter();
 const cardPropsTop = reactive({
     title: '资产管理',
 });
@@ -147,7 +149,9 @@ const handlerAssetRepair = index => {
         },
     });
 };
-const handlerClickMeansBIM = () => {};
+const handlerClickMeansBIM = () => {
+    router.replace('/assetMeansBIM');
+};
 const handlerClickMember = () => {
     dialogStore.$patch({
         dialogInfor: {

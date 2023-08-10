@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router';
 import { UserStore } from '@/store/modules/user.js';
 import { AuthStore } from '@/store/modules/auth.js';
+import { findMenuByPath } from '@/utils/index.js';
 
 const router = useRouter();
 const userStore = UserStore();
@@ -17,7 +18,7 @@ authStore.getShowMenuList.map((item, index) => {
     }
 });
 function handlerClick(value) {
-    router.push({ name: value.name });
+    router.replace({ name: value.name });
 }
 function handlerClicks() {
     userStore.$reset();
@@ -30,7 +31,11 @@ function handlerClicks() {
         <div v-if="authStore.routePath !== '/detailsEmergencyEvents'">
             <button
                 class="leftBtn"
-                :class="{ active: item.path == authStore.routePath }"
+                :class="{
+                    active:
+                        item.path ==
+                        findMenuByPath(authStore.getAuthMenuList, authStore.routePath).path,
+                }"
                 v-for="item in leftBtnList"
                 :key="item.path"
                 type="primary"
@@ -42,7 +47,11 @@ function handlerClicks() {
         <div v-if="authStore.routePath !== '/detailsEmergencyEvents'">
             <button
                 class="rightBtn"
-                :class="{ active: item.path == authStore.routePath }"
+                :class="{
+                    active:
+                        item.path ==
+                        findMenuByPath(authStore.getAuthMenuList, authStore.routePath).path,
+                }"
                 v-for="item in rightBtnList"
                 :key="item.path"
                 type="primary"
