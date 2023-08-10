@@ -399,7 +399,7 @@ export const optionsFold = {
         },
         backgroundColor: '#001e28',
         borderColor: '#4d989b',
-        extraCssText: 'box-shadow: 0 0 4px 4px rgba(77, 152, 155, 0.3);',
+        extraCssText: 'box-shadow: 0 0 4px 4px rgba(77, 152, 155, 0.3)',
         textStyle: {
             color: '#fff',
         },

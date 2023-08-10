@@ -2,8 +2,10 @@
 import { ref, nextTick, watchEffect, onMounted } from 'vue';
 import { checkedTypeCellval } from '@/utils/index';
 import { useTableFrom } from '@/utils/tableFromHandler';
+import uploadFile from '@/components/common/uploadFile.vue';
 
 const fromRef = ref(null);
+const uploadRef = ref(null);
 const {
     dataListObj,
     getDataList,
@@ -17,7 +19,7 @@ watchEffect(() => {
         if (props.tableFromOption.isShowTable) {
             props.tableFromOption.tableObj.tableData = dataListObj.dataList;
         } else if (props.tableFromOption.isLibrary) {
-            props.tableFromOption.memberPropertyList = dataListObj.dataList;
+            props.tableFromOption.libraryObj.memberPropertyList = dataListObj.dataList;
         }
         props.tableFromOption.totalCount = dataListObj.totalCount;
         props.tableFromOption.pageSize = pagination.pageSize;
@@ -70,7 +72,8 @@ onMounted(() => {
  * @param tableFromOption.tableObj.operatesBtnObj 表格操作按钮详情
  * @param tableFromOption.tableObj.operatesBtnObj.operatesBtnList 表格操作按钮列表
  * @param tableFromOption.tableObj.isLibrary  是否显示资产构建库
- * @param tableFromOption.memberPropertyList  资产构建库列表
+ * @param tableFromOption.libraryObj.memberPropertyList  资产构建库列表
+ * @param tableFromOption.libraryObj.isMemberClick 是否需要点击事件
  * @param tableFromOption.totalCount 总数
  * @param tableFromOption.pageSize 每页条数
  * @param tableFromOption.pageNo 页码
@@ -88,6 +91,7 @@ const emit = defineEmits([
     'handleSizeChange',
     'handlerClickAdd',
     'handleCurrentSelect',
+    'handlerClickMember',
 ]);
 const resetForm = () => {
     fromRef.value?.resetFields();
@@ -98,10 +102,6 @@ const resetForm = () => {
     }
     handleResetForm();
 };
-defineExpose({
-    resetForm,
-    fromRef,
-});
 // 转换el-date-picker type="month" 时 月份不为数字
 const monthObj = {
     一月: '01月',
@@ -168,6 +168,12 @@ function handleSizeChange(val) {
 function handlerClickAdd() {
     emit('handlerClickAdd');
 }
+// 资产构件库点击事件
+const handlerClickMember = item => {
+    if (props.tableFromOption.libraryObj.isMemberClick) {
+        emit('handlerClickMember', item);
+    }
+};
 const filterNodeMethod = (value, data, node) => {
     if (!value) return true;
     return data.label.includes(value);
@@ -191,6 +197,11 @@ function removeDomain(index) {
         ElMessage.warning('已经是最后一个了');
     }
 }
+defineExpose({
+    resetForm,
+    fromRef,
+    uploadRef,
+});
 </script>
 
 <template>
@@ -253,6 +264,10 @@ function removeDomain(index) {
                                     :prop="item.prop"
                                     :rules="item.rules"
                                     :label-width="`${item.labelWidth}px`"
+                                    :style="{
+                                        alignItems:
+                                            item.type == 'uploadFile' ? 'flex-start' : 'center',
+                                    }"
                                 >
                                     <!-- 输入框 -->
                                     <template v-if="item.type === 'input'">
@@ -423,6 +438,71 @@ function removeDomain(index) {
                                             prefix-icon=""
                                         />
                                     </template>
+                                    <!-- 文件上传 -->
+                                    <template v-if="item.type === 'uploadFile'">
+                                        <uploadFile
+                                            ref="uploadRef"
+                                            v-model:file-list="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :style="item.style"
+                                            :drag="item.drag"
+                                            :accept="item.accept"
+                                            :limit="item.limit"
+                                        >
+                                            <template #content v-if="item.limit === 18">
+                                                <div class="leftContent">
+                                                    <div
+                                                        class="text"
+                                                        v-if="
+                                                            props.tableFromOption.modelFormValue[
+                                                                `${item.prop}`
+                                                            ] &&
+                                                            props.tableFromOption.modelFormValue[
+                                                                `${item.prop}`
+                                                            ].length > 0
+                                                        "
+                                                    >
+                                                        {{
+                                                            props.tableFromOption.modelFormValue[
+                                                                `${item.prop}`
+                                                            ][0].name
+                                                        }}
+                                                    </div>
+                                                    <div class="text" v-else>-模型</div>
+                                                </div>
+                                            </template>
+                                            <template #tip v-if="item.limit === 1">
+                                                <div class="el-upload__tip uploadTip">
+                                                    <div class="icon"></div>
+                                                    <div
+                                                        class="text"
+                                                        v-if="
+                                                            props.tableFromOption.modelFormValue[
+                                                                `${item.prop}`
+                                                            ] &&
+                                                            props.tableFromOption.modelFormValue[
+                                                                `${item.prop}`
+                                                            ].length > 0
+                                                        "
+                                                    >
+                                                        {{
+                                                            props.tableFromOption.modelFormValue[
+                                                                `${item.prop}`
+                                                            ][0].name
+                                                        }}
+                                                    </div>
+                                                    <div class="text" v-else>
+                                                        {{
+                                                            item.rules && item.rules.length > 0
+                                                                ? item.rules[0].message
+                                                                : '请选择文件'
+                                                        }}
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </uploadFile>
+                                    </template>
                                     <!-- vnodes -->
                                     <template v-if="item.type === 'vnodes'">
                                         <renderDom :render="item.render"></renderDom>
@@ -440,7 +520,7 @@ function removeDomain(index) {
                     </div>
                 </div>
                 <!-- 操作按钮 -->
-                <div class="operateBtnList" v-if="props.tableFromOption.isShowOperateBtn">
+                <div v-if="props.tableFromOption.isShowOperateBtn">
                     <!-- 基本操作按钮 -->
                     <template v-if="props.tableFromOption.isBasicOperateBtn">
                         <el-button
@@ -479,7 +559,7 @@ function removeDomain(index) {
                         "
                     >
                         <el-dropdown trigger="click" popper-class="dropdownPopperClass">
-                            <el-button type="primary">更多操作</el-button>
+                            <el-button color="rgba(13, 21, 30, 0)">更多操作</el-button>
                             <template #dropdown>
                                 <el-dropdown-menu>
                                     <el-dropdown-item
@@ -517,7 +597,7 @@ function removeDomain(index) {
                         height: '10px',
                         fontSize: '12px',
                         padding: '3px 0',
-                        cursor: props.tableFromOption.tableObj.isRowClick ? 'pointer' : '',
+                        cursor: props.tableFromOption.tableObj.isRowClick ? 'pointer' : 'default',
                         ...props.tableFromOption.tableObj.cellStyle,
                     }"
                     @selection-change="handleSelectionChange"
@@ -670,8 +750,14 @@ function removeDomain(index) {
                     <div class="libraryBox_main">
                         <div
                             class="libraryBox"
-                            v-for="item in props.tableFromOption.memberPropertyList"
+                            v-for="item in props.tableFromOption.libraryObj.memberPropertyList"
                             :key="item.name"
+                            :style="{
+                                cursor: props.tableFromOption.libraryObj.isMemberClick
+                                    ? 'pointer'
+                                    : 'default',
+                            }"
+                            @click="handlerClickMember(item)"
                         >
                             <el-image fit="cover" :src="item.url" />
                             <div class="lable">{{ item.name }}</div>
@@ -722,7 +808,6 @@ function removeDomain(index) {
                 flex-wrap: wrap;
                 .el-form-item {
                     margin-right: 10px;
-                    align-items: center;
                     :deep(.el-form-item__label) {
                         font-weight: 400;
                         font-size: 12px;
@@ -846,5 +931,32 @@ function removeDomain(index) {
 }
 :deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner::before) {
     background-color: rgba(0, 0, 0, 0);
+}
+.uploadTip {
+    height: 32px;
+    background: rgb(3, 25, 29);
+    font-weight: 400;
+    font-size: 12px;
+    text-align: left;
+    color: #ffffff;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    .text {
+        margin-left: 6px;
+    }
+    .icon {
+        width: 12px;
+        height: 12px;
+        background: url('@/assets/images/homeImages/assetManagement/lianjie.png') no-repeat;
+        background-size: 100% 100%;
+    }
+}
+.leftContent {
+    margin: 0 20px 0 10px;
+    font-weight: 400;
+    font-size: 12px;
+    text-align: left;
+    color: #ffffff;
 }
 </style>

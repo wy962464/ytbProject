@@ -130,7 +130,6 @@
   font-size: 12px;
   text-align: center;
   color: #ffffff;
-  letter-spacing: 2px;
 
   &:hover {
     color: #00ff84;
@@ -152,10 +151,6 @@
 // --------- el-dropdown 下拉菜单样式的修改   ---------
 .el-dropdown {
   margin-left: 10px;
-
-  .el-button--primary {
-    --el-button-bg-color: rgba(13, 21, 30, 0);
-  }
 
   .el-button:focus-visible {
     outline: 0px solid var(--el-button-outline-color);

@@ -2,7 +2,9 @@
 <script setup>
 import tableBox from '@/components/common/table.vue';
 import { reactive } from 'vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
@@ -19,17 +21,40 @@ let tableFromOption = reactive({
             },
         },
     ],
-    memberPropertyList: [
-        {
-            name: '鹿',
-            url: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-        },
-    ],
+    libraryObj: {
+        memberPropertyList: [
+            {
+                name: '鹿',
+                url: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+            },
+            {
+                name: '鹿',
+                url: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+            },
+            {
+                name: '鹿',
+                url: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+            },
+            {
+                name: '鹿',
+                url: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+            },
+        ],
+        isMemberClick: true,
+    },
     otherBtnList: [
         {
             name: '新增',
             handlerClick: () => {
-                alert('新增');
+                dialogStore.$patch({
+                    detailsDialogInfor: {
+                        title: '新增资产构件',
+                        isShow: true,
+                        width: 700,
+                        height: 466,
+                        path: '/assetManagement/rightPageDiglog/addMemberProperty',
+                    },
+                });
             },
         },
     ],
@@ -37,11 +62,18 @@ let tableFromOption = reactive({
     pageSize: 10,
     pageNo: 1,
 });
+const handlerClickMember = item => {
+    alert(JSON.stringify(item));
+};
 </script>
 
 <template>
     <div class="memberProperty">
-        <tableBox ref="tableFromRef" v-model:tableFromOption="tableFromOption" />
+        <tableBox
+            ref="tableFromRef"
+            v-model:tableFromOption="tableFromOption"
+            @handlerClickMember="handlerClickMember"
+        />
     </div>
 </template>
 
