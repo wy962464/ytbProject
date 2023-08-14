@@ -38,17 +38,20 @@ export function useTableFrom(request, formObj) {
     }
     // 查询方法
     function handlerQueryList() {
+        if (!request) return
         pagination.pageNo = 1
         getDataList()
     }
     // 重置表单
     function handleResetForm() {
+        if (!request) return
         pagination.pageNo = 1;
         pagination.pageSize = 10;
         getDataList()
     }
     // 切换页码
     function handleCurrentChange(val) {
+        if (!request) return
         pagination.pageNo = val
         getDataList()
     }

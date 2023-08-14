@@ -7,6 +7,7 @@ import { findMenuByPath } from '@/utils/index.js';
 const router = useRouter();
 const userStore = UserStore();
 const authStore = AuthStore();
+const isShowHeaderBtn = ['/detailsEmergencyEvents', '/setUp'];
 let leftBtnList = [];
 let rightBtnList = [];
 authStore.getShowMenuList.map((item, index) => {
@@ -24,11 +25,15 @@ function handlerClicks() {
     userStore.$reset();
     router.replace('/login');
 }
+const handlerClickSetUp = () => {
+    const { href } = router.resolve({ name: 'setUp' });
+    window.open(href, '_blank');
+};
 </script>
 
 <template>
     <div class="btnList">
-        <div v-if="authStore.routePath !== '/detailsEmergencyEvents'">
+        <div v-if="!isShowHeaderBtn.includes(authStore.routePath)">
             <button
                 class="leftBtn"
                 :class="{
@@ -44,7 +49,7 @@ function handlerClicks() {
                 {{ item.meta.title }}
             </button>
         </div>
-        <div v-if="authStore.routePath !== '/detailsEmergencyEvents'">
+        <div v-if="!isShowHeaderBtn.includes(authStore.routePath)">
             <button
                 class="rightBtn"
                 :class="{
@@ -60,6 +65,11 @@ function handlerClicks() {
                 {{ item.meta.title }}
             </button>
         </div>
+        <div
+            class="setUp"
+            @click="handlerClickSetUp"
+            v-if="!isShowHeaderBtn.includes(authStore.routePath)"
+        ></div>
     </div>
 </template>
 
@@ -73,9 +83,17 @@ function handlerClicks() {
     align-items: flex-end;
     background: url('@/assets/images/pageImages/header.png') no-repeat;
     background-size: 100% 100%;
-    padding-bottom: 10px;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding: 0 200px 10px 200px;
+    position: relative;
+    .setUp {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: url('@/assets/images/pageImages/setUp.png') no-repeat;
+        background-size: 100% 100%;
+        right: 30px;
+        cursor: pointer;
+    }
 }
 .leftBtn {
     border: none;

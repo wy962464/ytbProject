@@ -6,6 +6,7 @@ import DetailsDialogBox from '@/components/common/detailsDialogBox.vue';
 import { AuthStore } from '@/store/modules/auth.js';
 
 const authStore = AuthStore();
+const isShowHeaderBtn = ['/detailsEmergencyEvents', '/setUp'];
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const authStore = AuthStore();
         </header>
         <main
             :style="{
-                background: authStore.routePath === '/detailsEmergencyEvents' ? '#020c17' : '',
+                background: isShowHeaderBtn.includes(authStore.routePath) ? '#020c17' : '',
             }"
         >
             <mains />

@@ -1,9 +1,16 @@
 <!-- 详细信息样式 -->
-<script setup></script>
+<script setup>
+const props = defineProps({
+    isShowTitle: {
+        type: Boolean,
+        default: true,
+    },
+});
+</script>
 
 <template>
     <div class="details">
-        <div class="card-title">
+        <div class="card-title" v-if="props.isShowTitle">
             <div class="card-name">
                 <slot name="name"></slot>
             </div>
@@ -20,8 +27,9 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding-top: 20px;
     box-shadow: 0 0 30px 0 #041d2c inset;
+    display: flex;
+    flex-direction: column;
     .card-title {
         width: 100%;
         height: 22px;
@@ -30,6 +38,7 @@
         justify-content: center;
         padding-left: 10px;
         box-sizing: border-box;
+        margin-top: 20px;
         .card-name {
             height: 16px;
             line-height: 16px;
@@ -57,9 +66,10 @@
     }
     .card-main {
         box-sizing: border-box;
-        height: calc(100% - 22px);
+        flex-grow: 1;
+        height: 0;
         width: 100%;
-        padding: 20px 10px 0 10px;
+        padding: 20px 10px 10px 10px;
         font-weight: 400;
         font-size: 14px;
         text-align: left;

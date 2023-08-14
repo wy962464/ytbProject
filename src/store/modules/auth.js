@@ -189,6 +189,29 @@ export const AuthStore = defineStore({
                                 }
                             }
                         },
+                        // 设置
+                        {
+                            path: "/setUp",
+                            name: "setUp",
+                            component: "/setUp/index",
+                            meta: {
+                                isHide: true,
+                                title: "",
+                                isModel: false,
+                                leftSidebar: {
+                                    path: "",
+                                    isShow: false
+                                },
+                                centerSidebar: {
+                                    path: "",
+                                    isShow: false
+                                },
+                                rightSidebar: {
+                                    path: "",
+                                    isShow: false
+                                }
+                            }
+                        },
                     ]
                     resolve(routerLists)
                 }, 2000)

@@ -22,11 +22,13 @@ const props = defineProps({
         default: '',
     },
 });
+const emit = defineEmits(['handlerClickTree']);
 const floorList = floorData.value;
 let floorNum = ref(null);
 let statusNum = ref(null);
 function handlerClick(value) {
     floorNum.value = value.name;
+    emit('handlerClickTree', value);
     buttonClick(value);
 }
 let statusBtn = [

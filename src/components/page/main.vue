@@ -52,11 +52,9 @@ const authStore = AuthStore();
         </div>
         <div v-else class="content_card">
             <router-view v-slot="{ Component, route }">
-                <transition appear name="left-transform" mode="out-in">
-                    <keep-alive :include="authStore.getKeepAliveName">
-                        <component :is="Component" :key="route.path" />
-                    </keep-alive>
-                </transition>
+                <keep-alive :include="authStore.getKeepAliveName">
+                    <component :is="Component" :key="route.path" />
+                </keep-alive>
             </router-view>
         </div>
         <div class="frameLeft">
