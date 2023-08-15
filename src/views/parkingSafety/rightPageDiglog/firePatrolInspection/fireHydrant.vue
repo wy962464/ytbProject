@@ -191,7 +191,7 @@ let tableFromOption = reactive({
         isSerialNumber: true,
     },
     totalCount: 5,
-    pageSize: 13,
+    pageSize: 10,
     pageNo: 1,
 });
 </script>

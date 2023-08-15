@@ -342,7 +342,7 @@ let tableFromOption = reactive({
         isRowClick: true,
     },
     totalCount: 23,
-    pageSize: 13,
+    pageSize: 10,
     pageNo: 1,
 });
 let details = reactive({

@@ -237,6 +237,8 @@ body {
         border-collapse: separate;
         border-spacing: 0px 0px;
 
+
+
         td.today .cell {
           color: #075739;
         }
@@ -357,6 +359,7 @@ body {
 
         td.current:not(.disabled) .el-date-table-cell__text {
           background-color: #075739;
+          color: #FFFFFF;
         }
 
         td.today .el-date-table-cell__text {
@@ -400,6 +403,11 @@ body {
   .current {
     border-radius: 0;
     background-color: #075739;
+
+    .cell {
+      color: #FFFFFF !important;
+    }
+
   }
 
   .el-popper__arrow {

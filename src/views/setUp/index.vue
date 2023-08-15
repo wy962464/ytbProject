@@ -1,54 +1,25 @@
 <!-- 设置 -->
 <script setup>
 import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
-import calendar from '@/components/common/calendar.vue';
+import systemMain from '@/components/common/systemMain.vue';
 import { reactive } from 'vue';
-const calendarOptions = reactive({
-    dateTime: new Date('2023-09-12'),
-    dataArr: [
+
+const systemMainOption = reactive({
+    path: [
         {
-            date: '2023-08-14',
-            starTime: '10:00',
-            endTime: '10:30',
-            name: '接待室',
-            content: '张多多/项目会议',
+            name: '所有预约',
+            component: '/setUp/conferenceRoom/allAppointments',
         },
         {
-            date: '2023-08-20',
-            starTime: '09:00',
-            endTime: '12:00',
-            name: '接待室',
-            content: '张多多/项目会议',
+            name: '我的预约',
+            component: '/setUp/conferenceRoom/myAppointment',
         },
         {
-            date: '2023-08-18',
-            starTime: '12:00',
-            endTime: '12:30',
-            name: '接待室',
-            content: '张多多/项目会议',
-        },
-        {
-            date: '2023-08-18',
-            starTime: '15:00',
-            endTime: '16:30',
-            name: '接待室',
-            content: '张多多/项目会议',
-        },
-        {
-            date: '2023-06-18',
-            starTime: '08:00',
-            endTime: '12:30',
-            name: '接待室',
-            content: '张多多/项目会议',
-        },
-        {
-            date: '2023-09-10',
-            starTime: '15:00',
-            endTime: '19:00',
-            name: '接待室',
-            content: '张多多/项目会议',
+            name: '会议审批',
+            component: '/setUp/conferenceRoom/meetingApproval',
         },
     ],
+    tabSeletNum: 0,
 });
 </script>
 
@@ -62,7 +33,10 @@ const calendarOptions = reactive({
         <div class="setUp_right">
             <detailsInforStyle :isShowTitle="false">
                 <template #main>
-                    <calendar v-model:calendarOptions="calendarOptions" />
+                    <component
+                        :is="systemMain"
+                        v-model:systemMainOption="systemMainOption"
+                    ></component>
                 </template>
             </detailsInforStyle>
         </div>
@@ -74,14 +48,14 @@ const calendarOptions = reactive({
     width: 100%;
     height: 100%;
     display: flex;
+    justify-content: space-between;
     .setUp_left {
         width: 260px;
         height: 100%;
     }
     .setUp_right {
-        flex-grow: 1;
+        width: calc(100% - 280px);
         height: 100%;
-        margin-left: 20px;
     }
 }
 </style>

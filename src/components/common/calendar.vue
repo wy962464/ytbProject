@@ -128,17 +128,26 @@ const handlerRange = () => {
                 starFindDate(keys.starTime);
                 endFindDate(keys.endTime);
                 let span = document.createElement('div');
-                span.style.cssText = `box-sizing: border-box;width:97.5%;height:${
-                    (tbodyRef.value.clientHeight / 24) * (endColor - starColor + 1)
-                }px;background:#052623;position: absolute;top:${
-                    (tbodyRef.value.clientHeight / 24) * starColor + 50
-                }px;left:-1px;border-left: 2px solid #0c6041; display: flex;align-items: flex-start;justify-content: center;flex-direction: column;padding-left: 5px;`;
+                span.style.cssText = `
+                box-sizing: border-box;
+                width:99%;
+                height:${(tbodyRef.value.clientHeight / 24) * (endColor - starColor + 1)}px;
+                background:#052623;
+                position: absolute;
+                top:${(tbodyRef.value.clientHeight / 24) * starColor + 50}px;
+                left:-1px;
+                border-left: 2px solid #0c6041;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                flex-direction: column;
+                padding-left: 5px;`;
                 item.appendChild(span);
                 let contentName = document.createElement('p');
                 let contentMain = document.createElement('p');
                 contentName.innerHTML = keys.name;
                 contentMain.innerHTML = keys.content;
-                contentName.style.cssText = 'font-size: 16px; line-height: 30px;';
+                contentName.style.cssText = 'font-size: 16px; line-height: 20px;';
                 contentMain.style.cssText = 'font-size: 14px; line-height: 20px;';
                 span.appendChild(contentName);
                 span.appendChild(contentMain);
@@ -156,11 +165,11 @@ onMounted(() => {
         <div class="top">
             <div class="left" @click="handlerCliclPrev">
                 <ArrowLeft style="width: 20px; height: 20px; color: #ffffff; margin-right: 8px" />
-                <span>上一周</span>
+                <span style="user-select: none">上一周</span>
             </div>
             <div class="center">{{ toWeekArr[0].date + '~' + toWeekArr[6].date }}</div>
             <div class="right" @click="handlerCliclNext">
-                <span>下一周</span>
+                <span style="user-select: none">下一周</span>
                 <ArrowRight style="width: 20px; height: 20px; color: #ffffff; margin-left: 8px" />
             </div>
         </div>
@@ -181,7 +190,9 @@ onMounted(() => {
                     <table>
                         <tbody ref="tbodyRef">
                             <tr v-for="item in timeArr" :key="item">
-                                <td>{{ item }}</td>
+                                <td>
+                                    <span>{{ item }}</span>
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -234,7 +245,7 @@ onMounted(() => {
         font-size: 16px;
         table {
             width: 100%;
-            height: calc(100% - 40px);
+            height: calc(100% - 50px);
             display: flex;
             flex-direction: column;
             border-spacing: 0;
@@ -274,19 +285,20 @@ onMounted(() => {
                             display: flex;
                             justify-content: flex-start;
                             align-items: center;
-                            line-height: 1.85;
                             td {
                                 width: calc((100% - 80px) / 7);
                                 height: 100%;
                                 border-right: 2px dashed #2e363e;
-                                text-align: center;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
                             }
                             td:first-child {
                                 width: 80px;
                                 text-align: center;
                             }
                             td:last-child {
-                                border-right: 0px dashed #ccc;
+                                border-right: 1px dashed rgba(0, 0, 0, 0);
                             }
                         }
                     }

@@ -197,6 +197,12 @@ function removeDomain(index) {
         ElMessage.warning('已经是最后一个了');
     }
 }
+const handlerLeftSwitchBtn = () => {
+    props.tableFromOption.isShowTable = false;
+};
+const handlerRightSwitchBtn = () => {
+    props.tableFromOption.isShowTable = true;
+};
 defineExpose({
     resetForm,
     fromRef,
@@ -210,6 +216,18 @@ defineExpose({
         <template v-if="props.tableFromOption.isShowForm">
             <div class="query_form">
                 <div class="formContent">
+                    <div class="switchBtn" v-if="props.tableFromOption.isShowSwitchBtn">
+                        <div
+                            class="leftSwitchBtn"
+                            :class="{ active: !props.tableFromOption.isShowTable }"
+                            @click="handlerLeftSwitchBtn"
+                        ></div>
+                        <div
+                            class="rightSwitchBtn"
+                            :class="{ active: props.tableFromOption.isShowTable }"
+                            @click="handlerRightSwitchBtn"
+                        ></div>
+                    </div>
                     <el-form
                         ref="fromRef"
                         :model="props.tableFromOption.modelFormValue"
@@ -767,7 +785,7 @@ defineExpose({
             </div>
         </template>
         <!-- pagination 分页 -->
-        <template v-if="props.tableFromOption.totalCount">
+        <template v-if="props.tableFromOption.isShowTable && props.tableFromOption.totalCount">
             <div class="query_pagination">
                 <el-pagination
                     small
@@ -802,6 +820,34 @@ defineExpose({
         .formContent {
             display: flex;
             justify-content: flex-start;
+            .switchBtn {
+                width: 48px;
+                display: flex;
+                margin-right: 20px;
+                .leftSwitchBtn {
+                    width: 24px;
+                    height: 24px;
+                    background: url('@/assets/images/homeImages/assetManagement/calendar.png')
+                        no-repeat;
+                    background-size: 100% 100%;
+                    cursor: pointer;
+                    &.active {
+                        background: url('@/assets/images/homeImages/assetManagement/calendarSelect.png')
+                            no-repeat;
+                    }
+                }
+                .rightSwitchBtn {
+                    width: 24px;
+                    height: 24px;
+                    background: url('@/assets/images/homeImages/assetManagement/list.png') no-repeat;
+                    background-size: 100% 100%;
+                    cursor: pointer;
+                    &.active {
+                        background: url('@/assets/images/homeImages/assetManagement/listSelect.png')
+                            no-repeat;
+                    }
+                }
+            }
             .el-form {
                 display: flex;
                 justify-content: flex-start;

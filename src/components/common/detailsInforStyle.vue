@@ -69,7 +69,7 @@ const props = defineProps({
         flex-grow: 1;
         height: 0;
         width: 100%;
-        padding: 20px 10px 10px 10px;
+        padding: 20px 20px 20px 20px;
         font-weight: 400;
         font-size: 14px;
         text-align: left;
