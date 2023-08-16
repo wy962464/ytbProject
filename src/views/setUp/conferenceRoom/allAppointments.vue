@@ -4,6 +4,7 @@ import { reactive } from 'vue';
 import calendar from '@/components/common/calendar.vue';
 import tableBox from '@/components/common/table.vue';
 import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
+import { isContent } from '@/utils/index';
 
 const calendarOptions = reactive({
     dateTime: new Date(),
@@ -58,6 +59,7 @@ const calendarOptions = reactive({
             content: 'wangyi/项目会议',
         },
     ],
+    selectData: {},
 });
 let tableFromOption = reactive({
     isShowForm: true,
@@ -231,7 +233,78 @@ let tableFromOption = reactive({
             <calendar v-model:calendarOptions="calendarOptions" />
             <detailsInforStyle class="infor">
                 <template #name>预约信息</template>
-                <template #main></template>
+                <template #main>
+                    <ul class="mainList">
+                        <li>
+                            <span class="label">会议室编号：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">会议室名称：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">所在楼层：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">会议主题：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">参与人数：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">预约人：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">预约单位：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">预约时间：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.date) }}
+                                {{ isContent(calendarOptions.selectData.starTime) }}至{{
+                                    isContent(calendarOptions.selectData.endTime)
+                                }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">审批状态：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                        <li>
+                            <span class="label">备注：</span>
+                            <span class="value">
+                                {{ isContent(calendarOptions.selectData.name) }}
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="btnClick">
+                        <div class="programsBtn">修改预约</div>
+                        <div class="programsBtn">取消预约</div>
+                        <div class="programsBtn">打印</div>
+                    </div>
+                </template>
             </detailsInforStyle>
         </div>
     </div>
@@ -249,7 +322,32 @@ let tableFromOption = reactive({
         display: flex;
         .infor {
             width: 600px;
+            height: 100%;
             margin-left: 20px;
+
+            .mainList {
+                width: 100%;
+                height: calc(100% - 52px);
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                grid-template-rows: repeat(10, 1fr);
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    overflow: hidden;
+                    .label {
+                        text-align: right;
+                        min-width: 120px;
+                    }
+                    .value {
+                        text-align: left;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
         }
     }
 }

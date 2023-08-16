@@ -53,6 +53,7 @@ onMounted(() => {
  * @param tableFromOption.fromItem.rules 表单控件验证规则列表
  * @param tableFromOption.fromItem.placeholder 表单控件placeholder
  * @param tableFromOption.fromItem.style 表单控件样式
+ * @param tableFromOption.isShowSwitchBtn 是否显示表单前切换按钮
  * @param tableFromOption.isQueryBtn 是否显示查询重置按钮
  * @param tableFromOption.isShowOperateBtn 是否显示操作按钮
  * @param tableFromOption.isBasicOperateBtn 是否显示基本操作按钮

@@ -5,6 +5,8 @@ import { ref, onMounted, nextTick } from 'vue';
 const toWeek = ref(0);
 const tableHeader = ref(null);
 const tbodyRef = ref(null);
+let weekYear = ref(null);
+let calendarList = [];
 // 当前周的信息
 let toWeekArr = ref([]);
 const timeArr = [
@@ -78,6 +80,19 @@ const currentWeek = (date = props.calendarOptions.dateTime) => {
     return week; //结果
 };
 toWeekArr.value = currentWeek();
+//计算当前时间是当年的第几周
+function getYearWeek(endDate = props.calendarOptions.dateTime) {
+    //本年的第一天
+    let dateFirst = new Date(endDate.getFullYear(), 0, 1).getTime();
+    let dayTime = new Date(endDate).getTime();
+    let dataNumber = (dayTime.valueOf() - dateFirst.valueOf()) / ondDayTime / 7;
+    if (dataNumber > 52) {
+        weekYear = 1;
+    } else {
+        weekYear = Math.ceil(dataNumber);
+    }
+}
+getYearWeek();
 // 上一周
 const handlerCliclPrev = () => {
     toWeek.value--;
@@ -87,6 +102,7 @@ const handlerCliclPrev = () => {
             toWeek.value * ondDayTime * 7
     );
     toWeekArr.value = currentWeek(new Date(prevDate));
+    getYearWeek(new Date(prevDate));
     nextTick(() => {
         handlerRange();
     });
@@ -100,6 +116,7 @@ const handlerCliclNext = () => {
             toWeek.value * ondDayTime * 7
     );
     toWeekArr.value = currentWeek(new Date(nextDate));
+    getYearWeek(new Date(nextDate));
     nextTick(() => {
         handlerRange();
     });
@@ -121,6 +138,8 @@ const endFindDate = date => {
     });
 };
 const handlerRange = () => {
+    calendarList = [];
+    props.calendarOptions.selectData = {};
     tableHeader.value.map(item => {
         let dataValue = item.attributes['data_value'].textContent;
         props.calendarOptions.dataArr.map(keys => {
@@ -128,20 +147,22 @@ const handlerRange = () => {
                 starFindDate(keys.starTime);
                 endFindDate(keys.endTime);
                 let span = document.createElement('div');
+                span.classList.add('calendarActive');
                 span.style.cssText = `
                 box-sizing: border-box;
-                width:99%;
+                width:98%;
                 height:${(tbodyRef.value.clientHeight / 24) * (endColor - starColor + 1)}px;
                 background:#052623;
                 position: absolute;
                 top:${(tbodyRef.value.clientHeight / 24) * starColor + 50}px;
-                left:-1px;
+                left:-2px;
                 border-left: 2px solid #0c6041;
                 display: flex;
                 align-items: flex-start;
                 justify-content: center;
                 flex-direction: column;
-                padding-left: 5px;`;
+                padding-left: 5px;
+                cursor: pointer;`;
                 item.appendChild(span);
                 let contentName = document.createElement('p');
                 let contentMain = document.createElement('p');
@@ -151,7 +172,24 @@ const handlerRange = () => {
                 contentMain.style.cssText = 'font-size: 14px; line-height: 20px;';
                 span.appendChild(contentName);
                 span.appendChild(contentMain);
+                calendarList.push({ node: span, obj: keys });
             }
+        });
+    });
+    calendarList.map((item, index) => {
+        if (index == 0) {
+            item.node.style.background = '#0c6041';
+            props.calendarOptions.selectData = item.obj;
+        }
+        item.node.addEventListener('click', function () {
+            calendarList.map((keys, num) => {
+                if (index == num) {
+                    keys.node.style.background = '#0c6041';
+                    props.calendarOptions.selectData = keys.obj;
+                } else {
+                    keys.node.style.background = '#052623';
+                }
+            });
         });
     });
 };
@@ -161,22 +199,24 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="calendar">
+    <div class="calendar" style="user-select: none">
         <div class="top">
             <div class="left" @click="handlerCliclPrev">
                 <ArrowLeft style="width: 20px; height: 20px; color: #ffffff; margin-right: 8px" />
-                <span style="user-select: none">上一周</span>
+                <span>上一周</span>
             </div>
-            <div class="center">{{ toWeekArr[0].date + '~' + toWeekArr[6].date }}</div>
+            <div class="center">
+                {{ toWeekArr[0].date + '~' + toWeekArr[6].date }}
+            </div>
             <div class="right" @click="handlerCliclNext">
-                <span style="user-select: none">下一周</span>
+                <span>下一周</span>
                 <ArrowRight style="width: 20px; height: 20px; color: #ffffff; margin-left: 8px" />
             </div>
         </div>
         <div class="bottom">
             <table>
                 <thead>
-                    <tr></tr>
+                    <tr>W{{ weekYear }}</tr>
                     <tr
                         v-for="item in toWeekArr"
                         :key="item.day"
@@ -292,13 +332,14 @@ onMounted(() => {
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
+                                box-sizing: border-box;
                             }
                             td:first-child {
                                 width: 80px;
                                 text-align: center;
                             }
                             td:last-child {
-                                border-right: 1px dashed rgba(0, 0, 0, 0);
+                                border-right: 2px dashed rgba(0, 0, 0, 0);
                             }
                         }
                     }
