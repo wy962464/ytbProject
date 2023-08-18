@@ -1,5 +1,5 @@
 <script setup>
-import { watch, ref, provide } from 'vue';
+import { watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { AuthStore } from '@/store/modules/auth.js';
 import { SidebarStore } from '@/store/modules/sidebar.js';
@@ -8,12 +8,6 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 const route = useRoute();
 const authStore = AuthStore();
 const sidebarStore = SidebarStore();
-
-// 刷新当前页面
-const isRouterShow = ref(true);
-const refreshCurrentPage = val => (isRouterShow.value = val);
-provide('refresh', refreshCurrentPage);
-
 // 监听路由
 watch(
     () => route.path,

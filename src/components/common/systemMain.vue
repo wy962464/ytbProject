@@ -1,6 +1,6 @@
 <!-- 系统管理组件 -->
 <script setup>
-import { checkedTypeCellval } from '@/utils/index';
+import { checkedTypeCellval, clearRequest } from '@/utils/index';
 import { defineAsyncComponent, ref } from 'vue';
 import { AuthStore } from '@/store/modules/auth.js';
 
@@ -38,13 +38,7 @@ getComponentPath();
 function handlerSeletTab(obj, index) {
     props.systemMainOption.tabSeletNum = index;
     authStore.$patch({ ajaxCount: 0 });
-    // tab切换且清空（终止）上一个页面正在请求的内容
-    if (window._axiosPromiseArr && window._axiosPromiseArr.length > 0) {
-        window._axiosPromiseArr.forEach((ele, index) => {
-            ele.cancel();
-            delete window._axiosPromiseArr[index];
-        });
-    }
+    clearRequest();
     getComponentPath();
 }
 </script>

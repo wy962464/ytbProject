@@ -2,6 +2,7 @@
 <script setup>
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
+
 let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
@@ -183,7 +184,14 @@ let tableFromOption = reactive({
 </script>
 
 <template>
-    <tableBox v-model:tableFromOption="tableFromOption" />
+    <div class="meetingApproval">
+        <tableBox v-model:tableFromOption="tableFromOption" />
+    </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.meetingApproval {
+    width: 100%;
+    height: 100%;
+}
+</style>

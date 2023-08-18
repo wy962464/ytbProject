@@ -203,6 +203,12 @@ const handlerLeftSwitchBtn = () => {
 };
 const handlerRightSwitchBtn = () => {
     props.tableFromOption.isShowTable = true;
+    if (
+        props.tableFromOption.requestFun &&
+        (props.tableFromOption.isShowTable || props.tableFromOption.isLibrary)
+    ) {
+        getDataList();
+    }
 };
 defineExpose({
     resetForm,

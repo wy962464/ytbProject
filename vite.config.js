@@ -92,7 +92,7 @@ export default defineConfig(({ mode }) => {
     server: {
       // 服务器主机名，如果允许外部访问，可设置为 "0.0.0.0"
       host: "0.0.0.0",
-      port: 6060,
+      port: 6061,
       open: false,
       cors: true,
       hmr: true, //开启热加载

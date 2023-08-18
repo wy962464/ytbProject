@@ -1,7 +1,7 @@
 <!-- 弹窗 -->
 <script setup>
 import { DialogStore } from '@/store/modules/dialog.js';
-import { checkedTypeCellval } from '@/utils/index';
+import { checkedTypeCellval, clearRequest } from '@/utils/index';
 import { AuthStore } from '@/store/modules/auth.js';
 
 const dialogStore = DialogStore();
@@ -13,13 +13,7 @@ function handlerClickClose() {
 function handlerSeletTab(obj, index) {
     dialogStore.dialogInfor.tabSeletNum = index;
     authStore.$patch({ ajaxCount: 0 });
-    // tab切换且清空（终止）上一个页面正在请求的内容
-    if (window._axiosPromiseArr && window._axiosPromiseArr.length > 0) {
-        window._axiosPromiseArr.forEach((ele, index) => {
-            ele.cancel();
-            delete window._axiosPromiseArr[index];
-        });
-    }
+    clearRequest();
     dialogStore.dialogInfor.tableLoading = false;
 }
 </script>

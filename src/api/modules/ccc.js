@@ -2,7 +2,7 @@ import http from "@/api/http";
 
 export function getEnterpriseInfo(data) {
     return http.get("/getCompanlists", data, {
-        isLoading: true
+        isLoading: false
     });
 }
 

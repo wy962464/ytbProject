@@ -18,6 +18,23 @@ export function findMenuByPath(menuList, path) {
     }
     return null;
 }
+/**
+ * @description 递归查询对象
+ * @param {Array} menuList  列表数据
+ * @param {*} path      需要查询的值
+ * @param {*} name      需要查询的属性
+ * @returns 
+ */
+export function findMenuPath(menuList, path, name) {
+    for (const item of menuList) {
+        if (item[name] === path) return item;
+        if (item.children) {
+            const res = findMenuPath(item.children, path, name);
+            if (res) return res;
+        }
+    }
+    return null;
+}
 // 过滤 isHide == true (需要显示的菜单)
 export function showMenuList(menuList = []) {
     let newMenuList = JSON.parse(JSON.stringify(menuList));
@@ -60,4 +77,13 @@ export function isContent(cellValue, symbol = '--') {
 // 获取assets静态资源
 export function getImageUrl(url) {
     return new URL(`../assets/images/${url}`, import.meta.url).href;
+}
+// 清空（终止）上一个页面正在请求的内容
+export function clearRequest() {
+    if (window._axiosPromiseArr && window._axiosPromiseArr.length > 0) {
+        window._axiosPromiseArr.forEach((ele, index) => {
+            ele.cancel();
+            delete window._axiosPromiseArr[index];
+        });
+    }
 }

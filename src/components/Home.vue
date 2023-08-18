@@ -4,9 +4,15 @@ import mains from '@/components/page/main.vue';
 import DialogBox from '@/components/common/dialogBox.vue';
 import DetailsDialogBox from '@/components/common/detailsDialogBox.vue';
 import { AuthStore } from '@/store/modules/auth.js';
+import { provide, ref } from 'vue';
 
 const authStore = AuthStore();
 const isShowHeaderBtn = ['/detailsEmergencyEvents', '/setUp'];
+
+// 刷新当前页面
+const isRouterShow = ref(true);
+const refreshCurrentPage = val => (isRouterShow.value = val);
+provide('refresh', refreshCurrentPage);
 </script>
 
 <template>
@@ -18,6 +24,7 @@ const isShowHeaderBtn = ['/detailsEmergencyEvents', '/setUp'];
             :style="{
                 background: isShowHeaderBtn.includes(authStore.routePath) ? '#020c17' : '',
             }"
+            v-if="isRouterShow"
         >
             <mains />
         </main>

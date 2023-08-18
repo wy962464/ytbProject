@@ -45,6 +45,20 @@ const calendarOptions = reactive({
             content: '张多多/项目会议',
         },
         {
+            date: '2023-06-12',
+            starTime: '10:00',
+            endTime: '12:30',
+            name: '接待室',
+            content: '张多多/项目会议',
+        },
+        {
+            date: '2023-06-18',
+            starTime: '12:00',
+            endTime: '15:30',
+            name: '接待室',
+            content: '张多多/项目会议',
+        },
+        {
             date: '2023-09-10',
             starTime: '15:00',
             endTime: '19:00',
@@ -330,7 +344,7 @@ let tableFromOption = reactive({
                 height: calc(100% - 52px);
                 display: grid;
                 grid-template-columns: repeat(1, 1fr);
-                grid-template-rows: repeat(10, 1fr);
+                grid-template-rows: repeat(11, 1fr);
 
                 li {
                     display: flex;
@@ -338,7 +352,7 @@ let tableFromOption = reactive({
                     overflow: hidden;
                     .label {
                         text-align: right;
-                        min-width: 120px;
+                        min-width: 130px;
                     }
                     .value {
                         text-align: left;

@@ -169,7 +169,7 @@ const handlerRange = () => {
                 contentName.innerHTML = keys.name;
                 contentMain.innerHTML = keys.content;
                 contentName.style.cssText = 'font-size: 16px; line-height: 20px;';
-                contentMain.style.cssText = 'font-size: 14px; line-height: 20px;';
+                contentMain.style.cssText = 'font-size: 12px; line-height: 20px;';
                 span.appendChild(contentName);
                 span.appendChild(contentMain);
                 calendarList.push({ node: span, obj: keys });
@@ -185,9 +185,11 @@ const handlerRange = () => {
             calendarList.map((keys, num) => {
                 if (index == num) {
                     keys.node.style.background = '#0c6041';
+                    keys.node.style.zIndex = '1';
                     props.calendarOptions.selectData = keys.obj;
                 } else {
                     keys.node.style.background = '#052623';
+                    keys.node.style.zIndex = '0';
                 }
             });
         });

@@ -3,6 +3,7 @@ import NProgress from "./nprogress";
 import { AuthStore } from "@/store/modules/auth.js"
 import { UserStore } from "@/store/modules/user.js"
 import { initRouter } from "@/routers/initRouter.js"
+import { clearRequest } from '@/utils/index';
 
 // 白名单
 const routerWhiteList = ["/500"]
@@ -22,12 +23,7 @@ router.beforeEach(async (to, from, next) => {
     const authStore = AuthStore()
     const userStore = UserStore()
     authStore.$patch({ ajaxCount: 0 })
-    if (window._axiosPromiseArr && window._axiosPromiseArr.length > 0) {
-        window._axiosPromiseArr.forEach((ele, index) => {
-            ele.cancel(); // 路由跳转之前，清空（终止）上一个页面正在请求的内容
-            delete window._axiosPromiseArr[index];
-        });
-    }
+    clearRequest()
     // 判断是访问登陆页，有token就在当前页面，没有token重置路由到登陆页
     if (to.path.toLocaleLowerCase() === "/login") {
         if (userStore.token) return next(from.fullPath);
