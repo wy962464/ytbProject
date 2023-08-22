@@ -3,7 +3,7 @@
 import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
 import cameraTree from '@/components/common/cameraTree.vue';
 import videoPlayer from '@/components/common/videoPlayer.vue';
-import { reactive, ref, inject } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Crypoto from '@/utils/crypto.js';
 

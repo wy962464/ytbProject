@@ -1,9 +1,8 @@
 <!-- 摄像头清单 -->
 <script setup>
-import { ref, watch, reactive, inject, nextTick } from 'vue';
+import { ref, watch, reactive, nextTick } from 'vue';
 
 const treeRef = ref(null);
-const refreshCurrentPage = inject('refresh');
 let cameraList = reactive({ list: [], inputValue: '' });
 const emit = defineEmits(['handlerClickView']);
 const defaultProps = {
@@ -16,7 +15,6 @@ watch(
         treeRef.value?.filter(val);
     }
 );
-
 const filterNode = (value, data) => {
     if (!value) return true;
     return data.label.includes(value);
@@ -29,10 +27,8 @@ const handleCheckChange = (data, checked, indeterminate) => {
             cameraList.list = cameraList.list.filter(item => item.id !== data.id);
         }
         emit('handlerClickView', []);
-        refreshCurrentPage(false);
         nextTick(() => {
             emit('handlerClickView', cameraList.list);
-            refreshCurrentPage(true);
         });
     }
 };

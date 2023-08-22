@@ -95,26 +95,28 @@ const centerList = [
             <template #topRight>今日运营车辆：393辆</template>
             <template #main>
                 <div class="cardPropsCenter_main">
-                    <div class="center_mian" v-for="item in centerList" :key="item.name">
-                        <div class="center_main_top">
-                            <p>{{ item.value }}</p>
-                            <p>在场车辆数(辆)</p>
-                        </div>
-                        <div
-                            class="center_main_bottom"
-                            v-for="(keys, index) in item.list"
-                            :key="keys.name"
-                        >
-                            <div class="name">{{ keys.name }}</div>
-                            <div class="num">{{ keys.value }}</div>
-                            <div class="progress">
-                                <el-progress
-                                    :text-inside="false"
-                                    :stroke-width="10"
-                                    :percentage="(keys.value / item.value) * 100"
-                                    :color="color[index]"
-                                    :format="() => ''"
-                                />
+                    <div class="cardPropsCenter_mains">
+                        <div class="center_mian" v-for="item in centerList" :key="item.name">
+                            <div class="center_main_top">
+                                <p>{{ item.value }}</p>
+                                <p>在场车辆数(辆)</p>
+                            </div>
+                            <div
+                                class="center_main_bottom"
+                                v-for="(keys, index) in item.list"
+                                :key="keys.name"
+                            >
+                                <div class="name">{{ keys.name }}</div>
+                                <div class="num">{{ keys.value }}</div>
+                                <div class="progress">
+                                    <el-progress
+                                        :text-inside="false"
+                                        :stroke-width="10"
+                                        :percentage="(keys.value / item.value) * 100"
+                                        :color="color[index]"
+                                        :format="() => ''"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -183,9 +185,68 @@ const centerList = [
         padding: 10px 20px 0 20px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
         position: relative;
-
+        .cardPropsCenter_mains {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            .center_mian {
+                width: calc(50% - 5px);
+                height: 100%;
+                .center_main_top {
+                    font-weight: 700;
+                    font-size: 24px;
+                    text-align: center;
+                    color: #ffffff;
+                    margin-bottom: 20px;
+                    p:nth-child(2) {
+                        font-weight: 600;
+                        font-size: 16px;
+                        text-align: center;
+                        color: #1fff93;
+                    }
+                }
+                .center_main_bottom {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    font-weight: 500;
+                    font-size: 16px;
+                    text-align: left;
+                    color: #ffffff;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    :deep(.el-progress__text) {
+                        min-width: 0px !important;
+                    }
+                    .num {
+                        color: #1fff93;
+                    }
+                    .progress {
+                        width: 95px;
+                    }
+                }
+                .center_main_bottom:nth-child(3) {
+                    .num {
+                        color: #1ed5dd;
+                    }
+                }
+                .center_main_bottom:nth-child(4) {
+                    .num {
+                        color: #509fec;
+                    }
+                }
+            }
+            .center_mian:nth-child(2) {
+                .center_main_top {
+                    p:nth-child(2) {
+                        color: #ffa902;
+                    }
+                }
+            }
+        }
         .center_center {
             height: 100%;
             width: 1px;
@@ -195,60 +256,6 @@ const centerList = [
             left: 49.5%;
             top: 50%;
             transform: translate(-50%, -50%);
-        }
-        .center_mian {
-            width: calc(50% - 5px);
-            height: 100%;
-            .center_main_top {
-                font-weight: 700;
-                font-size: 24px;
-                text-align: center;
-                color: #ffffff;
-                margin-bottom: 20px;
-                p:nth-child(2) {
-                    font-weight: 600;
-                    font-size: 16px;
-                    text-align: center;
-                    color: #1fff93;
-                }
-            }
-            .center_main_bottom {
-                width: 100%;
-                display: flex;
-                align-items: center;
-                font-weight: 500;
-                font-size: 16px;
-                text-align: left;
-                color: #ffffff;
-                justify-content: space-between;
-                margin-bottom: 10px;
-                :deep(.el-progress__text) {
-                    min-width: 0px !important;
-                }
-                .num {
-                    color: #1fff93;
-                }
-                .progress {
-                    width: 95px;
-                }
-            }
-            .center_main_bottom:nth-child(3) {
-                .num {
-                    color: #1ed5dd;
-                }
-            }
-            .center_main_bottom:nth-child(4) {
-                .num {
-                    color: #509fec;
-                }
-            }
-        }
-        .center_mian:nth-child(2) {
-            .center_main_top {
-                p:nth-child(2) {
-                    color: #ffa902;
-                }
-            }
         }
     }
 }

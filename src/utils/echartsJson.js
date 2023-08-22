@@ -1080,6 +1080,7 @@ export const assetVisualization = {
         type: 'category',
         axisLabel: {
             color: '#ffffff',
+            interval: 0
         },
         data: [
             '1',
@@ -1104,9 +1105,6 @@ export const assetVisualization = {
             '20',
             '21',
         ],
-        axisLabel: {
-            interval: 0
-        }
     },
     yAxis: {
         name: '(平方米)',
@@ -1296,4 +1294,3 @@ export const assetRepair = (percentage = 0, color = '228, 83, 83') => {
         }]
     }
 }
-
