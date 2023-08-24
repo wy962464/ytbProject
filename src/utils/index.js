@@ -74,7 +74,7 @@ export function isContent(cellValue, symbol = '--') {
         return cellValue;
     }
 }
-// 获取assets静态资源
+// 获取assets静态图片资源
 export function getImageUrl(url) {
     return new URL(`../assets/images/${url}`, import.meta.url).href;
 }
@@ -86,4 +86,4 @@ export function clearRequest() {
             delete window._axiosPromiseArr[index];
         });
     }
-}
+} 

@@ -34,6 +34,7 @@ const timeArr = [
     '18:30',
     '19:00',
     '19:30',
+    '20:00',
 ];
 const props = defineProps({
     calendarOptions: {
@@ -151,10 +152,10 @@ const handlerRange = () => {
                 span.style.cssText = `
                 box-sizing: border-box;
                 width:98%;
-                height:${(tbodyRef.value.clientHeight / 24) * (endColor - starColor + 1)}px;
+                height:${(tbodyRef.value.clientHeight / 25) * (endColor - starColor + 1)}px;
                 background:#052623;
                 position: absolute;
-                top:${(tbodyRef.value.clientHeight / 24) * starColor + 50}px;
+                top:${(tbodyRef.value.clientHeight / 25) * starColor + 50}px;
                 left:-2px;
                 border-left: 2px solid #0c6041;
                 display: flex;
@@ -287,7 +288,7 @@ onMounted(() => {
         font-size: 16px;
         table {
             width: 100%;
-            height: calc(100% - 50px);
+            height: 100%;
             display: flex;
             flex-direction: column;
             border-spacing: 0;
@@ -310,7 +311,7 @@ onMounted(() => {
             }
             tbody {
                 width: 100%;
-                height: 100%;
+                height: calc(100% - 50px);
                 table {
                     width: 100%;
                     height: 100%;
@@ -323,7 +324,7 @@ onMounted(() => {
                         flex-direction: column;
                         tr {
                             width: 100%;
-                            height: calc(100% / 24);
+                            height: calc(100% / 25);
                             display: flex;
                             justify-content: flex-start;
                             align-items: center;

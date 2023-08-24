@@ -150,6 +150,9 @@ class http {
     static async get(url, params, headers) {
         return await instance.get(url, { params, headers });
     }
+    static async getFile(url, params, headers) {
+        return await instance.get(url, { params, headers, responseType: 'blob' });
+    }
     static async post(url, params, headers) {
         return await instance.post(url, params, headers);
     }

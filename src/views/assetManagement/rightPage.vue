@@ -353,6 +353,7 @@ const handlerClickMember = () => {
                         position: absolute;
                         bottom: 0;
                         left: 0;
+                        text-indent: 8px;
                     }
                 }
                 .value {
@@ -366,7 +367,7 @@ const handlerClickMember = () => {
                     );
                     background-clip: text;
                     color: transparent;
-                    text-indent: 10px;
+                    text-indent: 8px;
                 }
             }
         }

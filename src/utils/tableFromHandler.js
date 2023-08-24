@@ -61,6 +61,6 @@ export function useTableFrom(request, formObj) {
         getDataList,
         handlerQueryList,
         handleCurrentChange,
-        handleResetForm
+        handleResetForm,
     }
 }
