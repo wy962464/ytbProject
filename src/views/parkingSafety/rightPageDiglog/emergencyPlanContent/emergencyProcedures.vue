@@ -210,6 +210,7 @@ onMounted(() => {
                     background-color: #24fdfa;
                     margin-right: 10px;
                     vertical-align: middle;
+                    margin-bottom: 5px;
                 }
             }
             .card-line {

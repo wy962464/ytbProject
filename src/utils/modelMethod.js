@@ -37,23 +37,25 @@ function labelDisplay(ele) {
         floorList.forEach(item => {
             if (ele.name === item.name) {
                 let divDom = document.createElement('div');
-                divDom.style.position = 'absolute';
-                divDom.style.top = '10px';
-                divDom.style.left = '10px';
-                divDom.style.width = '90px';
-                divDom.style.height = '36px';
-                divDom.style.lineHeight = '36px';
-                divDom.style.background = "url('image/floor.png') no-repeat";
-                divDom.style.backgroundSize = '100% 100%';
-
+                divDom.style.cssText = `
+                  position:absolute;
+                  top:10px;
+                  left:10px;
+                  width:90px;
+                  height:36px;
+                  line-height:36px;
+                  background:url('image/floor.png') no-repeat;
+                  background-size:100% 100%;
+                `
                 let div = document.createElement('div');
-                div.style.textAlign = 'center';
-                div.style.color = 'white';
-                div.style.fontSize = '14px';
-                div.style.paddingLeft = '7px';
+                div.style.cssText = `
+                  text-align:center;
+                  color:white;
+                  font-size:14px;
+                  padding-left:7px;
+                  pointer-events:auto;
+                `
                 div.innerText = item.floorName;
-                divDom.style.pointerEvents = 'auto';
-
                 divDom.appendChild(div);
                 document.body.appendChild(divDom);
                 let y1 = ele.name * 5;
@@ -148,6 +150,15 @@ export function handleCameraP(mesh, caa) {
     // selePosition.distanceTo(pos);
 }
 
+// 处理点击公交车时的落点坐标
+export function handleBus(mesh) {
+    let selePosition = mesh.position.clone();
+    selePosition.x += 2;
+    selePosition.y += 3;
+    selePosition.z += 24;
+    return selePosition;
+}
+
 /**
  * 功能介绍:按钮跳转楼层动画
  */
@@ -161,11 +172,11 @@ export function animateCamera(newP, time, mesh) {
             // 动态改变相机位置
             threeModel.camera.position.set(obj.x, obj.y, obj.z);
             // 动态计算相机视线
-            // camera.lookAt(mesh.position);
+            // threeModel.camera.lookAt(mesh.position);
             threeModel.controls.target.copy(mesh.position);
             threeModel.controls.update();
         })
-        .onComplete(() => {})
+        .onComplete(() => { })
         .start();
     animate();
     function animate() {
@@ -183,6 +194,7 @@ export function handleReturn(e) {
         // 一种是在楼层状态下点击模型跳转到模型上后，返回到楼层开始状态
         // 一种是：楼层：------》进入建筑：  ------》园区:
         if (threeModel.sceneInformation.name == '外立面') {
+            threeModel.sceneInformation.floorName = null
             let posi = new THREE.Vector3(-77.21076430892649, 91.93051414474087, 153.81490632197443);
             let mesh = { position: new THREE.Vector3(0, 0, 0) };
             animateCamera(posi, 1500, mesh);
@@ -194,6 +206,7 @@ export function handleReturn(e) {
                 if (item.layers.mask == 1) item.traverse(mesh => (mesh.layers = threeModel.layers2));
             });
             threeModel.sceneInformation.name = '外立面';
+            threeModel.sceneInformation.floorName = null
             close();
             let posi = new THREE.Vector3(-77.21076430892649, 91.93051414474087, 153.81490632197443);
             let mesh = { position: new THREE.Vector3(0, 0, 0) };
@@ -217,7 +230,7 @@ export function handleReturn(e) {
                 threeModel.groupList.children.forEach(item => {
                     if (item.layers.mask == 4) item.traverse(mesh => (mesh.layers = threeModel.layers0));
                 });
-
+                threeModel.sceneInformation.floorName = null
                 let pos = new THREE.Vector3(
                     -117.80254822296114,
                     97.66025528513018,
@@ -301,10 +314,8 @@ export function floorInformation(itemArray, item) {
         }
     });
     console.log('当前模型数据', item);
-
     threeModel.$patch({
         filteringModel: filteringModel,
     });
-
     console.log(threeModel.filteringModel);
 }

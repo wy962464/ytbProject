@@ -40,7 +40,7 @@ export const AuthStore = defineStore({
                         {
                             path: "/Home",
                             name: "Home",
-                            component: "/Home/leftPage",
+                            component: "/Home/index",
                             meta: {
                                 title: "首页",
                                 isModel: true,

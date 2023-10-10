@@ -55,6 +55,7 @@ const props = defineProps({
     .procedure_model {
         height: 115px;
         display: flex;
+        align-items: center;
         .left {
             height: 100%;
             width: 22.97px;
@@ -64,7 +65,7 @@ const props = defineProps({
             .img {
                 position: absolute;
                 left: 50%;
-                top: calc(50% - 3px);
+                top: 50%;
                 transform: translate(-50%, -50%);
                 height: 100%;
                 z-index: 1;
@@ -117,9 +118,12 @@ const props = defineProps({
             }
         }
         &:last-child {
-            .main {
-                height: 115px;
-            }
+            height: 110px;
+            align-items: flex-end;
+        }
+        &:first-child {
+            height: 110px;
+            align-items: flex-start;
         }
     }
 }

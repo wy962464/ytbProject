@@ -8,17 +8,18 @@ export const ThreeModel = defineStore({
             camera: null,
             renderer: null,
             controls: null,
-            composer:null,
+            composer: null,
             groupList: null,
             layers0: null,
             layers2: null,
             sceneInformation: {
                 name: '外立面',
                 returnorNot: false,
-                floorName: '',
+                floorName: null,
             },
-            modelLoading:false,
-            filteringModel:null
+            modelLoading: false,
+            filteringModel: null,
+            clickModel: null
         };
     },
     getters: {},

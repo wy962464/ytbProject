@@ -5,62 +5,64 @@ import procedure from '@/components/common/procedure.vue';
 import { reactive } from 'vue';
 
 const dialogStore = DialogStore();
-let procedureOption = reactive([{}]);
+let procedureOption = reactive([{}, {}]);
 </script>
 
 <template>
-    <div class="tablerRowDetails">
-        <div class="top">
-            <ul class="topList">
-                <li>
-                    <span class="label">警报编号：</span>
-                    <span class="value">RC-20230323-232</span>
-                </li>
-                <li>
-                    <span class="label">告警源设备：</span>
-                    <span class="value">设备XXX</span>
-                </li>
-                <li>
-                    <span class="label">警报类型：</span>
-                    <span class="value">应急预案</span>
-                </li>
-                <li>
-                    <span class="label">警报状态：</span>
-                    <span class="value">已处理</span>
-                </li>
-                <li>
-                    <span class="label">初始警报等级：</span>
-                    <span class="value">严重</span>
-                </li>
-                <li>
-                    <span class="label">现警报等级：</span>
-                    <span class="value">--</span>
-                </li>
-                <li>
-                    <span class="label">告警触发时间：</span>
-                    <span class="value">2023-03-23 09:46:15.89</span>
-                </li>
-                <li>
-                    <span class="label">告警恢复时间：</span>
-                    <span class="value">2023-06-27 14:57:41.12</span>
-                </li>
-                <li>
-                    <span class="label">告警描述：</span>
-                    <span class="value">应急预案已启动：充电车辆起火应急预案</span>
-                </li>
-            </ul>
-        </div>
-        <div class="center">
-            <p>警情图片</p>
-            <div class="imgPath"></div>
-        </div>
-        <div class="bottom">
-            <p>报警处置</p>
-            <div class="procedure">
-                <procedure v-model:procedureOption="procedureOption" />
+    <el-scrollbar>
+        <div class="tablerRowDetails">
+            <div class="top">
+                <ul class="topList">
+                    <li>
+                        <span class="label">警报编号：</span>
+                        <span class="value">RC-20230323-232</span>
+                    </li>
+                    <li>
+                        <span class="label">告警源设备：</span>
+                        <span class="value">设备XXX</span>
+                    </li>
+                    <li>
+                        <span class="label">警报类型：</span>
+                        <span class="value">应急预案</span>
+                    </li>
+                    <li>
+                        <span class="label">警报状态：</span>
+                        <span class="value">已处理</span>
+                    </li>
+                    <li>
+                        <span class="label">初始警报等级：</span>
+                        <span class="value">严重</span>
+                    </li>
+                    <li>
+                        <span class="label">现警报等级：</span>
+                        <span class="value">--</span>
+                    </li>
+                    <li>
+                        <span class="label">告警触发时间：</span>
+                        <span class="value">2023-03-23 09:46:15.89</span>
+                    </li>
+                    <li>
+                        <span class="label">告警恢复时间：</span>
+                        <span class="value">2023-06-27 14:57:41.12</span>
+                    </li>
+                    <li>
+                        <span class="label">告警描述：</span>
+                        <span class="value">应急预案已启动：充电车辆起火应急预案</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="center">
+                <p>警情图片</p>
+                <div class="imgPath"></div>
+            </div>
+            <div class="bottom">
+                <p>报警处置</p>
+                <div class="procedure">
+                    <procedure v-model:procedureOption="procedureOption" />
+                </div>
             </div>
         </div>
-    </div>
+    </el-scrollbar>
 </template>
 
 <style scoped lang="scss">
@@ -110,7 +112,7 @@ let procedureOption = reactive([{}]);
         }
         .imgPath {
             width: 100%;
-            height: 120px;
+            height: 119px;
             box-shadow: 0 0 30px 0 #041d2c inset;
         }
     }

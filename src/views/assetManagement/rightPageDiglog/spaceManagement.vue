@@ -168,6 +168,8 @@ let tableFromOption = reactive({
         ],
         isSerialNumber: true,
         isMultiple: true,
+        selectionChangeList: [],
+        isRowClick: true,
     },
     totalCount: 5,
     pageSize: 10,
@@ -180,9 +182,6 @@ function handlerClickFloor(value) {
         tableFromOption.modelFormValue.floorNum = value.name;
     }
 }
-const handleSelectionChange = selectList => {
-    console.log(selectList);
-};
 const handlerClickAdd = () => {
     dialogStore.$patch({
         detailsDialogInfor: {
@@ -213,7 +212,6 @@ const handlerClickAdd = () => {
         <div class="right">
             <tableBox
                 v-model:tableFromOption="tableFromOption"
-                @handleSelectionChange="handleSelectionChange"
                 @handlerClickAdd="handlerClickAdd"
             />
         </div>

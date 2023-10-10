@@ -63,6 +63,11 @@ const authStore = AuthStore();
         <div class="frameRight">
             <div class="frameRightBg"></div>
         </div>
+        <div class="frameBottom">
+            <footer>
+                <footers />
+            </footer>
+        </div>
     </div>
     <div class="contents" v-else>
         <router-view v-slot="{ Component, route }">
@@ -78,15 +83,17 @@ const authStore = AuthStore();
         <div class="frameRight">
             <div class="frameRightBg"></div>
         </div>
+        <div class="frameBottom">
+            <footer>
+                <footers />
+            </footer>
+        </div>
     </div>
-    <footer>
-        <footers />
-    </footer>
 </template>
 
 <style scoped lang="scss">
 .content {
-    height: calc(100% - 30px);
+    height: 100%;
     width: 100%;
     position: relative;
     box-sizing: border-box;
@@ -110,6 +117,7 @@ const authStore = AuthStore();
         justify-content: space-between;
         align-items: flex-end;
         box-sizing: border-box;
+        padding-bottom: 30px;
 
         .leftSidebar {
             text-align: center;
@@ -142,6 +150,8 @@ const authStore = AuthStore();
         position: absolute;
         top: 0;
         right: 10px;
+        padding-bottom: 30px;
+        box-sizing: border-box;
         .frameRightBg {
             background: url('@/assets/images/pageImages/frameRight.png') no-repeat;
             background-size: 100% 100%;
@@ -156,6 +166,8 @@ const authStore = AuthStore();
         position: absolute;
         top: 0;
         left: 10px;
+        padding-bottom: 30px;
+        box-sizing: border-box;
         .frameLeftBg {
             background: url('@/assets/images/pageImages/frameLeft.png') no-repeat;
             background-size: 100% 100%;
@@ -163,15 +175,34 @@ const authStore = AuthStore();
             width: 9px;
         }
     }
+    .frameBottom {
+        height: 30px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        footer {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 30px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 10px;
+        }
+    }
 }
 .contents {
-    height: calc(100% - 30px);
+    height: 100%;
     width: 100%;
     position: relative;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    padding: 20px 30px 0 30px;
+    padding: 20px 30px 30px 30px;
     .frameRight {
         height: 100%;
         width: 20px;
@@ -180,6 +211,8 @@ const authStore = AuthStore();
         position: absolute;
         top: 0;
         right: 10px;
+        padding-bottom: 30px;
+        box-sizing: border-box;
         .frameRightBg {
             background: url('@/assets/images/pageImages/frameRight.png') no-repeat;
             background-size: 100% 100%;
@@ -194,6 +227,8 @@ const authStore = AuthStore();
         position: absolute;
         top: 0;
         left: 10px;
+        padding-bottom: 30px;
+        box-sizing: border-box;
         .frameLeftBg {
             background: url('@/assets/images/pageImages/frameLeft.png') no-repeat;
             background-size: 100% 100%;
@@ -201,20 +236,25 @@ const authStore = AuthStore();
             width: 9px;
         }
     }
-}
-
-footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 30px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 10px;
-    background: #00000000;
+    .frameBottom {
+        height: 30px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        footer {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 30px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 10px;
+        }
+    }
 }
 
 /* left-transform */

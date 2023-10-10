@@ -232,6 +232,8 @@ let tableFromOption = reactive({
         ],
         isSerialNumber: true,
         isMultiple: true,
+        selectionChangeList: [],
+        isRowClick: true,
     },
     totalCount: 23,
     pageSize: 10,
@@ -244,9 +246,6 @@ const handleCurrentChange = (data, node) => {
 };
 const handlerClickClassification = () => {
     alert('新增分类');
-};
-const handleSelectionChange = selectList => {
-    console.log(selectList);
 };
 const handlerClickAdd = () => {
     dialogStore.$patch({
@@ -289,7 +288,6 @@ const handlerClickAdd = () => {
         <div class="right">
             <tableBox
                 v-model:tableFromOption="tableFromOption"
-                @handleSelectionChange="handleSelectionChange"
                 @handlerClickAdd="handlerClickAdd"
             />
         </div>

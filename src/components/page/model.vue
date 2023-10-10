@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { ThreeModel } from '@/store/modules/modelManager.js';
 import * as THREE from 'three';
 import { OrbitControls } from '@/assets/OrbitControls.js';
@@ -15,10 +15,11 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // 引入扩展库CSS3DRenderer.js
-import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
+import { CSS3DObject, CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
 import gsap from 'gsap';
 import floorData from '@/assets/floor.json';
+import { showLoading, hideLoading } from '@/utils/loading.js';
 
 import {
     handleReturn,
@@ -27,6 +28,7 @@ import {
     animateCamera,
     close,
     floorInformation,
+    handleBus,
 } from '@/utils/modelMethod.js';
 
 const moonbay = ref(null);
@@ -45,6 +47,15 @@ onMounted(() => {
  * @basicConfiguration:THREEJS基础配置
  */
 const threeModel = ThreeModel();
+watch(
+    () => threeModel.modelLoading,
+    (newValue, oldValue) => {
+        console.log(newValue, oldValue);
+    },
+    {
+        immediate: true,
+    }
+);
 // 场景
 const scene = new THREE.Scene();
 let canWidth = ref(window.innerWidth);
@@ -55,7 +66,6 @@ let camera = reactive({});
 camera = new THREE.PerspectiveCamera(75, canWidth.value / canHeight.value, 1, 3000);
 camera.position.set(-77.21076430892649, 91.93051414474087, 153.81490632197443);
 camera.lookAt(0, 0, 0);
-
 // 渲染器
 const renderer = new THREE.WebGLRenderer({
     antialias: true,
@@ -106,7 +116,6 @@ controls.maxPolarAngle = Math.PI / 2;
 controls.minPolarAngle = 0;
 controls.enablePan = false;
 // controls.enableZoom = false;
-console.log(controls);
 // 后期处理
 const composer = new EffectComposer(renderer);
 // 创建一个渲染器通道,场景和相机作为参数
@@ -184,17 +193,18 @@ let sceneInformation = reactive({
     // 用于判断是否返回楼层初始状态
     returnorNot: false,
     // 当前楼层信息
-    floorName: '',
+    floorName: null,
 });
 
 // 加载主要模型
 function externalModel() {
+    showLoading();
     const dracoLoader = new DRACOLoader();
     const loader = new GLTFLoader();
     dracoLoader.setDecoderPath('/draco/');
     loader.setDRACOLoader(dracoLoader);
     loader.load(
-        `/modelFile/外立面.glb`,
+        `/modelFile/facade.glb`,
         // 加载成功时的回调
         gltf => {
             gltf.scene.traverse(mesh => {
@@ -221,7 +231,10 @@ function externalModel() {
                 }
             });
             gltf.scene.name = '外立面';
-            scene.add(gltf.scene);
+            buildModel().then(res => {
+                gltf.scene.children.push(res);
+                scene.add(gltf.scene);
+            });
             gltf.scene.children.forEach(item => {
                 if (item.type == 'Group') {
                     item.children.forEach(sub => {
@@ -315,12 +328,58 @@ function floorModel() {
                 if (gltf.scene.name == '12') {
                     gltf.scene.name = 10;
                 }
-
                 groupList.add(gltf.scene);
-
                 if (groupList.children.length >= 13) {
                     groupList.layers = layers2;
                     groupList.children.forEach(item => {
+                        console.log(item);
+                        let parkingSpace = [];
+                        let outDrop = [];
+                        let withinDrop = [];
+                        item.children.map(items => {
+                            if (RegExp(/A3_/).test(items.name)) {
+                                // if (items.name == 'A3_13' || items.name == 'A3_14') {
+                                parkingSpace.push({
+                                    name: items.name,
+                                    position: items.position,
+                                    rotation: items.rotation,
+                                });
+                                // }
+                            }
+                            if (RegExp(/外3_/).test(items.name)) {
+                                const coordinate = new THREE.Vector3(
+                                    items.position.x,
+                                    items.position.y - 1.6,
+                                    items.position.z
+                                );
+                                outDrop.push(coordinate);
+                            }
+                            if (RegExp(/内3_/).test(items.name)) {
+                                const coordinate = new THREE.Vector3(
+                                    items.position.x,
+                                    items.position.y - 1.6,
+                                    items.position.z
+                                );
+                                withinDrop.push(coordinate);
+                            }
+                        });
+                        if (parkingSpace.length > 0) {
+                            busModel(parkingSpace).then(res => {
+                                item.children = item.children.concat(res);
+                                item.traverse(mesh => {
+                                    mesh.layers = layers2;
+                                });
+                                hideLoading();
+                            });
+                        } else {
+                            hideLoading();
+                        }
+                        if (outDrop.length > 0) {
+                            outsideTrajectoryLine(outDrop, parkingSpace);
+                        }
+                        if (withinDrop.length > 0) {
+                            withinTrajectoryLine(withinDrop, parkingSpace);
+                        }
                         item.traverse(mesh => {
                             mesh.layers = layers2;
                         });
@@ -339,7 +398,6 @@ function floorModel() {
                         modelLoading: true,
                     });
                 }
-
                 gltf.scene.children.forEach(item => {
                     if (item.type == 'Group') {
                         item.children.forEach(sub => {
@@ -356,14 +414,107 @@ function floorModel() {
         );
     }
 }
+// 加载公交车模型
+function busModel(busModelCoord) {
+    let busModelList = [];
+    const dracoLoader = new DRACOLoader();
+    const loader = new GLTFLoader();
+    dracoLoader.setDecoderPath('/draco/');
+    loader.setDRACOLoader(dracoLoader);
+    busModelList = busModelCoord.map(item => {
+        return new Promise((resolve, reject) => {
+            loader.load(
+                `/modelFile/2wesBUS.glb`,
+                // 加载成功时的回调
+                gltf => {
+                    gltf.scene.children[0].name = `${item.name}-公交车`;
+                    gltf.scene.position.set(item.position.x, item.position.y, item.position.z);
+                    gltf.scene.rotation.set(item.rotation._x, item.rotation._y, item.rotation._z);
+                    gltf.scene.rotateX(Math.PI * 2 * 0.75);
+                    resolve(gltf.scene);
+                }, // 加载过程中的回调函数
+                xhr => {},
+                // 加载出错的回调
+                err => {
+                    console.error('An error happened');
+                }
+            );
+        });
+    });
+    return Promise.all(busModelList);
+}
+// 加载车场建筑模型
+function buildModel() {
+    const dracoLoader = new DRACOLoader();
+    const loader = new GLTFLoader();
+    dracoLoader.setDecoderPath('/draco/');
+    loader.setDRACOLoader(dracoLoader);
+    let buildModel = new Promise((resolve, reject) => {
+        loader.load(
+            `/modelFile/parkbuild.glb`,
+            // 加载成功时的回调
+            gltf => {
+                resolve(gltf.scene);
+            }, // 加载过程中的回调函数
+            xhr => {},
+            // 加载出错的回调
+            err => {
+                console.error('An error happened');
+            }
+        );
+    });
+    return buildModel;
+}
 // 渲染
 function render() {
     controls.update();
     composer.render();
     css3Renderer.render(scene, camera);
+    moveOnCurve();
     requestAnimationFrame(render);
 }
-
+let option = reactive({
+    model: null,
+    // 外轨迹线 进
+    outsideCurve: [],
+    // 内轨迹线 出
+    withinCurve: [],
+    // 进出状态 0:进 1：出
+    status: 0,
+    curve: null,
+    points: [],
+    progress: 0,
+    modelPosition: null,
+});
+function moveOnCurve() {
+    if (option.model) {
+        let selectBus = option.model.children[0]?.name.split('-')[0];
+        let outsideBusCurve = option.outsideCurve.find(item => item.name == selectBus);
+        let withinBusCurve = option.withinCurve.find(item => item.name == selectBus);
+        if (option.status) {
+            option.curve = withinBusCurve?.curve;
+            option.points = withinBusCurve?.points;
+        } else {
+            option.curve = outsideBusCurve?.curve;
+            option.points = outsideBusCurve?.points;
+        }
+        if (parseInt(option.progress) >= 1) {
+            option.progress = 0;
+        }
+        const tmpSpherePosition = option.curve.getPointAt(option.progress);
+        // console.log(tmpSpherePosition);
+        option.model.position.set(tmpSpherePosition.x, tmpSpherePosition.y, tmpSpherePosition.z);
+        //这个部分是处理车的模型始终与切线相切，这样就能让车始终围绕曲线中心运动
+        // 当前点在线条上的位置
+        option.model.position.copy(tmpSpherePosition);
+        // 返回一个点t在曲线上位置向量的法线向量
+        const tangent = option.curve.getTangentAt(option.progress);
+        // 位置向量和切线向量相加即为所需朝向的点向量
+        const lookAtVec = tangent.add(tmpSpherePosition);
+        option.model.lookAt(lookAtVec);
+        option.progress += 0.001;
+    }
+}
 /**
  * @FunctionMethods:模型事件处理的方法
  */
@@ -447,6 +598,7 @@ function checkIntersection() {
                 );
             } else {
                 sceneInformation.name = '建筑层';
+                console.log(selectedObject);
                 let wall = scene.getObjectByName('外立面');
                 wall.traverse(mesh => (mesh.layers = layers2));
                 groupList.layers = layers0;
@@ -495,7 +647,6 @@ function checkIntersection() {
             });
         } else if (sceneInformation.name == '楼层') {
             close();
-            console.log(selectedObject);
             /**
              * 第一层过滤:过滤出点击需要的模型和点击楼层模型
              * 第二层分情况:
@@ -506,8 +657,40 @@ function checkIntersection() {
             if (selectedObject.parent.name !== sceneInformation.floorName) {
                 let integrity = selectedObject.parent;
                 let selePosition = handleCameraP(integrity, camera.position);
-                animateCamera(selePosition, 2000, integrity);
+                // let selePositionBus = handleBus(integrity);
+                // animateCamera(selePositionBus, 2000, integrity);
                 sceneInformation.returnorNot = true;
+                threeModel.clickModel = integrity;
+                console.log(sceneInformation.floorName);
+                console.log(groupList.children);
+                console.log(integrity);
+                // console.log(selePositionBus);
+                if (integrity.name.includes('公交车')) {
+                    console.log(threeModel.filteringModel);
+                    option.model = integrity.parent;
+                    option.modelPosition = integrity.parent.position;
+                    console.log(option);
+                    console.log(option.modelPosition);
+                    let dialog = document.createElement('div');
+                    dialog.className = 'domStyle';
+                    dialog.innerText = '车辆信息';
+                    const tag = new CSS3DObject(dialog);
+                    tag.name = '车辆信息';
+                    if (integrity.type == 'Object3D') {
+                        tag.position.set(0, 0, -360);
+                        tag.rotation.set(-Math.PI / 2, Math.PI, Math.PI * 2);
+                    } else {
+                        tag.position.set(0, 400, 1480);
+                    }
+                    let isTag = integrity.children.some(item => item.name == '车辆信息');
+                    if (!isTag) {
+                        integrity.add(tag);
+                    } else {
+                        let arr = integrity.children.find(item => item.name == '车辆信息');
+                        console.log(arr);
+                        arr.parent.remove(arr);
+                    }
+                }
             }
             // RegExp 对象方法
             // test() 方法用于检索字符串中指定的值。返回 true 或 false。
@@ -531,6 +714,120 @@ function addSelectedObject(object) {
     selectedObjects = [];
     selectedObjects.push(object);
 }
+// 生成外轨迹线
+function outsideTrajectoryLine(drop, parkingSpace) {
+    parkingSpace.map(item => {
+        let curve = new THREE.CurvePath();
+        const line1 = new THREE.QuadraticBezierCurve3(drop[0], drop[1], drop[2]);
+        const line2 = new THREE.LineCurve3(drop[2], drop[3]);
+        const line3 = new THREE.QuadraticBezierCurve3(drop[3], drop[4], drop[5]);
+        const line5 = new THREE.QuadraticBezierCurve3(drop[6], drop[7], drop[8]);
+        const line6 = new THREE.LineCurve3(drop[8], drop[9]);
+        const line7 = new THREE.QuadraticBezierCurve3(drop[9], drop[10], drop[11]);
+        const line8 = new THREE.LineCurve3(drop[11], drop[12]);
+        const line9 = new THREE.LineCurve3(drop[12], drop[13]);
+        const lines1 = new THREE.LineCurve3(
+            drop[5],
+            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447)
+        );
+        const lines2 = new THREE.LineCurve3(
+            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447),
+            item.position
+        );
+        const lines3 = new THREE.LineCurve3(
+            item.position,
+            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447)
+        );
+        const line4 = new THREE.LineCurve3(
+            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447),
+            drop[6]
+        );
+        curve.curves.push(
+            line1,
+            line2,
+            line3,
+            lines1,
+            lines2,
+            lines3,
+            line4,
+            line5,
+            line6,
+            line7,
+            line8,
+            line9
+        );
+        let points = curve.getPoints(1000);
+        option.outsideCurve.push({ name: item.name, curve: curve, points: points });
+    });
+    option.outsideCurve.map(item => {
+        const geometry = new THREE.BufferGeometry();
+        geometry.setFromPoints(item.points);
+        const material = new THREE.LineBasicMaterial({
+            color: 0xf00,
+        });
+        const curveObject = new THREE.Line(geometry, material);
+        // curveObject.layers = layers2;
+        curveObject.name = `${item.name}外轨迹线`;
+        scene.add(curveObject);
+    });
+}
+// 生成内轨迹线
+function withinTrajectoryLine(drop, parkingSpace) {
+    parkingSpace.map(item => {
+        let curve = new THREE.CurvePath();
+        const line1 = new THREE.LineCurve3(drop[0], drop[1]);
+        const line2 = new THREE.QuadraticBezierCurve3(drop[1], drop[2], drop[3]);
+        const line3 = new THREE.LineCurve3(drop[3], drop[4]);
+        const line4 = new THREE.QuadraticBezierCurve3(drop[4], drop[5], drop[6]);
+        const line6 = new THREE.QuadraticBezierCurve3(drop[7], drop[8], drop[9]);
+        const line7 = new THREE.LineCurve3(drop[9], drop[10]);
+        const line8 = new THREE.QuadraticBezierCurve3(drop[10], drop[11], drop[12]);
+        const line9 = new THREE.LineCurve3(drop[12], drop[13]);
+        const lines1 = new THREE.LineCurve3(
+            drop[6],
+            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291)
+        );
+        const lines2 = new THREE.LineCurve3(
+            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291),
+            item.position
+        );
+        const lines3 = new THREE.LineCurve3(
+            item.position,
+            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291)
+        );
+        const line5 = new THREE.LineCurve3(
+            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291),
+            drop[7]
+        );
+        curve.curves.push(
+            line1,
+            line2,
+            line3,
+            line4,
+            lines1,
+            lines2,
+            lines3,
+            line5,
+            line6,
+            line7,
+            line8,
+            line9
+        );
+        let points = curve.getPoints(1000);
+        option.withinCurve.push({ name: item.name, curve: curve, points: points });
+    });
+    option.withinCurve.map(item => {
+        const geometry = new THREE.BufferGeometry();
+        geometry.setFromPoints(item.points);
+        const material = new THREE.LineBasicMaterial({
+            color: 0xf00,
+        });
+        const curveObject = new THREE.Line(geometry, material);
+        // curveObject.layers = layers2;
+        curveObject.name = `${item.name}内轨迹线`;
+        scene.add(curveObject);
+    });
+}
 
 /**
  * @Description:对园区,建筑,楼层三个场景的点击鼠标右键分别处理不同代码
@@ -552,3 +849,44 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="scss"></style>
+<style lang="scss">
+.domStyle {
+    width: 300px;
+    height: 300px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 40px;
+    z-index: 0;
+    background: rgba(20, 143, 221, 0.68);
+    box-shadow: 0px 0px 12px rgba(0, 128, 255, 0.75);
+    border: 1px solid rgba(127, 177, 255, 0.75);
+    padding: 20px;
+    color: #efefef;
+    white-space: wrap;
+    position: relative;
+    box-sizing: border-box;
+}
+.domStyle::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -100px;
+    transform: translate(-50%, 0);
+    display: block;
+    width: 5px;
+    height: 100px;
+    background: rgba(127, 176, 255, 0.712);
+}
+.domStyle::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(127, 176, 255, 0.712);
+    bottom: -120px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+</style>

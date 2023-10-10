@@ -439,6 +439,7 @@ onMounted(() => {
                     height: 16px;
                     background-color: #24fdfa;
                     margin-right: 10px;
+                    margin-bottom: 5px;
                     vertical-align: middle;
                 }
             }

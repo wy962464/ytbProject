@@ -6,6 +6,7 @@ import uploadFile from '@/components/common/uploadFile.vue';
 
 const fromRef = ref(null);
 const uploadRef = ref(null);
+const elTables = ref(null);
 const {
     dataListObj,
     getDataList,
@@ -69,6 +70,7 @@ onMounted(() => {
  * @param tableFromOption.tableObj.tableData 表格数据
  * @param tableFromOption.tableObj.tableHeader 表格头部数据
  * @param tableFromOption.tableObj.isMultiple 是否多选
+ * @param tableFromOption.tableObj.selectionChangeList 多选列表
  * @param tableFromOption.tableObj.isSerialNumber 是否显示序号
  * @param tableFromOption.tableObj.operatesBtnObj 表格操作按钮详情
  * @param tableFromOption.tableObj.operatesBtnObj.operatesBtnList 表格操作按钮列表
@@ -86,7 +88,6 @@ const props = defineProps({
     },
 });
 const emit = defineEmits([
-    'handleSelectionChange',
     'handleCellClick',
     'rowClick',
     'handleSizeChange',
@@ -149,7 +150,7 @@ function focusFn() {
 }
 // 多行选中
 function handleSelectionChange(val) {
-    emit('handleSelectionChange', val);
+    props.tableFromOption.tableObj.selectionChangeList = val;
 }
 // 点击选择某个单元格
 function handleCellClick(row, column, cell, event) {
@@ -158,6 +159,7 @@ function handleCellClick(row, column, cell, event) {
 // 某一行被点击
 function rowClick(row, column, event) {
     if (props.tableFromOption.tableObj.isRowClick) {
+        elTables.value?.toggleRowSelection(row);
         emit('rowClick', row, column, event);
     }
 }
@@ -276,6 +278,7 @@ defineExpose({
                                             style="width: 430px; margin-right: 20px"
                                             placeholder="请输入"
                                             type="textarea"
+                                            resize="none"
                                         />
                                         <div class="programsBtn" @click="removeDomain(index)">
                                             删除
@@ -463,7 +466,7 @@ defineExpose({
                                             prefix-icon=""
                                         />
                                     </template>
-                                    <!-- 文件上传 -->
+                                    <!-- 文件上传 styleType:上传文件样式区分 -->
                                     <template v-if="item.type === 'uploadFile'">
                                         <uploadFile
                                             ref="uploadRef"
@@ -475,7 +478,10 @@ defineExpose({
                                             :accept="item.accept"
                                             :limit="item.limit"
                                         >
-                                            <template #content v-if="item.limit === 18">
+                                            <template
+                                                #content
+                                                v-if="item.styleType == 1 && item.limit === 1"
+                                            >
                                                 <div class="leftContent">
                                                     <div
                                                         class="text"
@@ -497,7 +503,10 @@ defineExpose({
                                                     <div class="text" v-else>-模型</div>
                                                 </div>
                                             </template>
-                                            <template #tip v-if="item.limit === 1">
+                                            <template
+                                                #tip
+                                                v-if="item.styleType == 2 && item.limit === 1"
+                                            >
                                                 <div class="el-upload__tip uploadTip">
                                                     <div class="icon"></div>
                                                     <div
@@ -605,7 +614,7 @@ defineExpose({
         <template v-if="props.tableFromOption.isShowTable">
             <div class="query_table">
                 <el-table
-                    ref="elTable"
+                    ref="elTables"
                     :data="props.tableFromOption.tableObj.tableData"
                     :header-row-style="{
                         ...props.tableFromOption.tableObj.headerRowStyle,
@@ -619,7 +628,7 @@ defineExpose({
                         ...props.tableFromOption.tableObj.headerCellStyle,
                     }"
                     :cell-style="{
-                        height: '10px',
+                        height: '36px',
                         fontSize: '12px',
                         padding: '3px 0',
                         cursor: props.tableFromOption.tableObj.isRowClick ? 'pointer' : 'default',
@@ -628,6 +637,7 @@ defineExpose({
                     @selection-change="handleSelectionChange"
                     @cell-click="handleCellClick"
                     @row-click="rowClick"
+                    :highlight-current-row="props.tableFromOption.tableObj.isRowClick"
                     class="tableStyle"
                     height="100%"
                 >
@@ -957,6 +967,7 @@ defineExpose({
     --el-table-border: 0;
     --el-table-bg-color: rgba(0, 0, 0, 0);
     --el-table-row-hover-bg-color: rgba(2, 50, 64, 1);
+    --el-table-current-row-bg-color: rgba(2, 50, 64, 1);
     .el-table__row:nth-child(2n + 1) {
         background-color: rgba(2, 50, 64, 0.6);
     }

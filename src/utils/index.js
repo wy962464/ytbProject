@@ -64,6 +64,7 @@ export function fontSize(res) {
             document.body.clientWidth;
     if (!clientWidth) return;
     let fontSize = clientWidth / 1920;
+    console.log(res * fontSize);
     return res * fontSize;
 }
 // 判断是否有内容

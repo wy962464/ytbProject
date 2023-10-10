@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from 'vue';
 import floorData from '@/assets/floor.json';
 import { buttonClick, separate, close } from '@/utils/modelMethod.js';
 import { getImageUrl } from '@/utils';
+import { ThreeModel } from '@/store/modules/modelManager.js';
 
+const threeModel = ThreeModel();
 const props = defineProps({
     top: {
         type: String,
@@ -22,33 +23,28 @@ const props = defineProps({
         default: '',
     },
 });
-const emit = defineEmits(['handlerClickTree']);
 const floorList = floorData.value;
-let floorNum = ref(null);
-let statusNum = ref(null);
 function handlerClick(value) {
-    floorNum.value = value.name;
-    emit('handlerClickTree', value);
     buttonClick(value);
 }
 let statusBtn = [
     {
         name: '展开',
-        key: 1,
+        key: 'open',
         iconUrl: 'pageImages/expand.png',
     },
     {
         name: '合并',
-        key: 0,
+        key: 'close',
         iconUrl: 'pageImages/merge.png',
     },
 ];
 function handlerClickStatus(value) {
-    statusNum.value = value.key;
-    if (statusNum.value == 0) {
-        close();
-    } else if (statusNum.value == 1) {
+    threeModel.sceneInformation.floorName = value.key;
+    if (threeModel.sceneInformation.floorName == 'open') {
         separate();
+    } else if (threeModel.sceneInformation.floorName == 'close') {
+        close();
     }
 }
 </script>
@@ -68,7 +64,12 @@ function handlerClickStatus(value) {
                 class="floorStyle"
                 v-for="item in floorList"
                 :key="item.name"
-                :class="{ active: item.name === floorNum }"
+                :class="{
+                    active:
+                        item.name ===
+                        floorList.find(item => threeModel.sceneInformation.floorName == item.name)
+                            ?.name,
+                }"
                 @click="handlerClick(item)"
             >
                 {{ item.floorName }}
@@ -79,7 +80,7 @@ function handlerClickStatus(value) {
                 class="statusStyle"
                 v-for="item in statusBtn"
                 :key="item.key"
-                :class="{ active: item.key === statusNum }"
+                :class="{ active: item.key === threeModel.sceneInformation?.floorName }"
                 @click="handlerClickStatus(item)"
             >
                 <img :src="getImageUrl(item.iconUrl)" alt="" />

@@ -1,12 +1,15 @@
 <!-- 资产BIM -->
 <script setup>
 import floorList from '@/components/common/floorList.vue';
+import floorData from '@/assets/floor.json';
 import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
-import { ref, reactive, onMounted, onBeforeUnmount } from 'vue';
+import { ref, reactive, onBeforeUnmount, watch, onMounted } from 'vue';
+import { ThreeModel } from '@/store/modules/modelManager.js';
+import { isContent, checkedTypeCellval } from '@/utils/index';
 
-let floorName = ref('--');
+const threeModel = ThreeModel();
 const specific = ref(null);
-const specificName = ref('2017');
+const specificName = ref('');
 let timer = ref(null);
 let number = ref(0);
 let data = reactive([
@@ -101,18 +104,13 @@ const schedule = ref([
         details: 'BIM建模：BIM暖通、机电专业建模',
     },
 ]);
-const handlerClickTree = obj => {
-    floorName.value = obj.floorName;
-};
 const handleCurrentChange = (data, node) => {
     if (!data.children) {
         console.log(data, node);
     }
 };
-onMounted(() => {
-    trajectory();
-});
 const trajectory = () => {
+    clearTrajectory();
     timer.value = setInterval(() => {
         specificName.value = '';
         if (number.value >= schedule.value.length - 1) {
@@ -120,14 +118,14 @@ const trajectory = () => {
         } else {
             number.value++;
         }
-        specific.value.style.left = `calc(50% - ${number.value * 190}px)`;
+        specific.value.style.left = `calc(50% - 95px - ${number.value * 190}px)`;
     }, 3000);
 };
 const handlerClickSpecific = (item, index) => {
     clearTrajectory();
     number.value = index;
     specificName.value = item.name;
-    specific.value.style.left = `calc(50% - ${index * 190}px)`;
+    specific.value.style.left = `calc(50% - 95px - ${index * 190}px)`;
 };
 const clearTrajectory = () => {
     clearInterval(timer.value);
@@ -135,15 +133,42 @@ const clearTrajectory = () => {
 onBeforeUnmount(() => {
     clearTrajectory();
 });
+onMounted(() => {
+    trajectory();
+});
+watch(
+    () => threeModel.sceneInformation.floorName,
+    newValue => {
+        if (checkedTypeCellval(newValue) == 'Null') {
+            trajectory();
+        } else {
+            clearTrajectory();
+        }
+    }
+);
 </script>
 
 <template>
     <div class="assetMeansBIM">
-        <div class="assetMeansBIMTree">
+        <div
+            class="assetMeansBIMTree"
+            v-if="
+                floorData.value.find(item => threeModel.sceneInformation.floorName == item.name)
+                    ?.floorName
+            "
+        >
             <detailsInforStyle>
                 <template #name>
                     当前楼层
-                    <span class="floorName">{{ floorName }}</span>
+                    <span class="floorName">
+                        {{
+                            isContent(
+                                floorData.value.find(
+                                    item => threeModel.sceneInformation.floorName == item.name
+                                )?.floorName
+                            )
+                        }}
+                    </span>
                 </template>
                 <template #main>
                     <el-scrollbar>
@@ -168,8 +193,17 @@ onBeforeUnmount(() => {
                 </template>
             </detailsInforStyle>
         </div>
-        <floorList style="z-index: 1" top="20" @handlerClickTree="handlerClickTree" />
-        <div class="dateProcess" @mouseenter="clearTrajectory()" @mouseleave="trajectory()">
+        <floorList style="z-index: 1" top="20" />
+        <div
+            class="dateProcess"
+            @mouseenter="clearTrajectory()"
+            @mouseleave="trajectory()"
+            v-if="
+                threeModel.sceneInformation.floorName == 0 || threeModel.sceneInformation.floorName
+                    ? false
+                    : true
+            "
+        >
             <div class="specific">
                 <ul ref="specific">
                     <template v-for="(item, index) in schedule" :key="item.name">
@@ -228,6 +262,8 @@ onBeforeUnmount(() => {
         background: #00000075;
         display: flex;
         align-items: center;
+        margin-bottom: 30px;
+        z-index: 0;
         animation: swipe 0.5s linear;
         @keyframes swipe {
             from {
@@ -245,7 +281,7 @@ onBeforeUnmount(() => {
                 width: 100%;
                 height: 100%;
                 position: absolute;
-                left: 50%;
+                left: calc(50% - 95px);
                 transform: translate(-50px, 0);
                 display: flex;
                 z-index: 2;
@@ -374,7 +410,7 @@ onBeforeUnmount(() => {
     .assetMeansBIMTree {
         position: absolute;
         width: 330px;
-        height: calc(100% - 20px);
+        height: calc(100% - 50px);
         top: 20px;
         right: 30px;
         background: #020d16d3;

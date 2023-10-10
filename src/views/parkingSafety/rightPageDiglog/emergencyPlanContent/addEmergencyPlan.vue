@@ -1,11 +1,8 @@
 <!-- 新增应急预案 -->
 <script setup>
-import { reactive, ref } from 'vue';
-import tableBox from '@/components/common/table.vue';
-import { DialogStore } from '@/store/modules/dialog.js';
+import { reactive } from 'vue';
+import newlyAdded from '@/components/common/newlyAdded.vue';
 
-const tableFromRef = ref(null);
-const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
     modelFormValue: {},
@@ -128,55 +125,17 @@ let tableFromOption = reactive({
         },
     ],
 });
-async function handlerSave() {
-    if (!tableFromRef.value.fromRef) return;
-    await tableFromRef.value.fromRef.validate((valid, fields) => {
-        if (valid) {
-            console.log('submit!');
-        } else {
-            console.log('error submit!', fields);
-        }
-    });
-}
-function handlerBack() {
-    dialogStore.$patch({
-        detailsDialogInfor: {
-            isShow: false,
-            obj: {
-                ...tableFromOption.modelFormValue,
-            },
-        },
-    });
-}
 </script>
 
 <template>
     <div class="addEmergencyPlan">
-        <el-scrollbar>
-            <div class="top">
-                <tableBox ref="tableFromRef" v-model:tableFromOption="tableFromOption" />
-            </div>
-        </el-scrollbar>
-        <div class="btnClick">
-            <div class="programsBtn" @click="handlerSave">保存</div>
-            <div class="programsBtn" @click="handlerBack">返回</div>
-        </div>
+        <newlyAdded v-model:tableFromOption="tableFromOption" />
     </div>
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/css/elementDefault.scss';
-:deep(.el-input__wrapper) {
-    height: 28px;
-}
 .addEmergencyPlan {
-    display: flex;
-    flex-direction: column;
     height: 100%;
     width: 100%;
-    .top {
-        flex-grow: 1;
-        width: 100%;
-    }
 }
 </style>

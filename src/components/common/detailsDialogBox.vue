@@ -24,9 +24,7 @@ function handlerClickClose() {
             </div>
             <div class="card-close" @click="handlerClickClose"></div>
             <div class="card-main">
-                <el-scrollbar>
-                    <component :is="dialogStore.getDetailsComponentPath"></component>
-                </el-scrollbar>
+                <component :is="dialogStore.getDetailsComponentPath"></component>
             </div>
         </div>
     </div>
@@ -92,6 +90,7 @@ function handlerClickClose() {
                     height: 16px;
                     background-color: #24fdfa;
                     margin-right: 10px;
+                    margin-bottom: 5px;
                     vertical-align: middle;
                 }
             }
