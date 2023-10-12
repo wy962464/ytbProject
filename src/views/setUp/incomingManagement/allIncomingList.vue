@@ -125,7 +125,59 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
-        isRowClick: true,
+        operatesBtnObj: {
+            width: 140,
+            operatesBtnList: [
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('详情');
+                                }}
+                            >
+                                详情
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['details'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('修改');
+                                }}
+                            >
+                                修改
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['update'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('删除');
+                                }}
+                            >
+                                删除
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['del'],
+                },
+            ],
+        },
     },
     totalCount: 23,
     pageSize: 10,

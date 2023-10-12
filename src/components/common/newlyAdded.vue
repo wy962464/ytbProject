@@ -17,6 +17,9 @@ async function handlerSave() {
     await tableFromRef.value.fromRef.validate((valid, fields) => {
         if (valid) {
             console.log('submit!');
+            tableFromRef.value.uploadRef.map(item => {
+                item.handleFileSubmit();
+            });
         } else {
             console.log('error submit!', fields);
         }

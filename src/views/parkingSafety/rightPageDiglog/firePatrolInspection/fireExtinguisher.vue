@@ -144,7 +144,7 @@ let tableFromOption = reactive({
             {
                 prop: 'berthCodess',
                 label: '资产编码',
-                width: 190,
+                width: 180,
             },
             {
                 prop: 'berthType',
@@ -188,6 +188,8 @@ let tableFromOption = reactive({
                 label: '巡检人',
             },
         ],
+        isMultiple: true,
+        selectionChangeList: [],
         isSerialNumber: true,
     },
     totalCount: 5,
@@ -200,4 +202,22 @@ let tableFromOption = reactive({
     <tableBox v-model:tableFromOption="tableFromOption" />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.is-current > .el-tree-node__content) {
+    background: linear-gradient(
+        to right,
+        rgba(31, 255, 147, 0),
+        rgba(31, 255, 147, 0.5)
+    ) !important;
+}
+:deep(.el-table__header .el-checkbox) {
+    display: none;
+}
+:deep(.el-table__header thead tr) {
+    th:nth-child(2) .cell {
+        &::after {
+            content: '操作';
+        }
+    }
+}
+</style>

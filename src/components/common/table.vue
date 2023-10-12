@@ -564,10 +564,6 @@ defineExpose({
                         >
                             新增
                         </el-button>
-                        <el-button v-hasPermi="['del']" color="rgba(13, 21, 30, 0)">修改</el-button>
-                        <el-button v-hasPermi="['update']" color="rgba(13, 21, 30, 0)">
-                            删除
-                        </el-button>
                     </template>
                     <!-- 其他操作按钮 -->
                     <template
@@ -759,19 +755,26 @@ defineExpose({
                         "
                     >
                         <el-table-column
+                            v-hasPermi="['update', 'del']"
                             :label="props.tableFromOption.tableObj.operatesBtnObj.title || '操作'"
                             :align="props.tableFromOption.tableObj.operatesBtnObj.align || 'center'"
                             :min-width="props.tableFromOption.tableObj.operatesBtnObj.minWidth"
-                            :width="props.tableFromOption.tableObj.operatesBtnObj.width"
+                            :width="props.tableFromOption.tableObj.operatesBtnObj.width || 100"
                             :fixed="props.tableFromOption.tableObj.operatesBtnObj.fixed"
                         >
                             <template #default="scope">
-                                <template
-                                    v-for="item in props.tableFromOption.tableObj.operatesBtnObj
-                                        .operatesBtnList"
-                                >
-                                    <renderDom :row="scope.row" :render="item.render"></renderDom>
-                                </template>
+                                <div class="operatesBtnStyle">
+                                    <template
+                                        v-for="item in props.tableFromOption.tableObj.operatesBtnObj
+                                            .operatesBtnList"
+                                    >
+                                        <renderDom
+                                            v-hasPermi="item.hasPermi"
+                                            :row="scope.row"
+                                            :render="item.render"
+                                        ></renderDom>
+                                    </template>
+                                </div>
                             </template>
                         </el-table-column>
                     </template>
@@ -1022,5 +1025,12 @@ defineExpose({
     font-size: 12px;
     text-align: left;
     color: #ffffff;
+}
+.operatesBtnStyle {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    margin-right: 10px;
 }
 </style>

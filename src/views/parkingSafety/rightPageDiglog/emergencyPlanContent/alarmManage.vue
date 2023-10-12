@@ -10,20 +10,6 @@ let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
     isShowOperateBtn: true,
-    otherBtnList: [
-        {
-            name: '处置',
-            handlerClick: () => {
-                console.log('处置');
-            },
-        },
-        {
-            name: '撤警',
-            handlerClick: () => {
-                console.log('撤警');
-            },
-        },
-    ],
     modelFormValue: {},
     fromItem: [
         {
@@ -184,6 +170,38 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
+        operatesBtnObj: {
+            operatesBtnList: [
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => handlerClick(row)}
+                            >
+                                处置
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['add'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => handlerClick(row)}
+                            >
+                                撤警
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['add'],
+                },
+            ],
+        },
     },
     totalCount: 23,
     pageSize: 10,

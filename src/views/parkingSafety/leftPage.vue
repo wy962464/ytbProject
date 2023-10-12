@@ -122,11 +122,16 @@ let tableFromOption = reactive({
                 {
                     render: row => {
                         return (
-                            <el-link type="success" onClick={e => handlerClickTable(row)}>
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => handlerClickTable(row)}
+                            >
                                 查看图片
                             </el-link>
                         );
                     },
+                    hasPermi: ['details'],
                 },
             ],
         },

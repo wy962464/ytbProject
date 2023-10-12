@@ -168,6 +168,8 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
+        isMultiple: true,
+        selectionChangeList: [],
     },
     totalCount: 5,
     pageSize: 10,
@@ -191,4 +193,22 @@ function handleNameClick(row) {
     <tableBox v-model:tableFromOption="tableFromOption" />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.is-current > .el-tree-node__content) {
+    background: linear-gradient(
+        to right,
+        rgba(31, 255, 147, 0),
+        rgba(31, 255, 147, 0.5)
+    ) !important;
+}
+:deep(.el-table__header .el-checkbox) {
+    display: none;
+}
+:deep(.el-table__header thead tr) {
+    th:nth-child(2) .cell {
+        &::after {
+            content: '操作';
+        }
+    }
+}
+</style>

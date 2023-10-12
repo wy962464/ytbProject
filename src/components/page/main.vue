@@ -12,7 +12,7 @@ const authStore = AuthStore();
     <div class="content" v-if="sidebarStore.isModel">
         <!-- 模型 -->
         <div class="content_model">
-            <Model />
+            <!-- <Model /> -->
         </div>
         <div
             class="content_card"

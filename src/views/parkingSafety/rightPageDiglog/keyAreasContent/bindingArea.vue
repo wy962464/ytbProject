@@ -115,20 +115,25 @@ let tableFromOption = reactive({
                 label: '位置描述',
             },
         ],
+        isSerialNumber: true,
         operatesBtnObj: {
             operatesBtnList: [
                 {
                     render: row => {
                         return (
-                            <el-link type="success" onClick={e => handlerClick(row)}>
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => handlerClick(row)}
+                            >
                                 添加
                             </el-link>
                         );
                     },
+                    hasPermi: ['add'],
                 },
             ],
         },
-        isSerialNumber: true,
     },
     totalCount: 23,
     pageSize: 10,

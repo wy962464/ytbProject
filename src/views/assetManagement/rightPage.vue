@@ -33,7 +33,7 @@ const handlerClickInventory = () => {
 const handlerClickSpace = () => {
     dialogStore.$patch({
         dialogInfor: {
-            title: '资产清单管理',
+            title: '资产空间管理',
             isShow: true,
             width: 1279,
             height: 685,

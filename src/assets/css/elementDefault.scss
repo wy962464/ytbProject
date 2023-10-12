@@ -157,3 +157,8 @@
     outline-offset: 0px;
   }
 }
+
+.el-link.el-link--success {
+  --el-link-text-color: #00FF84;
+  --el-link-hover-text-color: #00ff84bd;
+}

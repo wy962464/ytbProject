@@ -1,5 +1,5 @@
 <!-- 我的预约 -->
-<script setup>
+<script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
 
@@ -8,8 +8,15 @@ let tableFromOption = reactive({
     isQueryBtn: true,
     isShowTable: true,
     isShowOperateBtn: true,
-    isBasicOperateBtn: true,
     modelFormValue: {},
+    otherBtnList: [
+        {
+            name: '新增预约',
+            handlerClick: () => {
+                alert('新增预约');
+            },
+        },
+    ],
     fromItem: [
         {
             type: 'select',
@@ -163,6 +170,43 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
+        operatesBtnObj: {
+            width: 160,
+            operatesBtnList: [
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('修改预约');
+                                }}
+                            >
+                                修改预约
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['update'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('取消预约');
+                                }}
+                            >
+                                取消预约
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['del'],
+                },
+            ],
+        },
     },
     totalCount: 23,
     pageSize: 10,

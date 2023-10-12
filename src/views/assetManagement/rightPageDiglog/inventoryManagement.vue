@@ -55,23 +55,31 @@ let tableFromOption = reactive({
     isQueryBtn: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
-    moreActionsList: [
+    otherBtnList: [
         {
-            name: '批量导入',
+            name: '导入',
             handlerClick: () => {
                 alert('批量导入');
             },
         },
         {
-            name: '批量导出',
+            name: '导出',
             handlerClick: () => {
                 alert('批量导出');
             },
         },
+    ],
+    moreActionsList: [
         {
             name: '搬迁',
             handlerClick: () => {
                 alert('搬迁');
+            },
+        },
+        {
+            name: '导出二维码',
+            handlerClick: () => {
+                alert('批量导入');
             },
         },
     ],
@@ -233,7 +241,59 @@ let tableFromOption = reactive({
         isSerialNumber: true,
         isMultiple: true,
         selectionChangeList: [],
-        isRowClick: true,
+        operatesBtnObj: {
+            width: 140,
+            operatesBtnList: [
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('修改');
+                                }}
+                            >
+                                修改
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['update'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('删除');
+                                }}
+                            >
+                                删除
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['del'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('维修');
+                                }}
+                            >
+                                维修
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['maintenance'],
+                },
+            ],
+        },
     },
     totalCount: 23,
     pageSize: 10,

@@ -126,6 +126,42 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
+        operatesBtnObj: {
+            operatesBtnList: [
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('修改');
+                                }}
+                            >
+                                修改
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['update'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('删除');
+                                }}
+                            >
+                                删除
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['del'],
+                },
+            ],
+        },
     },
     totalCount: 100,
     pageSize: 10,

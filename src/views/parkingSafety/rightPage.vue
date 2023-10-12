@@ -58,11 +58,16 @@ let tableFromOption = reactive({
                 {
                     render: row => {
                         return (
-                            <el-link type="danger" onClick={() => alert(JSON.stringify(row))}>
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={() => alert(JSON.stringify(row))}
+                            >
                                 删除
                             </el-link>
                         );
                     },
+                    hasPermi: ['del'],
                 },
             ],
         },

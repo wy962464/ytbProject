@@ -47,15 +47,15 @@ export const AuthStore = defineStore({
                                 isHide: true,
                                 leftSidebar: {
                                     path: "/Home/leftPage",
-                                    isShow: true
+                                    isShow: false
                                 },
                                 centerSidebar: {
                                     path: "/Home/centerPage",
-                                    isShow: true
+                                    isShow: false
                                 },
                                 rightSidebar: {
                                     path: "/Home/rightPage",
-                                    isShow: true
+                                    isShow: false
                                 }
                             }
                         },
