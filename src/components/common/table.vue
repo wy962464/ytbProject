@@ -7,6 +7,8 @@ import uploadFile from '@/components/common/uploadFile.vue';
 const fromRef = ref(null);
 const uploadRef = ref(null);
 const elTables = ref(null);
+const treeRef = ref(null);
+
 const {
     dataListObj,
     getDataList,
@@ -291,6 +293,7 @@ defineExpose({
     resetForm,
     fromRef,
     uploadRef,
+    treeRef,
 });
 </script>
 
@@ -374,7 +377,9 @@ defineExpose({
                                     :label-width="`${item.labelWidth}px`"
                                     :style="{
                                         alignItems:
-                                            item.type == 'uploadFile' ? 'flex-start' : 'center',
+                                            item.type == 'uploadFile' || item.type == 'tree'
+                                                ? 'flex-start'
+                                                : 'center',
                                     }"
                                 >
                                     <!-- 输入框 -->
@@ -618,7 +623,7 @@ defineExpose({
                                             </template>
                                         </uploadFile>
                                     </template>
-                                    <!-- slider -->
+                                    <!-- slider 时间选择 -->
                                     <template v-if="item.type === 'slider'">
                                         <el-slider
                                             v-model="
@@ -640,6 +645,27 @@ defineExpose({
                                                 }
                                             "
                                         />
+                                    </template>
+                                    <!-- 树形控件 -->
+                                    <template v-if="item.type === 'tree'">
+                                        <el-tree
+                                            ref="treeRef"
+                                            :data="item.data"
+                                            :props="item.defaultProps"
+                                            default-expand-all
+                                            show-checkbox
+                                            @check-change="item.handleCheckChange"
+                                            icon="ArrowRightBold"
+                                            :style="item.style"
+                                        >
+                                            <template v-slot="{ node, data }">
+                                                <span
+                                                    class="ellipsis"
+                                                    v-text="node.label"
+                                                    :title="node.label"
+                                                ></span>
+                                            </template>
+                                        </el-tree>
                                     </template>
                                     <!-- vnodes -->
                                     <template v-if="item.type === 'vnodes'">
@@ -1178,5 +1204,17 @@ defineExpose({
         color: #ffffff;
         transform: scale(1.5);
     }
+}
+.el-tree {
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #022722;
+    flex-grow: 1;
+    --el-tree-node-hover-bg-color: linear-gradient(
+        to right,
+        rgba(31, 255, 147, 0),
+        rgba(31, 255, 147, 0.5)
+    );
 }
 </style>

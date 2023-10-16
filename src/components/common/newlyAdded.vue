@@ -35,6 +35,9 @@ function handlerClose() {
         },
     });
 }
+defineExpose({
+    tableFromRef,
+});
 </script>
 
 <template>
