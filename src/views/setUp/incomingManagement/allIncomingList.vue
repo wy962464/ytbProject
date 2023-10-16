@@ -2,7 +2,9 @@
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
@@ -88,16 +90,6 @@ let tableFromOption = reactive({
             {
                 prop: 'taskList',
                 label: '任务清单',
-                render: row => {
-                    return (
-                        <span
-                            style={{ color: '#00FF84', cursor: 'pointer' }}
-                            onClick={() => handleNameClick(row)}
-                        >
-                            {row.taskList}
-                        </span>
-                    );
-                },
             },
             {
                 prop: 'sourceUnit',
@@ -135,7 +127,15 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('详情');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '任务详情',
+                                            isShow: true,
+                                            width: 700,
+                                            height: 570,
+                                            path: '/setUp/incomingManagement/detailsAllIncomingList',
+                                        },
+                                    });
                                 }}
                             >
                                 详情
@@ -186,11 +186,22 @@ let tableFromOption = reactive({
 const handleNameClick = row => {
     alert(JSON.stringify(row));
 };
+const handlerClickAdd = () => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: '新增来文',
+            isShow: true,
+            width: 700,
+            height: 420,
+            path: '/setUp/incomingManagement/addAllIncomingList',
+        },
+    });
+};
 </script>
 
 <template>
     <div class="allIncomingList">
-        <tableBox v-model:tableFromOption="tableFromOption" />
+        <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
     </div>
 </template>
 

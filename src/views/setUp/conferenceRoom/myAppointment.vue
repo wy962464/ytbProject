@@ -2,7 +2,9 @@
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
@@ -13,7 +15,15 @@ let tableFromOption = reactive({
         {
             name: '新增预约',
             handlerClick: () => {
-                alert('新增预约');
+                dialogStore.$patch({
+                    detailsDialogInfor: {
+                        title: '新增会议室预约',
+                        isShow: true,
+                        width: 750,
+                        height: 580,
+                        path: '/setUp/conferenceRoom/addAppointment',
+                    },
+                });
             },
         },
     ],

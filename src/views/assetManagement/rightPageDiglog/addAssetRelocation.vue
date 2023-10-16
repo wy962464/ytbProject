@@ -125,7 +125,7 @@ let tableFromOption = reactive({
         },
         {
             type: 'treeSelect',
-            label: '功能属性：',
+            label: '所属公交公司：',
             labelWidth: 120,
             prop: 'type',
             placeholder: '请选择',
@@ -133,13 +133,53 @@ let tableFromOption = reactive({
             rules: [
                 {
                     required: true,
-                    message: '请选择功能属性',
+                    message: '请选择所属公交公司',
                     trigger: ['change', 'blur'],
                 },
             ],
             style: {
                 width: '200px',
             },
+            treeSelectList: [
+                {
+                    value: 1,
+                    label: '深圳西部公共汽车有限公司',
+                    children: [
+                        {
+                            value: 2,
+                            label: '西部公汽第一分公司',
+                        },
+                        {
+                            value: 3,
+                            label: '西部公汽第三分公司',
+                        },
+                    ],
+                },
+                {
+                    value: 6,
+                    label: '深圳巴士集团股份有限公司',
+                    children: [
+                        {
+                            value: 7,
+                            label: '巴士集团第四分公司',
+                        },
+                        {
+                            value: 10,
+                            label: '巴士集团第五分公司',
+                        },
+                    ],
+                },
+                {
+                    value: 8,
+                    label: '深圳东部公共公交有限公司',
+                    children: [
+                        {
+                            value: 9,
+                            label: '东部公交第二分公司',
+                        },
+                    ],
+                },
+            ],
         },
         {
             type: 'uploadFile',
@@ -175,46 +215,6 @@ let tableFromOption = reactive({
             style: {
                 width: '520px',
             },
-        },
-    ],
-    treeSelectList: [
-        {
-            value: 1,
-            label: '深圳西部公共汽车有限公司',
-            children: [
-                {
-                    value: 2,
-                    label: '西部公汽第一分公司',
-                },
-                {
-                    value: 3,
-                    label: '西部公汽第三分公司',
-                },
-            ],
-        },
-        {
-            value: 6,
-            label: '深圳巴士集团股份有限公司',
-            children: [
-                {
-                    value: 7,
-                    label: '巴士集团第四分公司',
-                },
-                {
-                    value: 10,
-                    label: '巴士集团第五分公司',
-                },
-            ],
-        },
-        {
-            value: 8,
-            label: '深圳东部公共公交有限公司',
-            children: [
-                {
-                    value: 9,
-                    label: '东部公交第二分公司',
-                },
-            ],
         },
     ],
 });

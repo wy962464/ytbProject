@@ -2,7 +2,9 @@
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
@@ -108,11 +110,22 @@ let tableFromOption = reactive({
     pageSize: 10,
     pageNo: 1,
 });
+const handlerClickAdd = () => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: '新增消息信息',
+            isShow: true,
+            width: 700,
+            height: 352,
+            path: '/setUp/informationRelease/addinFormationRelease',
+        },
+    });
+};
 </script>
 
 <template>
     <div class="informationRelease">
-        <tableBox v-model:tableFromOption="tableFromOption" />
+        <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
     </div>
 </template>
 

@@ -10,6 +10,7 @@ let tableFromOption = reactive({
     isQueryBtn: true,
     isLibrary: true,
     isShowOperateBtn: true,
+    isBasicOperateBtn: true,
     modelFormValue: {},
     fromItem: [
         {
@@ -42,28 +43,23 @@ let tableFromOption = reactive({
         ],
         isMemberClick: true,
     },
-    otherBtnList: [
-        {
-            name: '新增',
-            handlerClick: () => {
-                dialogStore.$patch({
-                    detailsDialogInfor: {
-                        title: '新增资产构件',
-                        isShow: true,
-                        width: 700,
-                        height: 466,
-                        path: '/assetManagement/rightPageDiglog/addMemberProperty',
-                    },
-                });
-            },
-        },
-    ],
     totalCount: 5,
     pageSize: 10,
     pageNo: 1,
 });
 const handlerClickMember = item => {
     alert(JSON.stringify(item));
+};
+const handlerClickAdd = () => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: '新增资产构件',
+            isShow: true,
+            width: 700,
+            height: 466,
+            path: '/assetManagement/rightPageDiglog/addMemberProperty',
+        },
+    });
 };
 </script>
 
@@ -72,6 +68,7 @@ const handlerClickMember = item => {
         <tableBox
             ref="tableFromRef"
             v-model:tableFromOption="tableFromOption"
+            @handlerClickAdd="handlerClickAdd"
             @handlerClickMember="handlerClickMember"
         />
     </div>

@@ -1,5 +1,5 @@
 <!-- 会议审批 -->
-<script setup>
+<script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
 
@@ -56,12 +56,6 @@ let tableFromOption = reactive({
         },
     ],
     otherBtnList: [
-        {
-            name: '审批预约',
-            handlerClick: () => {
-                alert('审批预约');
-            },
-        },
         {
             name: '一键通过',
             handlerClick: () => {
@@ -175,9 +169,28 @@ let tableFromOption = reactive({
                 label: '备注',
             },
         ],
-        isMultiple: true,
-        selectionChangeList: [],
         isSerialNumber: true,
+        operatesBtnObj: {
+            width: 100,
+            operatesBtnList: [
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    alert('审批预约');
+                                }}
+                            >
+                                审批预约
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['update'],
+                },
+            ],
+        },
     },
     totalCount: 23,
     pageSize: 10,

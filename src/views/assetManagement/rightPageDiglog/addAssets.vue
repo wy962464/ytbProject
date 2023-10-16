@@ -13,17 +13,82 @@ let tableFromOption = reactive({
             labelWidth: 120,
             prop: 'type',
             placeholder: '请选择',
-            suffixIcon: 'Search',
             rules: [
                 {
                     required: true,
-                    message: '请输入资产类别',
+                    message: '请选择资产类别',
                     trigger: ['change', 'blur'],
                 },
             ],
             style: {
                 width: '200px',
             },
+            treeSelectList: [
+                {
+                    value: 1,
+                    label: '配电系统',
+                    children: [
+                        {
+                            value: 2,
+                            label: '低压柜',
+                        },
+                        {
+                            value: 3,
+                            label: '变压器',
+                        },
+                        {
+                            value: 4,
+                            label: '高压柜',
+                        },
+                        {
+                            value: 5,
+                            label: '补偿柜',
+                        },
+                    ],
+                },
+                {
+                    value: 6,
+                    label: '二供水系统',
+                    children: [
+                        {
+                            value: 7,
+                            label: '给水泵',
+                        },
+                    ],
+                },
+                {
+                    value: 8,
+                    label: '供排水系统',
+                    children: [
+                        {
+                            value: 9,
+                            label: '潜水泵',
+                        },
+                    ],
+                },
+                {
+                    value: 10,
+                    label: '供排水系统',
+                    children: [
+                        {
+                            value: 11,
+                            label: '整体网络架构系统',
+                        },
+                        {
+                            value: 12,
+                            label: '管理服务器及主机',
+                        },
+                        {
+                            value: 13,
+                            label: '车辆识别监控',
+                        },
+                        {
+                            value: 14,
+                            label: '道闸系统',
+                        },
+                    ],
+                },
+            ],
         },
         {
             type: 'input',
@@ -240,72 +305,6 @@ let tableFromOption = reactive({
             style: {
                 width: '520px',
             },
-        },
-    ],
-    treeSelectList: [
-        {
-            value: 1,
-            label: '配电系统',
-            children: [
-                {
-                    value: 2,
-                    label: '低压柜',
-                },
-                {
-                    value: 3,
-                    label: '变压器',
-                },
-                {
-                    value: 4,
-                    label: '高压柜',
-                },
-                {
-                    value: 5,
-                    label: '补偿柜',
-                },
-            ],
-        },
-        {
-            value: 6,
-            label: '二供水系统',
-            children: [
-                {
-                    value: 7,
-                    label: '给水泵',
-                },
-            ],
-        },
-        {
-            value: 8,
-            label: '供排水系统',
-            children: [
-                {
-                    value: 9,
-                    label: '潜水泵',
-                },
-            ],
-        },
-        {
-            value: 10,
-            label: '供排水系统',
-            children: [
-                {
-                    value: 11,
-                    label: '整体网络架构系统',
-                },
-                {
-                    value: 12,
-                    label: '管理服务器及主机',
-                },
-                {
-                    value: 13,
-                    label: '车辆识别监控',
-                },
-                {
-                    value: 14,
-                    label: '道闸系统',
-                },
-            ],
         },
     ],
 });

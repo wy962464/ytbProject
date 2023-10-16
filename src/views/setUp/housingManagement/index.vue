@@ -150,7 +150,6 @@ let tableFromOption = reactive({
         ],
         isSerialNumber: true,
         isMultiple: true,
-        isRowClick: true,
         selectionChangeList: [],
     },
     totalCount: 23,

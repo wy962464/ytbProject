@@ -30,6 +30,12 @@
   }
 }
 
+:deep(.el-input.is-disabled .el-input__wrapper) {
+  background: rgba(13, 21, 30, 0);
+  --el-disabled-border-color: rgba(13, 21, 30, 0);
+}
+
+
 :deep(.el-form-item.is-error .el-input__wrapper) {
   box-shadow: 0 0 0 1px var(--el-color-danger) inset;
   --el-select-border-color-hover: var(--el-color-danger);

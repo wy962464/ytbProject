@@ -119,6 +119,81 @@ const monthObj = {
     十一月: '11月',
     十二月: '12月',
 };
+// 滑块时间设置
+const sliderMarks = {
+    0: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '08:00',
+    },
+    6: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '09:00',
+    },
+    12: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '10:00',
+    },
+    18: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '11:00',
+    },
+    24: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '12:00',
+    },
+    30: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '13:00',
+    },
+    36: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '14:00',
+    },
+    42: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '15:00',
+    },
+    48: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '16:00',
+    },
+    54: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '17:00',
+    },
+    60: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '18:00',
+    },
+    66: {
+        style: {
+            color: '#FFFFFF',
+        },
+        label: '19:00',
+    },
+};
 let numMonthArr = [
     '01月',
     '02月',
@@ -222,8 +297,13 @@ defineExpose({
 <template>
     <div class="table_module">
         <!-- form 表单-->
-        <template v-if="props.tableFromOption.isShowForm">
-            <div class="query_form">
+        <div
+            class="query_form"
+            :style="{
+                justifyContent: props.tableFromOption.isShowForm ? 'space-between' : 'flex-end',
+            }"
+        >
+            <template v-if="props.tableFromOption.isShowForm">
                 <div class="formContent">
                     <div class="switchBtn" v-if="props.tableFromOption.isShowSwitchBtn">
                         <div
@@ -303,6 +383,7 @@ defineExpose({
                                             :placeholder="item.placeholder"
                                             :style="item.style"
                                             :suffix-icon="item.suffixIcon"
+                                            :disabled="item.disabled"
                                             v-model="
                                                 props.tableFromOption.modelFormValue[`${item.prop}`]
                                             "
@@ -349,7 +430,7 @@ defineExpose({
                                             "
                                             :placeholder="item.placeholder"
                                             :style="item.style"
-                                            :data="props.tableFromOption.treeSelectList"
+                                            :data="item.treeSelectList"
                                             icon="ArrowRightBold"
                                             filterable
                                             :filter-node-method="filterNodeMethod"
@@ -537,6 +618,29 @@ defineExpose({
                                             </template>
                                         </uploadFile>
                                     </template>
+                                    <!-- slider -->
+                                    <template v-if="item.type === 'slider'">
+                                        <el-slider
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            range
+                                            :marks="sliderMarks"
+                                            :style="item.style"
+                                            :max="66"
+                                            :show-stops="true"
+                                            @input="item.input"
+                                            :format-tooltip="
+                                                val => {
+                                                    let remainder = val % 6;
+                                                    let time = parseInt(val / 6) + 8;
+                                                    return `${
+                                                        time >= 10 ? time : `0${time}`
+                                                    }:${remainder}0`;
+                                                }
+                                            "
+                                        />
+                                    </template>
                                     <!-- vnodes -->
                                     <template v-if="item.type === 'vnodes'">
                                         <renderDom :render="item.render"></renderDom>
@@ -553,59 +657,59 @@ defineExpose({
                         <el-button color="rgba(13, 21, 30, 0)" @click="resetForm">重置</el-button>
                     </div>
                 </div>
-                <!-- 操作按钮 -->
-                <div v-if="props.tableFromOption.isShowOperateBtn">
-                    <!-- 基本操作按钮 -->
-                    <template v-if="props.tableFromOption.isBasicOperateBtn">
-                        <el-button
-                            v-hasPermi="['add']"
-                            @click="handlerClickAdd"
-                            color="rgba(13, 21, 30, 0)"
-                        >
-                            新增
-                        </el-button>
-                    </template>
-                    <!-- 其他操作按钮 -->
-                    <template
-                        v-if="
-                            props.tableFromOption.otherBtnList &&
-                            props.tableFromOption.otherBtnList.length > 0
-                        "
+            </template>
+            <!-- 操作按钮 -->
+            <div v-if="props.tableFromOption.isShowOperateBtn">
+                <!-- 基本操作按钮 -->
+                <template v-if="props.tableFromOption.isBasicOperateBtn">
+                    <el-button
+                        v-hasPermi="['add']"
+                        @click="handlerClickAdd"
+                        color="rgba(13, 21, 30, 0)"
                     >
-                        <el-button
-                            v-for="item in props.tableFromOption.otherBtnList"
-                            :key="item.name"
-                            color="rgba(13, 21, 30, 0)"
-                            @click="item.handlerClick"
-                        >
-                            {{ item.name }}
-                        </el-button>
-                    </template>
-                    <!-- 更多操作按钮 -->
-                    <template
-                        v-if="
-                            props.tableFromOption.moreActionsList &&
-                            props.tableFromOption.moreActionsList.length > 0
-                        "
+                        新增
+                    </el-button>
+                </template>
+                <!-- 其他操作按钮 -->
+                <template
+                    v-if="
+                        props.tableFromOption.otherBtnList &&
+                        props.tableFromOption.otherBtnList.length > 0
+                    "
+                >
+                    <el-button
+                        v-for="item in props.tableFromOption.otherBtnList"
+                        :key="item.name"
+                        color="rgba(13, 21, 30, 0)"
+                        @click="item.handlerClick"
                     >
-                        <el-dropdown trigger="click" popper-class="dropdownPopperClass">
-                            <el-button color="rgba(13, 21, 30, 0)">更多操作</el-button>
-                            <template #dropdown>
-                                <el-dropdown-menu>
-                                    <el-dropdown-item
-                                        v-for="item in props.tableFromOption.moreActionsList"
-                                        :key="item.name"
-                                        @click="item.handlerClick"
-                                    >
-                                        {{ item.name }}
-                                    </el-dropdown-item>
-                                </el-dropdown-menu>
-                            </template>
-                        </el-dropdown>
-                    </template>
-                </div>
+                        {{ item.name }}
+                    </el-button>
+                </template>
+                <!-- 更多操作按钮 -->
+                <template
+                    v-if="
+                        props.tableFromOption.moreActionsList &&
+                        props.tableFromOption.moreActionsList.length > 0
+                    "
+                >
+                    <el-dropdown trigger="click" popper-class="dropdownPopperClass">
+                        <el-button color="rgba(13, 21, 30, 0)">更多操作</el-button>
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item
+                                    v-for="item in props.tableFromOption.moreActionsList"
+                                    :key="item.name"
+                                    @click="item.handlerClick"
+                                >
+                                    {{ item.name }}
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
+                </template>
             </div>
-        </template>
+        </div>
         <!-- table 表格 -->
         <template v-if="props.tableFromOption.isShowTable">
             <div class="query_table">
@@ -633,6 +737,8 @@ defineExpose({
                     @selection-change="handleSelectionChange"
                     @cell-click="handleCellClick"
                     @row-click="rowClick"
+                    row-key="id"
+                    :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
                     :highlight-current-row="props.tableFromOption.tableObj.isRowClick"
                     class="tableStyle"
                     height="100%"
@@ -1032,5 +1138,45 @@ defineExpose({
     flex-wrap: nowrap;
     justify-content: space-around;
     margin-right: 10px;
+}
+:deep(.el-slider) {
+    .el-slider__runway {
+        height: 50px;
+        background: #041d2c00;
+        border: 1px solid #275252;
+        border-radius: 0%;
+    }
+    .el-slider__bar {
+        height: 50px;
+        border-radius: 0%;
+        background: linear-gradient(to right, rgba(0, 255, 132, 0.6), rgba(0, 255, 132, 0.2));
+    }
+    .el-slider__stop {
+        height: 8px;
+        width: 1px;
+        background: rgb(48, 175, 114);
+    }
+    .el-slider__marks-stop {
+        height: 15px;
+        width: 1px;
+        background: rgb(48, 175, 114);
+    }
+    .el-slider__button {
+        position: absolute;
+        top: -2px;
+        left: 12px;
+        background: url('@/assets/images/homeImages/setUp/timeCursor.png') no-repeat;
+        background-size: 100% 100%;
+        border: none;
+        border-radius: 0%;
+        width: 12px;
+        height: 15px;
+    }
+}
+:deep(.el-table__expand-icon) {
+    & > .el-icon {
+        color: #ffffff;
+        transform: scale(1.5);
+    }
 }
 </style>
