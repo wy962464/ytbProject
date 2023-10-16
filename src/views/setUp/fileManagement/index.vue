@@ -215,11 +215,11 @@ const handlerClickClassification = () => {
 const handlerClickAdd = () => {
     dialogStore.$patch({
         detailsDialogInfor: {
-            title: '新增资产',
+            title: '新增文件',
             isShow: true,
             width: 750,
-            height: 538,
-            path: '/assetManagement/rightPageDiglog/addAssets',
+            height: 759,
+            path: '/setUp/fileManagement/addFileManagement',
         },
     });
 };

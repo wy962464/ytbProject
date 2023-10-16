@@ -1,9 +1,11 @@
 <script setup>
-import { watch } from 'vue';
+import { watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { AuthStore } from '@/store/modules/auth.js';
 import { SidebarStore } from '@/store/modules/sidebar.js';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+// 页面自适应
+import autofit from 'autofit.js';
 
 const route = useRoute();
 const authStore = AuthStore();
@@ -29,6 +31,14 @@ watch(
         }
     }
 );
+onMounted(() => {
+    autofit.init({
+        designHeight: 1080,
+        designWidth: 1920,
+        renderDom: '#app',
+        resize: true,
+    });
+});
 </script>
 
 <template>

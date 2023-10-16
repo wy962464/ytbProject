@@ -8,7 +8,8 @@ import directives from "@/directives/index";
 import elementIcon from "@/utils/svgicon";
 // 清除浏览器默认样式
 import 'css/clearDefault.scss';
-import "amfe-flexible/index.js";
+// 页面自适应
+// import "amfe-flexible/index.js";
 // 时间格式化
 import dayjs from 'dayjs'
 // 组织架构图插件
