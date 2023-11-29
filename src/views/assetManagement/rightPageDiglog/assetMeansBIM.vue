@@ -5,7 +5,7 @@ import floorData from '@/assets/floor.json';
 import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
 import { ref, reactive, onBeforeUnmount, watch, onMounted } from 'vue';
 import { ThreeModel } from '@/store/modules/modelManager.js';
-import { isContent, checkedTypeCellval } from '@/utils/index';
+import { isContent, checkedType } from '@/utils/index';
 
 const threeModel = ThreeModel();
 const specific = ref(null);
@@ -67,41 +67,38 @@ let data = reactive([
 const schedule = ref([
     {
         type: 'year',
-        name: '2017',
+        name: '2023',
     },
     {
         type: 'month',
-        name: '1月',
-        content: '主体结构：项目开工',
-        details: '软件开发：项目立项,需求调研BIM建模：BIM结构、建筑、给排水专业开始建模',
-    },
-    {
-        type: 'year',
-        name: '2018',
+        name: '3月',
+        content: '项目准备',
+        details: '制定项目计划、项目施工组织设计方案、深化图纸、项目开题会议',
     },
     {
         type: 'month',
-        name: '四月',
-        content: '主体结构：项目开工',
-        details: '软件开发：项目立项,需求调研BIM建模：BIM结构、建筑、给排水专业开始建模',
+        name: '5月',
+        content: 'BIM建模及轻量化应用',
+        details: '车场BIM模型、公交调度系统三维模型',
     },
     {
         type: 'month',
-        name: '五月',
-        content: '主体结构：项目开工',
-        details: 'BIM建模：BIM暖通、机电专业建模',
+        name: '6月',
+        content: '弱电系统施工、公交运营及场站管理系统施工',
+        details:
+            '综合布线系统及计算机网络系统、保安监控系统、综合巡更系统、防盗报警系统、门禁系统、无线对讲系统、周界报警系统等',
     },
     {
         type: 'month',
-        name: '六月',
-        content: '主体结构：项目开工',
-        details: '软件开发：项目立项,需求调研BIM建模：BIM结构、建筑、给排水专业开始建模',
+        name: '9月',
+        content: '系统设备联调测试、公交调度系统软件开发、工程项目初验',
+        details: '单一系统设备调试测试、系统联调调试等',
     },
     {
         type: 'month',
-        name: '七月',
-        content: '主体结构：项目开工',
-        details: 'BIM建模：BIM暖通、机电专业建模',
+        name: '11月',
+        content: '第三方测评及竣工验收',
+        details: '第三方测评、竣工资料准备、竣工验收专家评审会议、项目成果移交',
     },
 ]);
 const handleCurrentChange = (data, node) => {
@@ -139,7 +136,7 @@ onMounted(() => {
 watch(
     () => threeModel.sceneInformation.floorName,
     newValue => {
-        if (checkedTypeCellval(newValue) == 'Null') {
+        if (checkedType(newValue) == 'Null') {
             trajectory();
         } else {
             clearTrajectory();
@@ -237,7 +234,7 @@ watch(
                                 class="monthContent"
                                 v-if="item.name == specificName || index == number"
                             >
-                                <div class="monthContentFrame">{{ item.content }}</div>
+                                <span class="monthContentFrame">{{ item.content }}</span>
                             </div>
                             <div v-else class="monthContents">{{ item.details }}</div>
                         </li>
@@ -346,10 +343,12 @@ watch(
                         text-align: center;
                         line-height: 63px;
                         .monthContentFrame {
+                            display: inline-block;
                             position: relative;
                             left: 30px;
-                            min-width: 260px;
+                            top: -19px;
                             height: 41px;
+                            text-wrap: nowrap;
                             background: url('@/assets/images/homeImages/assetManagement/monthContentFrame.png')
                                 no-repeat;
                             background-size: 100% 100%;
@@ -358,7 +357,7 @@ watch(
                             text-align: left;
                             color: #00ff84;
                             line-height: 41px;
-                            text-indent: 20px;
+                            padding: 0 20px;
                         }
                     }
                     .monthContents {

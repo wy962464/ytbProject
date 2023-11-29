@@ -1,12 +1,14 @@
 <!-- 应急事件详情 -->
-<script setup>
+<script setup lang="jsx">
 import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
 import cameraTree from '@/components/common/cameraTree.vue';
 import videoPlayer from '@/components/common/videoPlayer.vue';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Crypoto from '@/utils/crypto.js';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 const crypoto = new Crypoto();
 const route = useRoute();
 let orgDataList = reactive({
@@ -28,15 +30,6 @@ let orgDataList = reactive({
                     department: '警戒疏导组',
                     position: '运营管理高级经理',
                     phone: '13667855917',
-                    children: [
-                        {
-                            id: 7,
-                            pid: 3,
-                            department: '主要成员',
-                            position: '保安员、保洁员',
-                            phone: '13667855917',
-                        },
-                    ],
                 },
                 {
                     id: 4,
@@ -46,10 +39,10 @@ let orgDataList = reactive({
                     phone: '13667855917',
                     children: [
                         {
-                            id: 7,
-                            pid: 3,
-                            department: '主要成员',
-                            position: '机电工',
+                            id: 6,
+                            pid: 4,
+                            department: '警戒疏导组',
+                            position: '运营管理高级经理',
                             phone: '13667855917',
                         },
                     ],
@@ -62,26 +55,17 @@ let orgDataList = reactive({
                     phone: '13667855917',
                     children: [
                         {
-                            id: 8,
-                            pid: 3,
-                            department: '主要成员',
-                            position: '站务管理员',
+                            id: 7,
+                            pid: 5,
+                            department: '警戒疏导组',
+                            position: '运营管理高级经理',
                             phone: '13667855917',
                         },
-                    ],
-                },
-                {
-                    id: 6,
-                    pid: 2,
-                    department: '通讯联络组',
-                    position: '事务员',
-                    phone: '13667855917',
-                    children: [
                         {
-                            id: 9,
-                            pid: 3,
-                            department: '主要成员',
-                            position: '事务员',
+                            id: 8,
+                            pid: 5,
+                            department: '警戒疏导组',
+                            position: '运营管理高级经理',
                             phone: '13667855917',
                         },
                     ],
@@ -99,6 +83,32 @@ const handlerClickCamera = () => {
 const handlerClickView = arr => {
     monitorList.list = arr;
 };
+const handlerNodeAdd = node => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: '新增节点',
+            isShow: true,
+            width: 500,
+            height: 300,
+            path: '/parkingSafety/rightPageDiglog/emergencyEventsContent/addTreeList',
+            obj: {
+                node,
+                orgDataList: null,
+            },
+        },
+    });
+};
+watch(
+    () => dialogStore.detailsDialogInfor.obj,
+    newValue => {
+        if (newValue.orgDataList) {
+            orgDataList = newValue.orgDataList;
+        }
+    },
+    {
+        deep: true,
+    }
+);
 </script>
 
 <template>
@@ -142,7 +152,17 @@ const handlerClickView = arr => {
         </div>
         <div class="center">
             <div class="center_left">
-                <vue3-tree-org :data="orgDataList" :tool-bar="false" :node-draggable="false" center>
+                <vue3-tree-org
+                    :data="orgDataList"
+                    :tool-bar="false"
+                    :node-draggable="false"
+                    center
+                    :node-add="handlerNodeAdd"
+                    :define-menus="[
+                        { name: '新增节点', command: 'add' },
+                        { name: '删除节点', command: 'delete' },
+                    ]"
+                >
                     <template v-slot="{ node }">
                         <div class="orgDataListStyle">
                             <div class="department">{{ node.$$data.department }}</div>
@@ -154,7 +174,7 @@ const handlerClickView = arr => {
             </div>
             <div class="center_right" v-show="cameraList">
                 <detailsInforStyle>
-                    <template #name>视频区域</template>
+                    <template #name>摄像头清单</template>
                     <template #main>
                         <div class="center_right_tree">
                             <cameraTree @handlerClickView="handlerClickView" />
@@ -344,10 +364,15 @@ const handlerClickView = arr => {
             width: 100%;
             height: 100%;
             display: grid;
-            grid-template-columns: repeat(3, 203px);
+            grid-template-columns: repeat(3, 1fr);
             grid-gap: 10px 10px;
             padding-bottom: 10px;
             box-sizing: border-box;
+            padding-right: 10px;
+            .videos_box {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

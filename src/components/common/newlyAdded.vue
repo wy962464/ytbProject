@@ -1,8 +1,9 @@
 <!-- 新增 -->
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import tableBox from '@/components/common/table.vue';
 import { DialogStore } from '@/store/modules/dialog.js';
+import { deepClone } from '@/utils/index';
 
 const tableFromRef = ref(null);
 const dialogStore = DialogStore();
@@ -12,26 +13,32 @@ const props = defineProps({
         default: () => {},
     },
 });
+const emit = defineEmits(['handlerSave']);
 async function handlerSave() {
     if (!tableFromRef.value.fromRef) return;
     await tableFromRef.value.fromRef.validate((valid, fields) => {
         if (valid) {
-            console.log('submit!');
-            tableFromRef.value.uploadRef.map(item => {
-                item.handleFileSubmit();
-            });
+            if (tableFromRef.value.uploadRef && tableFromRef.value.uploadRef.length > 0) {
+                tableFromRef.value.uploadRef.map(item => {
+                    item.handleFileSubmit();
+                });
+            }
+            emit('handlerSave', props.tableFromOption.modelFormValue);
         } else {
             console.log('error submit!', fields);
         }
     });
 }
+onMounted(() => {
+    if (dialogStore.detailsDialogInfor.isUpdate) {
+        props.tableFromOption.modelFormValue = deepClone(dialogStore.detailsDialogInfor.obj);
+    }
+});
 function handlerClose() {
     dialogStore.$patch({
         detailsDialogInfor: {
             isShow: false,
-            obj: {
-                ...props.tableFromOption.modelFormValue,
-            },
+            isUpdate: false,
         },
     });
 }

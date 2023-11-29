@@ -1,4 +1,4 @@
-<!-- 资产空间管理 -->
+<!-- 空间管理 -->
 <script setup lang="jsx">
 import floorData from '@/assets/floor.json';
 import { reactive } from 'vue';
@@ -225,7 +225,7 @@ const handlerClickAdd = () => {
             isShow: true,
             width: 750,
             height: 538,
-            path: '/assetManagement/rightPageDiglog/addAssetRelocation',
+            path: '/assetManagement/rightPageDiglog/addSpaceManagement',
         },
     });
 };

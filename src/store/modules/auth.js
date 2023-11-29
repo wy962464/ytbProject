@@ -47,15 +47,15 @@ export const AuthStore = defineStore({
                                 isHide: true,
                                 leftSidebar: {
                                     path: "/Home/leftPage",
-                                    isShow: false
+                                    isShow: true
                                 },
                                 centerSidebar: {
                                     path: "/Home/centerPage",
-                                    isShow: false
+                                    isShow: true
                                 },
                                 rightSidebar: {
                                     path: "/Home/rightPage",
-                                    isShow: false
+                                    isShow: true
                                 }
                             }
                         },
@@ -214,7 +214,7 @@ export const AuthStore = defineStore({
                         },
                     ]
                     resolve(routerLists)
-                }, 2000)
+                }, 0)
             })
         },
         async getMenuList() {

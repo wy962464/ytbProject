@@ -349,7 +349,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改应急预案',
+                                            isShow: true,
+                                            width: 750,
+                                            height: 478,
+                                            path: '/parkingSafety/rightPageDiglog/emergencyPlanContent/addEmergencyPlan',
+                                            isUpdate: true,
+                                            obj: { ...row },
+                                        },
+                                    });
                                 }}
                             >
                                 修改

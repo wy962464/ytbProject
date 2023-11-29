@@ -96,7 +96,7 @@ const dialogStore = DialogStore();
         font-size: 16px;
         text-align: left;
         color: #ffffff;
-        line-height: 35px;
+        line-height: 40px;
     }
     .imgPath {
         width: 200px;

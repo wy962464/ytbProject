@@ -7,7 +7,7 @@ import directives from "@/directives/index";
 // 全局注册element-plus icons
 import elementIcon from "@/utils/svgicon";
 // 清除浏览器默认样式
-import 'css/clearDefault.scss';
+import '@/assets/css/clearDefault.scss';
 // 页面自适应
 // import "amfe-flexible/index.js";
 // 时间格式化

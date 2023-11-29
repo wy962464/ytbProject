@@ -12,7 +12,7 @@ let tableFromOption = reactive({
             type: 'input',
             label: '文档标题：',
             labelWidth: 100,
-            prop: 'name',
+            prop: 'berthCode',
             placeholder: '请输入',
             rules: [
                 {
@@ -103,7 +103,6 @@ let tableFromOption = reactive({
                 },
             ],
             limit: 1,
-            styleType: 2,
             style: {
                 width: '540px',
             },

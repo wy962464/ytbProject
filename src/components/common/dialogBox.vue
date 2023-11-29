@@ -1,7 +1,7 @@
 <!-- 弹窗 -->
 <script setup>
 import { DialogStore } from '@/store/modules/dialog.js';
-import { checkedTypeCellval, clearRequest } from '@/utils/index';
+import { checkedType, clearRequest } from '@/utils/index';
 import { AuthStore } from '@/store/modules/auth.js';
 
 const dialogStore = DialogStore();
@@ -33,7 +33,7 @@ function handlerSeletTab(obj, index) {
             <div class="card-main">
                 <div
                     class="card-main-top"
-                    v-if="checkedTypeCellval(dialogStore.dialogInfor.path) === 'Array'"
+                    v-if="checkedType(dialogStore.dialogInfor.path) === 'Array'"
                 >
                     <div class="tab">
                         <div
@@ -59,14 +59,14 @@ function handlerSeletTab(obj, index) {
                     element-loading-background="rgba(0, 0, 0, 0.3)"
                 >
                     <component
-                        v-if="checkedTypeCellval(dialogStore.dialogInfor.path) === 'Array'"
+                        v-if="checkedType(dialogStore.dialogInfor.path) === 'Array'"
                         :is="
                             dialogStore.getComponentPath[dialogStore.dialogInfor.tabSeletNum]
                                 .component
                         "
                     ></component>
                     <component
-                        v-if="checkedTypeCellval(dialogStore.dialogInfor.path) === 'String'"
+                        v-if="checkedType(dialogStore.dialogInfor.path) === 'String'"
                         :is="dialogStore.getComponentPath"
                     ></component>
                 </div>

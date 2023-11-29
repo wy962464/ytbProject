@@ -120,7 +120,7 @@ function handlerClickBottom() {
         dialogInfor: {
             title: '消防巡检',
             isShow: true,
-            width: 1279,
+            width: 1500,
             height: 685,
             path: [
                 {

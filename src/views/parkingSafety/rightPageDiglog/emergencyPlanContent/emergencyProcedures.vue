@@ -9,7 +9,7 @@ const dialogStore = DialogStore();
 function handlerClickAdd() {
     dialogStore.$patch({
         detailsDialogInfor: {
-            title: '新增应急预案',
+            title: '新增应急响应程序',
             isShow: true,
             width: 700,
             height: 478,
@@ -47,7 +47,7 @@ let tableFromOption = reactive({
             {
                 berthCode: '防台风',
                 berthCodess: '防台风处置措施',
-                list: [
+                domainList: [
                     {
                         lable: '程序1',
                         value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
@@ -77,7 +77,7 @@ let tableFromOption = reactive({
             {
                 berthCode: '防台风',
                 berthCodess: '防台风处置措施',
-                list: [
+                domainList: [
                     {
                         lable: '程序1',
                         value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
@@ -95,7 +95,7 @@ let tableFromOption = reactive({
             {
                 berthCode: '防台风',
                 berthCodess: '防台风处置措施',
-                list: [
+                domainList: [
                     {
                         lable: '程序1',
                         value: `随时检查场站去水道、沙井、雨水渠等，清除可能引致淤塞
@@ -126,7 +126,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '新增应急响应程序',
+                                            isShow: true,
+                                            width: 700,
+                                            height: 478,
+                                            isUpdate: true,
+                                            obj: { ...row },
+                                            path: '/parkingSafety/rightPageDiglog/emergencyPlanContent/addEmergencyProcedures',
+                                        },
+                                    });
                                 }}
                             >
                                 修改
@@ -159,7 +169,7 @@ let tableFromOption = reactive({
     pageNo: 1,
 });
 let details = reactive({
-    list: [],
+    domainList: [],
 });
 function handleRowClick(row, column, cell, event) {
     for (let key in row) {
@@ -194,7 +204,7 @@ onMounted(() => {
             </div>
             <div class="card-main">
                 <el-scrollbar>
-                    <div class="reason" v-for="item in details.list">
+                    <div class="reason" v-for="(item, index) in details.domainList" :key="index">
                         <div class="lable">{{ isContent(item.lable) }}：</div>
                         <div class="value">
                             {{ isContent(item.value) }}

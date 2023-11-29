@@ -285,6 +285,7 @@ let data = reactive([
             color: #ffffff;
             background-color: rgba(0, 0, 0, 0);
             flex-grow: 1;
+            padding-right: 10px;
             --el-tree-node-hover-bg-color: linear-gradient(
                 to right,
                 rgba(31, 255, 147, 0),

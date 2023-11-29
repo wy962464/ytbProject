@@ -143,8 +143,6 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
-        isMultiple: true,
-        selectionChangeList: [],
         operatesBtnObj: {
             width: 100,
             operatesBtnList: [
@@ -155,7 +153,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改文件',
+                                            isShow: true,
+                                            isUpdate: true,
+                                            width: 750,
+                                            height: 759,
+                                            obj: { ...row },
+                                            path: '/setUp/fileManagement/addFileManagement',
+                                        },
+                                    });
                                 }}
                             >
                                 修改
@@ -243,24 +251,6 @@ const handlerClickAdd = () => {
 </template>
 
 <style scoped lang="scss">
-:deep(.is-current > .el-tree-node__content) {
-    background: linear-gradient(
-        to right,
-        rgba(31, 255, 147, 0),
-        rgba(31, 255, 147, 0.5)
-    ) !important;
-}
-:deep(.el-table__header .el-checkbox) {
-    display: none;
-}
-:deep(.el-table__header thead tr) {
-    th:nth-child(2) .cell {
-        &::after {
-            content: '操作';
-        }
-    }
-}
-
 .fileManagement {
     width: 100%;
     height: 100%;

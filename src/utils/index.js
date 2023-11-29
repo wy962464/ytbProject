@@ -52,7 +52,7 @@ export function getKeepAliveRouterName(menuList = [], keepAliveArr = []) {
     return keepAliveArr;
 }
 // 判断数据类型
-export function checkedTypeCellval(target) {
+export function checkedType(target) {
     return Object.prototype.toString.call(target).slice(8, -1);
 }
 // 字体转换 px -> rem
@@ -69,7 +69,7 @@ export function fontSize(res) {
 }
 // 判断是否有内容
 export function isContent(cellValue, symbol = '--') {
-    if (checkedTypeCellval(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
+    if (checkedType(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
         return symbol;
     } else {
         return cellValue;
@@ -87,4 +87,45 @@ export function clearRequest() {
             delete window._axiosPromiseArr[index];
         });
     }
-} 
+}
+// 深克隆
+export function deepClone(target) {
+    if (!target || typeof target !== "object") return target
+    let targetType = checkedType(target)
+    let result;
+    if (targetType === 'Object') {
+        result = {}
+    } else if (targetType === 'Array') {
+        result = []
+    } else {
+        return target
+    }
+    for (let key in target) {
+        if (target.hasOwnProperty(key)) {
+            result[key] = deepClone(target[key])
+        }
+    }
+    return result
+}
+// 判断对象是否全等
+export function isEqual(obj1, obj2) {
+    function isObject(target) {
+        return target !== null && typeof target === "object"
+    }
+    if (!isObject(obj1) || !isObject(obj2)) {
+        return obj1 === obj2
+    }
+    if (obj1 === obj2) {
+        return true
+    }
+    if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+        return false
+    }
+    for (let key in obj1) {
+        let res = isEqual(obj1[key], obj2[key])
+        if (!res) {
+            return false
+        }
+    }
+    return true
+}

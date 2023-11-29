@@ -1,6 +1,6 @@
 <!-- 系统管理组件 -->
 <script setup>
-import { checkedTypeCellval, clearRequest } from '@/utils/index';
+import { checkedType, clearRequest } from '@/utils/index';
 import { defineAsyncComponent, ref } from 'vue';
 import { AuthStore } from '@/store/modules/auth.js';
 
@@ -16,12 +16,12 @@ let path = ref(null);
 const getComponentPath = () => {
     if (
         props.systemMainOption.path &&
-        checkedTypeCellval(props.systemMainOption.path) === 'String'
+        checkedType(props.systemMainOption.path) === 'String'
     ) {
         path = defineAsyncComponent(modules['/src/views' + props.systemMainOption.path + '.vue']);
     } else if (
         props.systemMainOption.path &&
-        checkedTypeCellval(props.systemMainOption.path) === 'Array'
+        checkedType(props.systemMainOption.path) === 'Array'
     ) {
         path = props.systemMainOption.path.map(item => {
             return {
@@ -45,7 +45,7 @@ function handlerSeletTab(obj, index) {
 
 <template>
     <div class="systemMain">
-        <div class="tab" v-if="checkedTypeCellval(props.systemMainOption.path) === 'Array'">
+        <div class="tab" v-if="checkedType(props.systemMainOption.path) === 'Array'">
             <div
                 class="tabBtn"
                 :class="{ active: index == props.systemMainOption.tabSeletNum }"
@@ -59,11 +59,11 @@ function handlerSeletTab(obj, index) {
         </div>
         <div class="main">
             <component
-                v-if="checkedTypeCellval(props.systemMainOption.path) === 'Array'"
+                v-if="checkedType(props.systemMainOption.path) === 'Array'"
                 :is="path"
             ></component>
             <component
-                v-if="checkedTypeCellval(props.systemMainOption.path) === 'String'"
+                v-if="checkedType(props.systemMainOption.path) === 'String'"
                 :is="path"
             ></component>
         </div>

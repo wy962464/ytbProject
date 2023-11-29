@@ -1,6 +1,6 @@
 <script setup>
 import { ref, nextTick, watchEffect, onMounted } from 'vue';
-import { checkedTypeCellval } from '@/utils/index';
+import { checkedType } from '@/utils/index';
 import { useTableFrom } from '@/utils/tableFromHandler';
 import uploadFile from '@/components/common/uploadFile.vue';
 
@@ -100,7 +100,7 @@ const emit = defineEmits([
 const resetForm = () => {
     fromRef.value?.resetFields();
     for (let key in props.tableFromOption.modelFormValue) {
-        if (checkedTypeCellval(props.tableFromOption.modelFormValue[key]) === 'Undefined') {
+        if (checkedType(props.tableFromOption.modelFormValue[key]) === 'Undefined') {
             props.tableFromOption.modelFormValue[key] = '';
         }
     }
@@ -264,7 +264,7 @@ const handleCurrentSelect = (data, node) => {
     }
 };
 function formatterCellval(row, column, cellValue) {
-    if (checkedTypeCellval(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
+    if (checkedType(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
         return '--';
     } else {
         return cellValue;
@@ -323,7 +323,7 @@ defineExpose({
                     <el-form
                         ref="fromRef"
                         :model="props.tableFromOption.modelFormValue"
-                        :label-width="`${props.tableFromOption.labelWidth}px`"
+                        :label-width="props.tableFromOption.labelWidth"
                         :inline="props.tableFromOption.inline || false"
                         hide-required-asterisk
                     >
@@ -337,7 +337,7 @@ defineExpose({
                                     <el-form-item
                                         label="程序名称："
                                         :prop="'domainList.' + index + '.value'"
-                                        :label-width="`${item.labelWidth}px`"
+                                        :label-width="item.labelWidth"
                                     >
                                         <div :style="item.style" class="domainStyle">
                                             {{ `程序${index + 1}` }}
@@ -353,7 +353,7 @@ defineExpose({
                                                 trigger: ['change', 'blur'],
                                             },
                                         ]"
-                                        :label-width="`${item.labelWidth}px`"
+                                        :label-width="item.labelWidth"
                                     >
                                         <el-input
                                             autosize
@@ -374,7 +374,7 @@ defineExpose({
                                     :label="item.label"
                                     :prop="item.prop"
                                     :rules="item.rules"
-                                    :label-width="`${item.labelWidth}px`"
+                                    :label-width="item.labelWidth"
                                     :style="{
                                         alignItems:
                                             item.type == 'uploadFile' || item.type == 'tree'
@@ -552,7 +552,7 @@ defineExpose({
                                             prefix-icon=""
                                         />
                                     </template>
-                                    <!-- 文件上传 styleType:上传文件样式区分 -->
+                                    <!-- 文件上传 -->
                                     <template v-if="item.type === 'uploadFile'">
                                         <uploadFile
                                             ref="uploadRef"
@@ -564,51 +564,28 @@ defineExpose({
                                             :accept="item.accept"
                                             :limit="item.limit"
                                         >
-                                            <template
-                                                #content
-                                                v-if="item.styleType == 1 && item.limit === 1"
-                                            >
-                                                <div class="leftContent">
-                                                    <div
-                                                        class="text"
-                                                        v-if="
-                                                            props.tableFromOption.modelFormValue[
-                                                                `${item.prop}`
-                                                            ] &&
-                                                            props.tableFromOption.modelFormValue[
-                                                                `${item.prop}`
-                                                            ].length > 0
-                                                        "
-                                                    >
-                                                        {{
-                                                            props.tableFromOption.modelFormValue[
-                                                                `${item.prop}`
-                                                            ][0].name
-                                                        }}
-                                                    </div>
-                                                    <div class="text" v-else>-模型</div>
-                                                </div>
-                                            </template>
-                                            <template
-                                                #tip
-                                                v-if="item.styleType == 2 && item.limit === 1"
-                                            >
+                                            <template #tip>
                                                 <div class="el-upload__tip uploadTip">
                                                     <div class="icon"></div>
                                                     <div
                                                         class="text"
                                                         v-if="
                                                             props.tableFromOption.modelFormValue[
-                                                                `${item.prop}`
+                                                                item.prop
                                                             ] &&
                                                             props.tableFromOption.modelFormValue[
-                                                                `${item.prop}`
+                                                                item.prop
                                                             ].length > 0
+                                                        "
+                                                        :title="
+                                                            props.tableFromOption.modelFormValue[
+                                                                item.prop
+                                                            ][0].name
                                                         "
                                                     >
                                                         {{
                                                             props.tableFromOption.modelFormValue[
-                                                                `${item.prop}`
+                                                                item.prop
                                                             ][0].name
                                                         }}
                                                     </div>
@@ -1143,6 +1120,9 @@ defineExpose({
     align-items: center;
     .text {
         margin-left: 6px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
     .icon {
         width: 12px;

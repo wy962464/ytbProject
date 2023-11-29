@@ -57,6 +57,16 @@ let tableFromOption = reactive({
             {
                 prop: 'berthCode',
                 label: '信息题目',
+                render: row => {
+                    return (
+                        <span
+                            style={{ color: '#00FF84', cursor: 'pointer' }}
+                            onClick={() => alert(row.berthCode)}
+                        >
+                            {row.berthCode}
+                        </span>
+                    );
+                },
             },
             {
                 prop: 'bimCode',
@@ -94,7 +104,13 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('删除');
+                                    ElMessageBox.confirm('确定删除该消息？', {
+                                        confirmButtonText: '确定',
+                                        cancelButtonText: '取消',
+                                        type: 'warning',
+                                    })
+                                        .then(() => {})
+                                        .catch(() => {});
                                 }}
                             >
                                 删除
@@ -116,7 +132,7 @@ const handlerClickAdd = () => {
             title: '新增消息信息',
             isShow: true,
             width: 700,
-            height: 352,
+            height: 700,
             path: '/setUp/informationRelease/addinFormationRelease',
         },
     });

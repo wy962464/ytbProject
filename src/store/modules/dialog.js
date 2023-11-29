@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { defineAsyncComponent } from "vue";
-import { checkedTypeCellval } from '@/utils/index';
+import { checkedType } from '@/utils/index';
 
 const modules = import.meta.glob("@/views/**/*.vue");
 export const DialogStore = defineStore({
@@ -25,6 +25,7 @@ export const DialogStore = defineStore({
                 path: "",
                 width: 700,
                 height: 570,
+                isUpdate: false,
                 obj: {}
             }
         }
@@ -32,9 +33,9 @@ export const DialogStore = defineStore({
     getters: {
         // 获取组件的地址
         getComponentPath: state => {
-            if (state.dialogInfor.path && checkedTypeCellval(state.dialogInfor.path) === 'String') {
+            if (state.dialogInfor.path && checkedType(state.dialogInfor.path) === 'String') {
                 return defineAsyncComponent(modules["/src/views" + state.dialogInfor.path + ".vue"])
-            } else if (state.dialogInfor.path && checkedTypeCellval(state.dialogInfor.path) === 'Array') {
+            } else if (state.dialogInfor.path && checkedType(state.dialogInfor.path) === 'Array') {
                 return state.dialogInfor.path.map(item => {
                     return {
                         name: item.name,

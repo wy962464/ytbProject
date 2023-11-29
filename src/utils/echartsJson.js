@@ -562,6 +562,7 @@ export const optionsStacking = {
         left: '3%',
         right: '4%',
         bottom: '3%',
+        top: "20%",
         containLabel: true,
     },
     xAxis: {

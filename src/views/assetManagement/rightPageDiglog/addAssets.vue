@@ -1,5 +1,5 @@
 <!-- 新增资产 -->
-<script setup>
+<script setup lang="jsx">
 import { reactive } from 'vue';
 import newlyAdded from '@/components/common/newlyAdded.vue';
 
@@ -272,21 +272,23 @@ let tableFromOption = reactive({
             },
         },
         {
-            type: 'uploadFile',
+            type: 'vnodes',
             label: '关联模型：',
             labelWidth: 120,
-            prop: 'names',
-            rules: [
-                {
-                    required: true,
-                    message: '请选择导入关联模型',
-                    trigger: ['change', 'blur'],
-                },
-            ],
-            limit: 1,
-            styleType: 1,
-            style: {
-                width: '300px',
+            render: () => {
+                return (
+                    <div style={{ display: 'flex', color: '#ffffff' }}>
+                        <span style={{ marginRight: '20px' }}>-模型</span>
+                        <div
+                            class={'programsBtn'}
+                            onClick={() => {
+                                alert('选择模型');
+                            }}
+                        >
+                            选择模型
+                        </div>
+                    </div>
+                );
             },
         },
         {

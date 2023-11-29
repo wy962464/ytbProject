@@ -95,7 +95,6 @@ let tableFromOption = reactive({
             {
                 prop: 'floor',
                 label: 'IP地址',
-                width: 150,
             },
             {
                 prop: 'company',

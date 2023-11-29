@@ -4,7 +4,12 @@ import { DialogStore } from '@/store/modules/dialog.js';
 
 const dialogStore = DialogStore();
 function handlerClickClose() {
-    dialogStore.detailsDialogInfor.isShow = false;
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            isShow: false,
+            isUpdate: false,
+        },
+    });
 }
 </script>
 

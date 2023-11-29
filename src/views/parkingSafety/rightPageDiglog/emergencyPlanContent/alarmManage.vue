@@ -159,10 +159,12 @@ let tableFromOption = reactive({
             {
                 prop: 'park',
                 label: '告警触发时间',
+                width: 150,
             },
             {
                 prop: 'direction',
                 label: '告警恢复时间',
+                width: 150,
             },
             {
                 prop: 'Entrance',
@@ -175,11 +177,7 @@ let tableFromOption = reactive({
                 {
                     render: row => {
                         return (
-                            <el-link
-                                underline={false}
-                                type="success"
-                                onClick={e => handlerClick(row)}
-                            >
+                            <el-link underline={false} type="success" onClick={e => alert('处置')}>
                                 处置
                             </el-link>
                         );
@@ -189,11 +187,7 @@ let tableFromOption = reactive({
                 {
                     render: row => {
                         return (
-                            <el-link
-                                underline={false}
-                                type="success"
-                                onClick={e => handlerClick(row)}
-                            >
+                            <el-link underline={false} type="success" onClick={e => alert('撤警')}>
                                 撤警
                             </el-link>
                         );

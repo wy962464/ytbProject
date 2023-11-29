@@ -71,7 +71,6 @@ let tableFromOption = reactive({
                 },
             ],
             limit: 1,
-            styleType: 2,
             style: {
                 width: '300px',
             },

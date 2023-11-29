@@ -138,7 +138,6 @@ let tableFromOption = reactive({
             {
                 prop: 'berthType',
                 label: '申请人',
-                width: 120,
             },
             {
                 prop: 'number',
@@ -152,7 +151,6 @@ let tableFromOption = reactive({
             {
                 prop: 'position',
                 label: '设备楼层',
-                width: 100,
             },
             {
                 prop: 'floor',
@@ -161,6 +159,7 @@ let tableFromOption = reactive({
             {
                 prop: 'notes',
                 label: '维修金额(元)',
+                width: 110,
             },
             {
                 prop: 'status',
@@ -168,8 +167,6 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
-        isMultiple: true,
-        selectionChangeList: [],
     },
     totalCount: 5,
     pageSize: 10,
@@ -193,22 +190,4 @@ function handleNameClick(row) {
     <tableBox v-model:tableFromOption="tableFromOption" />
 </template>
 
-<style scoped lang="scss">
-:deep(.is-current > .el-tree-node__content) {
-    background: linear-gradient(
-        to right,
-        rgba(31, 255, 147, 0),
-        rgba(31, 255, 147, 0.5)
-    ) !important;
-}
-:deep(.el-table__header .el-checkbox) {
-    display: none;
-}
-:deep(.el-table__header thead tr) {
-    th:nth-child(2) .cell {
-        &::after {
-            content: '操作';
-        }
-    }
-}
-</style>
+<style scoped lang="scss"></style>

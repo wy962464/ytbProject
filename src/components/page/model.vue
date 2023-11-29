@@ -28,7 +28,6 @@ import {
     animateCamera,
     close,
     floorInformation,
-    handleBus,
 } from '@/utils/modelMethod.js';
 
 const moonbay = ref(null);
@@ -233,14 +232,14 @@ function externalModel() {
             gltf.scene.name = '外立面';
             buildModel().then(res => {
                 gltf.scene.children.push(res);
+                gltf.scene.children.forEach(item => {
+                    if (item.type == 'Group') {
+                        item.children.forEach(sub => {
+                            sub.ancestors = gltf.scene;
+                        });
+                    }
+                });
                 scene.add(gltf.scene);
-            });
-            gltf.scene.children.forEach(item => {
-                if (item.type == 'Group') {
-                    item.children.forEach(sub => {
-                        sub.ancestors = gltf.scene;
-                    });
-                }
             });
         }
     );
@@ -337,35 +336,40 @@ function floorModel() {
                         let outDrop = [];
                         let withinDrop = [];
                         item.children.map(items => {
-                            if (RegExp(/A3_/).test(items.name)) {
-                                // if (items.name == 'A3_13' || items.name == 'A3_14') {
+                            if (RegExp(/A6_/).test(items.name)) {
+                                option.parkingSpace.push({
+                                    name: items.name,
+                                    position: items.position,
+                                    rotation: items.rotation,
+                                });
                                 parkingSpace.push({
                                     name: items.name,
                                     position: items.position,
                                     rotation: items.rotation,
                                 });
-                                // }
                             }
-                            if (RegExp(/外3_/).test(items.name)) {
+                            if (RegExp(/外6_/).test(items.name)) {
                                 const coordinate = new THREE.Vector3(
                                     items.position.x,
-                                    items.position.y - 1.6,
+                                    items.position.y,
                                     items.position.z
                                 );
-                                outDrop.push(coordinate);
+                                outDrop.push({ name: items.name, position: coordinate });
                             }
-                            if (RegExp(/内3_/).test(items.name)) {
+                            if (RegExp(/内6_/).test(items.name)) {
                                 const coordinate = new THREE.Vector3(
                                     items.position.x,
-                                    items.position.y - 1.6,
+                                    items.position.y,
                                     items.position.z
                                 );
-                                withinDrop.push(coordinate);
+                                withinDrop.push({ name: items.name, position: coordinate });
                             }
                         });
                         if (parkingSpace.length > 0) {
-                            busModel(parkingSpace).then(res => {
-                                item.children = item.children.concat(res);
+                            busModel(parkingSpace, item).then(res => {
+                                res.map(keys => {
+                                    item.add(keys);
+                                });
                                 item.traverse(mesh => {
                                     mesh.layers = layers2;
                                 });
@@ -375,10 +379,10 @@ function floorModel() {
                             hideLoading();
                         }
                         if (outDrop.length > 0) {
-                            outsideTrajectoryLine(outDrop, parkingSpace);
+                            outsideTrajectoryLine(outDrop, parkingSpace, item);
                         }
                         if (withinDrop.length > 0) {
-                            withinTrajectoryLine(withinDrop, parkingSpace);
+                            withinTrajectoryLine(withinDrop, parkingSpace, item);
                         }
                         item.traverse(mesh => {
                             mesh.layers = layers2;
@@ -415,7 +419,7 @@ function floorModel() {
     }
 }
 // 加载公交车模型
-function busModel(busModelCoord) {
+function busModel(busModelCoord, floor) {
     let busModelList = [];
     const dracoLoader = new DRACOLoader();
     const loader = new GLTFLoader();
@@ -427,10 +431,13 @@ function busModel(busModelCoord) {
                 `/modelFile/2wesBUS.glb`,
                 // 加载成功时的回调
                 gltf => {
+                    gltf.scene.name = `${item.name}-公交车`;
                     gltf.scene.children[0].name = `${item.name}-公交车`;
                     gltf.scene.position.set(item.position.x, item.position.y, item.position.z);
                     gltf.scene.rotation.set(item.rotation._x, item.rotation._y, item.rotation._z);
-                    gltf.scene.rotateX(Math.PI * 2 * 0.75);
+                    gltf.scene.traverse(mesh => {
+                        mesh.ancestors = floor;
+                    });
                     resolve(gltf.scene);
                 }, // 加载过程中的回调函数
                 xhr => {},
@@ -485,6 +492,7 @@ let option = reactive({
     points: [],
     progress: 0,
     modelPosition: null,
+    parkingSpace: [],
 });
 function moveOnCurve() {
     if (option.model) {
@@ -499,20 +507,41 @@ function moveOnCurve() {
             option.points = outsideBusCurve?.points;
         }
         if (parseInt(option.progress) >= 1) {
-            option.progress = 0;
+            if (option.status == 0) {
+                let name = option.modelPosition.name.slice(0, 5);
+                let p = option.parkingSpace.find(item => name == item.name);
+                option.model.rotation.set(p.rotation._x, p.rotation._y, p.rotation._z);
+            } else {
+                if (option.modelPosition.parent.parent) {
+                    option.modelPosition.parent.parent.children.map(item => {
+                        if (item.name == option.modelPosition.name) {
+                            let arr = item.children[0].children.find(
+                                item => item.name == '车辆信息'
+                            );
+                            arr.parent.remove(arr);
+                            option.modelPosition.parent.parent.remove(item);
+                        }
+                    });
+                }
+            }
+        } else {
+            const tmpSpherePosition = option.curve.getPointAt(option.progress);
+            // console.log(tmpSpherePosition);
+            option.model.position.set(
+                tmpSpherePosition.x,
+                tmpSpherePosition.y,
+                tmpSpherePosition.z
+            );
+            //这个部分是处理车的模型始终与切线相切，这样就能让车始终围绕曲线中心运动
+            // 当前点在线条上的位置
+            option.model.position.copy(tmpSpherePosition);
+            // 返回一个点t在曲线上位置向量的法线向量
+            const tangent = option.curve.getTangentAt(option.progress);
+            // 位置向量和切线向量相加即为所需朝向的点向量
+            const lookAtVec = tangent.add(tmpSpherePosition);
+            option.model.lookAt(lookAtVec);
+            option.progress += 0.001;
         }
-        const tmpSpherePosition = option.curve.getPointAt(option.progress);
-        // console.log(tmpSpherePosition);
-        option.model.position.set(tmpSpherePosition.x, tmpSpherePosition.y, tmpSpherePosition.z);
-        //这个部分是处理车的模型始终与切线相切，这样就能让车始终围绕曲线中心运动
-        // 当前点在线条上的位置
-        option.model.position.copy(tmpSpherePosition);
-        // 返回一个点t在曲线上位置向量的法线向量
-        const tangent = option.curve.getTangentAt(option.progress);
-        // 位置向量和切线向量相加即为所需朝向的点向量
-        const lookAtVec = tangent.add(tmpSpherePosition);
-        option.model.lookAt(lookAtVec);
-        option.progress += 0.001;
     }
 }
 /**
@@ -663,19 +692,20 @@ function checkIntersection() {
                 threeModel.clickModel = integrity;
                 console.log(sceneInformation.floorName);
                 console.log(groupList.children);
-                console.log(integrity);
                 // console.log(selePositionBus);
                 if (integrity.name.includes('公交车')) {
                     console.log(threeModel.filteringModel);
+                    option.progress = 0;
                     option.model = integrity.parent;
-                    option.modelPosition = integrity.parent.position;
+                    option.modelPosition = integrity;
+                    console.log(option.parkingSpace);
                     console.log(option);
-                    console.log(option.modelPosition);
                     let dialog = document.createElement('div');
                     dialog.className = 'domStyle';
                     dialog.innerText = '车辆信息';
                     const tag = new CSS3DObject(dialog);
                     tag.name = '车辆信息';
+                    console.log(integrity);
                     if (integrity.type == 'Object3D') {
                         tag.position.set(0, 0, -360);
                         tag.rotation.set(-Math.PI / 2, Math.PI, Math.PI * 2);
@@ -714,49 +744,100 @@ function addSelectedObject(object) {
     selectedObjects = [];
     selectedObjects.push(object);
 }
-// 生成外轨迹线
-function outsideTrajectoryLine(drop, parkingSpace) {
+// 生成外轨迹线 进
+function outsideTrajectoryLine(drop, parkingSpace, floor) {
+    let dropList = drop.sort((a, b) => a.name.slice(3) - b.name.slice(3));
     parkingSpace.map(item => {
         let curve = new THREE.CurvePath();
-        const line1 = new THREE.QuadraticBezierCurve3(drop[0], drop[1], drop[2]);
-        const line2 = new THREE.LineCurve3(drop[2], drop[3]);
-        const line3 = new THREE.QuadraticBezierCurve3(drop[3], drop[4], drop[5]);
-        const line5 = new THREE.QuadraticBezierCurve3(drop[6], drop[7], drop[8]);
-        const line6 = new THREE.LineCurve3(drop[8], drop[9]);
-        const line7 = new THREE.QuadraticBezierCurve3(drop[9], drop[10], drop[11]);
-        const line8 = new THREE.LineCurve3(drop[11], drop[12]);
-        const line9 = new THREE.LineCurve3(drop[12], drop[13]);
-        const lines1 = new THREE.LineCurve3(
-            drop[5],
-            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447)
-        );
-        const lines2 = new THREE.LineCurve3(
-            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447),
-            item.position
-        );
-        const lines3 = new THREE.LineCurve3(
-            item.position,
-            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447)
-        );
-        const line4 = new THREE.LineCurve3(
-            new THREE.Vector3(item.position.x, item.position.y, -4.257364749908447),
-            drop[6]
-        );
-        curve.curves.push(
-            line1,
-            line2,
-            line3,
-            lines1,
-            lines2,
-            lines3,
-            line4,
-            line5,
-            line6,
-            line7,
-            line8,
-            line9
-        );
-        let points = curve.getPoints(1000);
+        if (floor.name == 6) {
+            const lineAll = new THREE.QuadraticBezierCurve3(
+                dropList[0].position,
+                dropList[1].position,
+                dropList[2].position
+            );
+            curve.curves.push(lineAll);
+            if (item.name == 'A7_27') {
+                const line1 = new THREE.LineCurve3(dropList[2].position, dropList[12].position);
+                const line2 = new THREE.LineCurve3(dropList[12].position, item.position);
+                curve.curves.push(line1, line2);
+            } else if (item.name == 'A7_28') {
+                const line1 = new THREE.LineCurve3(dropList[2].position, dropList[13].position);
+                const line2 = new THREE.LineCurve3(dropList[13].position, item.position);
+                curve.curves.push(line1, line2);
+            } else if (item.name == 'A7_47' || item.name == 'A7_48' || item.name == 'A7_49') {
+                const line1 = new THREE.LineCurve3(dropList[2].position, dropList[3].position);
+                const line2 = new THREE.LineCurve3(dropList[3].position, dropList[4].position);
+                const line3 = new THREE.LineCurve3(dropList[4].position, dropList[5].position);
+                const line4 = new THREE.LineCurve3(dropList[5].position, dropList[7].position);
+                const line5 = new THREE.LineCurve3(
+                    dropList[7].position,
+                    new THREE.Vector3(31.29487419128418, item.position.y, item.position.z)
+                );
+                const line6 = new THREE.LineCurve3(
+                    new THREE.Vector3(31.29487419128418, item.position.y, item.position.z),
+                    item.position
+                );
+                curve.curves.push(line1, line2, line3, line4, line5, line6);
+            } else if (item.name == 'A7_50') {
+                const line1 = new THREE.LineCurve3(dropList[2].position, dropList[3].position);
+                const line2 = new THREE.LineCurve3(dropList[3].position, dropList[4].position);
+                const line3 = new THREE.LineCurve3(dropList[4].position, dropList[5].position);
+                const line4 = new THREE.LineCurve3(dropList[5].position, dropList[7].position);
+                const line5 = new THREE.LineCurve3(
+                    dropList[7].position,
+                    new THREE.Vector3(31.29487419128418, item.position.y, item.position.z)
+                );
+                const line6 = new THREE.LineCurve3(
+                    new THREE.Vector3(31.29487419128418, item.position.y, item.position.z),
+                    item.position
+                );
+                curve.curves.push(line1, line2, line3, line4, line5, line6);
+            } else {
+                const line1 = new THREE.LineCurve3(dropList[2].position, dropList[3].position);
+                const line2 = new THREE.LineCurve3(dropList[3].position, dropList[4].position);
+                const line3 = new THREE.LineCurve3(dropList[4].position, dropList[5].position);
+                const line4 = new THREE.LineCurve3(
+                    dropList[5].position,
+                    new THREE.Vector3(item.position.x, item.position.y, -4.323123931884766)
+                );
+                const line5 = new THREE.LineCurve3(
+                    new THREE.Vector3(item.position.x, item.position.y, -4.323123931884766),
+                    item.position
+                );
+                curve.curves.push(line1, line2, line3, line4, line5);
+            }
+        } else {
+            const lineAll1 = new THREE.QuadraticBezierCurve3(
+                dropList[0].position,
+                dropList[1].position,
+                dropList[2].position
+            );
+            const lineAll2 = new THREE.LineCurve3(dropList[2].position, dropList[4].position);
+            curve.curves.push(lineAll1, lineAll2);
+            if (item.name == 'A6_39') {
+                const line1 = new THREE.LineCurve3(dropList[4].position, dropList[7].position);
+                const line2 = new THREE.LineCurve3(
+                    dropList[7].position,
+                    new THREE.Vector3(31.146900177001953, item.position.y, item.position.z)
+                );
+                const line3 = new THREE.LineCurve3(
+                    new THREE.Vector3(31.146900177001953, item.position.y, item.position.z),
+                    item.position
+                );
+                curve.curves.push(line1, line2, line3);
+            } else {
+                const line1 = new THREE.LineCurve3(
+                    dropList[4].position,
+                    new THREE.Vector3(item.position.x, item.position.y, -4.25924015045166)
+                );
+                const line2 = new THREE.LineCurve3(
+                    new THREE.Vector3(item.position.x, item.position.y, -4.25924015045166),
+                    item.position
+                );
+                curve.curves.push(line1, line2);
+            }
+        }
+        let points = curve.getPoints(500);
         option.outsideCurve.push({ name: item.name, curve: curve, points: points });
     });
     option.outsideCurve.map(item => {
@@ -766,54 +847,92 @@ function outsideTrajectoryLine(drop, parkingSpace) {
             color: 0xf00,
         });
         const curveObject = new THREE.Line(geometry, material);
-        // curveObject.layers = layers2;
         curveObject.name = `${item.name}外轨迹线`;
         scene.add(curveObject);
     });
 }
 // 生成内轨迹线
-function withinTrajectoryLine(drop, parkingSpace) {
+function withinTrajectoryLine(drop, parkingSpace, floor) {
+    let dropList = drop.sort((a, b) => a.name.slice(3) - b.name.slice(3));
     parkingSpace.map(item => {
         let curve = new THREE.CurvePath();
-        const line1 = new THREE.LineCurve3(drop[0], drop[1]);
-        const line2 = new THREE.QuadraticBezierCurve3(drop[1], drop[2], drop[3]);
-        const line3 = new THREE.LineCurve3(drop[3], drop[4]);
-        const line4 = new THREE.QuadraticBezierCurve3(drop[4], drop[5], drop[6]);
-        const line6 = new THREE.QuadraticBezierCurve3(drop[7], drop[8], drop[9]);
-        const line7 = new THREE.LineCurve3(drop[9], drop[10]);
-        const line8 = new THREE.QuadraticBezierCurve3(drop[10], drop[11], drop[12]);
-        const line9 = new THREE.LineCurve3(drop[12], drop[13]);
-        const lines1 = new THREE.LineCurve3(
-            drop[6],
-            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291)
-        );
-        const lines2 = new THREE.LineCurve3(
-            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291),
-            item.position
-        );
-        const lines3 = new THREE.LineCurve3(
-            item.position,
-            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291)
-        );
-        const line5 = new THREE.LineCurve3(
-            new THREE.Vector3(item.position.x, item.position.y, -10.52175235748291),
-            drop[7]
-        );
-        curve.curves.push(
-            line1,
-            line2,
-            line3,
-            line4,
-            lines1,
-            lines2,
-            lines3,
-            line5,
-            line6,
-            line7,
-            line8,
-            line9
-        );
-        let points = curve.getPoints(1000);
+        if (floor.name == 6) {
+            if (item.name == 'A7_27') {
+                const line1 = new THREE.LineCurve3(item.position, dropList[0].position);
+                const line2 = new THREE.LineCurve3(dropList[0].position, dropList[2].position);
+                const line3 = new THREE.QuadraticBezierCurve3(
+                    dropList[2].position,
+                    dropList[3].position,
+                    dropList[4].position
+                );
+                const line4 = new THREE.LineCurve3(dropList[4].position, dropList[6].position);
+                const line5 = new THREE.LineCurve3(dropList[6].position, dropList[7].position);
+                const line6 = new THREE.LineCurve3(dropList[7].position, dropList[8].position);
+                const line7 = new THREE.QuadraticBezierCurve3(
+                    dropList[8].position,
+                    dropList[9].position,
+                    dropList[10].position
+                );
+                curve.curves.push(line1, line2, line3, line4, line5, line6, line7);
+            } else if (item.name == 'A7_28') {
+                const line1 = new THREE.LineCurve3(item.position, dropList[1].position);
+                const line2 = new THREE.LineCurve3(dropList[1].position, dropList[2].position);
+                const line3 = new THREE.QuadraticBezierCurve3(
+                    dropList[2].position,
+                    dropList[3].position,
+                    dropList[4].position
+                );
+                const line4 = new THREE.LineCurve3(dropList[4].position, dropList[6].position);
+                const line5 = new THREE.LineCurve3(dropList[6].position, dropList[7].position);
+                const line6 = new THREE.LineCurve3(dropList[7].position, dropList[8].position);
+                const line7 = new THREE.QuadraticBezierCurve3(
+                    dropList[8].position,
+                    dropList[9].position,
+                    dropList[10].position
+                );
+                curve.curves.push(line1, line2, line3, line4, line5, line6, line7);
+            } else if (item.name == 'A7_47' || item.name == 'A7_48' || item.name == 'A7_49') {
+                const line1 = new THREE.LineCurve3(
+                    item.position,
+                    new THREE.Vector3(25.073400497436523, item.position.y, item.position.z)
+                );
+                const line2 = new THREE.LineCurve3(
+                    new THREE.Vector3(25.073400497436523, item.position.y, item.position.z),
+                    dropList[8].position
+                );
+                const line3 = new THREE.QuadraticBezierCurve3(
+                    dropList[8].position,
+                    dropList[9].position,
+                    dropList[10].position
+                );
+                curve.curves.push(line1, line2, line3);
+            } else if (item.name == 'A7_50') {
+                const line1 = new THREE.LineCurve3(item.position, dropList[12].position);
+                const line2 = new THREE.LineCurve3(dropList[12].position, dropList[9].position);
+                const line3 = new THREE.LineCurve3(dropList[9].position, dropList[10].position);
+                curve.curves.push(line1, line2, line3);
+            } else {
+                const line1 = new THREE.LineCurve3(
+                    item.position,
+                    new THREE.Vector3(item.position.x, item.position.y, -9.315993309020996)
+                );
+                const line2 = new THREE.LineCurve3(
+                    new THREE.Vector3(item.position.x, item.position.y, -9.315993309020996),
+                    dropList[6].position
+                );
+                const line3 = new THREE.LineCurve3(dropList[6].position, dropList[7].position);
+                const line4 = new THREE.LineCurve3(dropList[7].position, dropList[8].position);
+                const line5 = new THREE.QuadraticBezierCurve3(
+                    dropList[8].position,
+                    dropList[9].position,
+                    dropList[10].position
+                );
+                curve.curves.push(line1, line2, line3, line4, line5);
+            }
+            const lineAll = new THREE.LineCurve3(dropList[10].position, dropList[11].position);
+            curve.curves.push(lineAll);
+        }
+        let points = curve.getPoints(500);
         option.withinCurve.push({ name: item.name, curve: curve, points: points });
     });
     option.withinCurve.map(item => {
@@ -823,7 +942,6 @@ function withinTrajectoryLine(drop, parkingSpace) {
             color: 0xf00,
         });
         const curveObject = new THREE.Line(geometry, material);
-        // curveObject.layers = layers2;
         curveObject.name = `${item.name}内轨迹线`;
         scene.add(curveObject);
     });

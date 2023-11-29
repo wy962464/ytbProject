@@ -67,17 +67,21 @@ const handlerClickView = arr => {
         }
     }
     .right {
-        flex-grow: 1;
+        width: calc(100% - 260px);
         height: 100%;
         .videos {
             width: 100%;
             height: 100%;
             display: grid;
-            grid-template-columns: repeat(4, 203px);
+            grid-template-columns: repeat(3, 1fr);
             grid-gap: 10px 10px;
-            padding-bottom: 10px;
             box-sizing: border-box;
             justify-content: center;
+            padding-right: 10px;
+            .videos_box {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

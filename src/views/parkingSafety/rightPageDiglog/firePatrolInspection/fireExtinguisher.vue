@@ -1,8 +1,10 @@
 <!-- 灭火器巡检 -->
-<script setup>
+<script setup lang="jsx">
 import tableBox from '@/components/common/table.vue';
 import { reactive } from 'vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
@@ -144,7 +146,17 @@ let tableFromOption = reactive({
             {
                 prop: 'berthCodess',
                 label: '资产编码',
-                width: 180,
+                width: 190,
+                render: row => {
+                    return (
+                        <span
+                            style={{ color: '#00FF84', cursor: 'pointer' }}
+                            onClick={() => handleNameClick(row)}
+                        >
+                            {row.berthCodess}
+                        </span>
+                    );
+                },
             },
             {
                 prop: 'berthType',
@@ -196,6 +208,20 @@ let tableFromOption = reactive({
     pageSize: 10,
     pageNo: 1,
 });
+const handleNameClick = row => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: `灭火器巡检详情`,
+            isShow: true,
+            width: 700,
+            height: 450,
+            path: '/parkingSafety/rightPageDiglog/firePatrolInspection/detailsFireExtinguisher',
+            obj: {
+                ...row,
+            },
+        },
+    });
+};
 </script>
 
 <template>
@@ -203,13 +229,6 @@ let tableFromOption = reactive({
 </template>
 
 <style scoped lang="scss">
-:deep(.is-current > .el-tree-node__content) {
-    background: linear-gradient(
-        to right,
-        rgba(31, 255, 147, 0),
-        rgba(31, 255, 147, 0.5)
-    ) !important;
-}
 :deep(.el-table__header .el-checkbox) {
     display: none;
 }

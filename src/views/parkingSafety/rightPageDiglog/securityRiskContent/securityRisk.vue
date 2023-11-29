@@ -176,7 +176,7 @@ function handlerClickName(row) {
             title: '风险源详情',
             isShow: true,
             width: 700,
-            height: 420,
+            height: 450,
             path: '/parkingSafety/rightPageDiglog/securityRiskContent/detailsSecurityRisk',
             obj: {
                 ...row,
@@ -187,7 +187,7 @@ function handlerClickName(row) {
 function handlerClickAdd() {
     dialogStore.$patch({
         detailsDialogInfor: {
-            title: '新增安全风险',
+            title: '新增安全风险源',
             isShow: true,
             width: 750,
             height: 478,

@@ -11,7 +11,7 @@ let tableFromOption = reactive({
             type: 'input',
             label: '预案名称：',
             labelWidth: 128,
-            prop: 'name',
+            prop: 'berthCode',
             placeholder: '请输入',
             rules: [
                 {
