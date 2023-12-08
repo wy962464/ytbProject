@@ -179,7 +179,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改空间区域',
+                                            isShow: true,
+                                            isUpdate: true,
+                                            obj: { ...row },
+                                            width: 750,
+                                            height: 538,
+                                            path: '/assetManagement/rightPageDiglog/addSpaceManagement',
+                                        },
+                                    });
                                 }}
                             >
                                 修改

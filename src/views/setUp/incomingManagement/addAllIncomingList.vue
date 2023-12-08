@@ -11,7 +11,7 @@ let tableFromOption = reactive({
             type: 'input',
             label: '来文单位：',
             labelWidth: 200,
-            prop: 'name',
+            prop: 'sourceUnit',
             placeholder: '请输入',
             rules: [
                 {
@@ -28,7 +28,7 @@ let tableFromOption = reactive({
             type: 'textarea',
             label: '任务事项：',
             labelWidth: 200,
-            prop: 'event',
+            prop: 'taskList',
             placeholder: '请输入',
             rules: [
                 {
@@ -45,15 +45,8 @@ let tableFromOption = reactive({
             type: 'textarea',
             label: '备注：',
             labelWidth: 200,
-            prop: 'event',
+            prop: 'remarks',
             placeholder: '请输入',
-            rules: [
-                {
-                    required: true,
-                    message: '请输入备注',
-                    trigger: ['change', 'blur'],
-                },
-            ],
             style: {
                 width: '300px',
             },

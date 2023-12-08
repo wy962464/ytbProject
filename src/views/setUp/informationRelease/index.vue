@@ -88,7 +88,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改文件',
+                                            isShow: true,
+                                            isUpdate: true,
+                                            width: 750,
+                                            height: 759,
+                                            obj: { ...row },
+                                            path: '/setUp/fileManagement/addFileManagement',
+                                        },
+                                    });
                                 }}
                             >
                                 修改
@@ -104,7 +114,7 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    ElMessageBox.confirm('确定删除该消息？', {
+                                    ElMessageBox.confirm('确定删除该条数据？', {
                                         confirmButtonText: '确定',
                                         cancelButtonText: '取消',
                                         type: 'warning',

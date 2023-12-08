@@ -3,7 +3,7 @@
 import procedure from '@/components/common/procedure.vue';
 import { reactive } from 'vue';
 
-let procedureOption = reactive([{}, {}, {}, {}]);
+let procedureOption = reactive([{}, {}]);
 </script>
 
 <template>

@@ -11,7 +11,7 @@ let tableFromOption = reactive({
             type: 'input',
             label: '房间名称：',
             labelWidth: 120,
-            prop: 'name',
+            prop: 'berthCode',
             placeholder: '请输入',
             rules: [
                 {
@@ -28,7 +28,7 @@ let tableFromOption = reactive({
             type: 'input',
             label: '房间编号：',
             labelWidth: 120,
-            prop: 'name',
+            prop: 'berthCodess',
             placeholder: '请输入',
             rules: [
                 {
@@ -45,7 +45,7 @@ let tableFromOption = reactive({
             type: 'select',
             label: '楼层：',
             labelWidth: 120,
-            prop: 'way',
+            prop: 'berthType',
             rules: [
                 {
                     required: true,
@@ -76,7 +76,7 @@ let tableFromOption = reactive({
             type: 'input',
             label: '实际面积：',
             labelWidth: 120,
-            prop: 'typeNum',
+            prop: 'number',
             placeholder: '请输入',
             rules: [
                 {

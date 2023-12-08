@@ -14,7 +14,6 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 const alias = {
   "@": resolve(__dirname, ".", "src"),
   "views": resolve(__dirname, ".", "src/views/"),
-  "css": resolve(__dirname, ".", "src/assets/css/"),
 };
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -49,7 +48,7 @@ export default defineConfig(({ mode }) => {
       sourcemap: false, //构建后是否生成 source map 文件
       minify: "esbuild", // 项目压缩 :boolean | 'terser' | 'esbuild'
       chunkSizeWarningLimit: 1000, //chunk 大小警告的限制（以 kbs 为单位）默认：500
-      cssTarget: "chrome61", //防止 vite 将 rgba() 颜色转化为 #RGBA 十六进制符号的形式  (要兼容的场景是安卓微信中的 webview 时,它不支持 CSS 中的 #RGBA 十六进制颜色符号)
+      cssTarget: "chrome61", //防止 vite 将 rgba() 颜色转化为 #RGBA 十六进制符号的形式
       rollupOptions: {
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
@@ -91,7 +90,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       // 服务器主机名，如果允许外部访问，可设置为 "0.0.0.0"
-      host: "0.0.0.0",
+      // host: "0.0.0.0",
       port: 6061,
       open: false,
       cors: true,

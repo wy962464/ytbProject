@@ -64,12 +64,11 @@ export function fontSize(res) {
             document.body.clientWidth;
     if (!clientWidth) return;
     let fontSize = clientWidth / 1920;
-    console.log(res * fontSize);
     return res * fontSize;
 }
 // 判断是否有内容
 export function isContent(cellValue, symbol = '--') {
-    if (checkedType(cellValue) === 'Undefined' || !Boolean(String(cellValue))) {
+    if (checkedType(cellValue) === 'Undefined' || checkedType(cellValue) === 'Null' || !Boolean(String(cellValue))) {
         return symbol;
     } else {
         return cellValue;

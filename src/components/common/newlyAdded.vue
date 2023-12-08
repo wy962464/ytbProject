@@ -30,7 +30,7 @@ async function handlerSave() {
     });
 }
 onMounted(() => {
-    if (dialogStore.detailsDialogInfor.isUpdate) {
+    if (dialogStore.detailsDialogInfor.isUpdate || dialogStore.detailsDialogInfor.isDetails) {
         props.tableFromOption.modelFormValue = deepClone(dialogStore.detailsDialogInfor.obj);
     }
 });
@@ -39,6 +39,7 @@ function handlerClose() {
         detailsDialogInfor: {
             isShow: false,
             isUpdate: false,
+            isDetails: false,
         },
     });
 }
@@ -54,7 +55,7 @@ defineExpose({
                 <tableBox ref="tableFromRef" v-model:tableFromOption="props.tableFromOption" />
             </el-scrollbar>
         </div>
-        <div class="btnClick">
+        <div class="btnClick" v-if="!dialogStore.detailsDialogInfor.isDetails">
             <div class="programsBtn" @click="handlerSave">保存</div>
             <div class="programsBtn" @click="handlerClose">关闭</div>
         </div>
@@ -72,7 +73,6 @@ defineExpose({
     height: 100%;
     width: 100%;
     .top {
-        height: calc(100% - 52px);
         width: 100%;
         overflow: hidden;
     }

@@ -8,6 +8,7 @@ function handlerClickClose() {
         detailsDialogInfor: {
             isShow: false,
             isUpdate: false,
+            isDetails: false,
         },
     });
 }

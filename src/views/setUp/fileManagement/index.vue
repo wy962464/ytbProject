@@ -67,7 +67,7 @@ let tableFromOption = reactive({
     tableObj: {
         tableData: [
             {
-                berthCode: '标题XXX',
+                berthCode: '标题XXX1',
                 berthCodess: 'doc文档',
                 berthType: '智能调度专题会议',
                 number: '钱多多',
@@ -75,7 +75,7 @@ let tableFromOption = reactive({
                 position: '无',
             },
             {
-                berthCode: '标题XXX',
+                berthCode: '标题XXX2',
                 berthCodess: 'doc文档',
                 berthType: '智能调度专题会议',
                 number: '钱多多',
@@ -83,7 +83,7 @@ let tableFromOption = reactive({
                 position: '无',
             },
             {
-                berthCode: '标题XXX',
+                berthCode: '标题XXX3',
                 berthCodess: 'doc文档',
                 berthType: '智能调度专题会议',
                 number: '钱多多',
@@ -92,7 +92,7 @@ let tableFromOption = reactive({
             },
 
             {
-                berthCode: '标题XXX',
+                berthCode: '标题XXX4',
                 berthCodess: 'doc文档',
                 berthType: '智能调度专题会议',
                 number: '钱多多',
@@ -100,7 +100,7 @@ let tableFromOption = reactive({
                 position: '无',
             },
             {
-                berthCode: '标题XXX',
+                berthCode: '标题XXX5',
                 berthCodess: 'doc文档',
                 berthType: '智能调度专题会议',
                 number: '钱多多',
@@ -108,7 +108,7 @@ let tableFromOption = reactive({
                 position: '无',
             },
             {
-                berthCode: '标题XXX',
+                berthCode: '标题XXX6',
                 berthCodess: 'doc文档',
                 berthType: '智能调度专题会议',
                 number: '钱多多',

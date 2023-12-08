@@ -154,7 +154,7 @@ textarea {
 
 html,
 body {
-  font-size: 16px;
+  font-size: 14px;
   font-family: "PingFang SC,Microsoft YaHei";
   color: #ffffff;
 }
@@ -820,6 +820,58 @@ body {
   color: #ffffff !important;
   background: linear-gradient(to left, rgba(31, 255, 147, 0.5), rgba(31, 255, 147, 0.5)) !important;
 }
+
+.el-message-box {
+  box-shadow: 0 0 30px 0 #041d2c inset !important;
+  background: #08110d !important;
+  border: 1px solid rgba(21, 63, 63, 1) !important;
+
+  .el-message-box__content {
+    .el-message-box__container {
+      .el-message-box__message {
+        p {
+          color: #ffffff !important;
+        }
+      }
+    }
+  }
+
+  .el-button {
+    min-width: 70px;
+    height: 24px;
+    border: 1px solid #275252;
+    padding: 0 10px;
+    border-radius: 0px;
+    margin-bottom: 0px;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+    color: #ffffff;
+    background-color: rgba(13, 21, 30, 0);
+
+    &:hover {
+      color: #00ff84;
+      background-color: rgba(13, 21, 30, 0);
+      border-color: #00ff84;
+    }
+
+    &:focus {
+      color: #00ff84;
+      background-color: rgba(13, 21, 30, 0);
+      border-color: #00ff84;
+    }
+  }
+
+  .el-button+.el-button {
+    margin-left: 10px;
+  }
+
+  .el-message-box__headerbtn .el-message-box__close {
+    color: #ffffff !important;
+  }
+}
+
+
 
 // 改变进度条颜色
 // #nprogress .bar {

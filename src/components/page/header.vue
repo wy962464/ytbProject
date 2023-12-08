@@ -29,6 +29,9 @@ const handlerClickSetUp = () => {
     const { href } = router.resolve({ name: 'setUp' });
     window.open(href, '_blank');
 };
+const handlerClickgoHome = () => {
+    router.replace('/Home');
+};
 </script>
 
 <template>
@@ -49,6 +52,11 @@ const handlerClickSetUp = () => {
                 {{ item.meta.title }}
             </button>
         </div>
+        <div
+            class="goHome"
+            v-if="!isShowHeaderBtn.includes(authStore.routePath)"
+            @click="handlerClickgoHome"
+        ></div>
         <div v-if="!isShowHeaderBtn.includes(authStore.routePath)">
             <button
                 class="rightBtn"
@@ -92,6 +100,11 @@ const handlerClickSetUp = () => {
         background: url('@/assets/images/pageImages/setUp.png') no-repeat;
         background-size: 100% 100%;
         right: 30px;
+        cursor: pointer;
+    }
+    .goHome {
+        width: 560px;
+        height: 80px;
         cursor: pointer;
     }
 }

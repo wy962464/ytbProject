@@ -3,7 +3,9 @@ import { ref, nextTick, watchEffect, onMounted } from 'vue';
 import { checkedType } from '@/utils/index';
 import { useTableFrom } from '@/utils/tableFromHandler';
 import uploadFile from '@/components/common/uploadFile.vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 const fromRef = ref(null);
 const uploadRef = ref(null);
 const elTables = ref(null);
@@ -327,7 +329,7 @@ defineExpose({
                         :inline="props.tableFromOption.inline || false"
                         hide-required-asterisk
                     >
-                        <template v-for="item in props.tableFromOption.fromItem" :key="item.label">
+                        <template v-for="item in props.tableFromOption.fromItem">
                             <!-- 动态表单 -->
                             <template v-if="item.type === 'domains'">
                                 <template
@@ -377,7 +379,9 @@ defineExpose({
                                     :label-width="item.labelWidth"
                                     :style="{
                                         alignItems:
-                                            item.type == 'uploadFile' || item.type == 'tree'
+                                            item.type == 'uploadFile' ||
+                                            item.type == 'tree' ||
+                                            item.type == 'checkbox'
                                                 ? 'flex-start'
                                                 : 'center',
                                     }"
@@ -388,7 +392,10 @@ defineExpose({
                                             :placeholder="item.placeholder"
                                             :style="item.style"
                                             :suffix-icon="item.suffixIcon"
-                                            :disabled="item.disabled"
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                             v-model="
                                                 props.tableFromOption.modelFormValue[`${item.prop}`]
                                             "
@@ -403,6 +410,10 @@ defineExpose({
                                             "
                                             :style="item.style"
                                             :placeholder="item.placeholder"
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                             resize="none"
                                             type="textarea"
                                         />
@@ -416,6 +427,10 @@ defineExpose({
                                             :placeholder="item.placeholder"
                                             :style="item.style"
                                             popper-class="selectPopperClass"
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                         >
                                             <el-option
                                                 v-for="option in item.options"
@@ -425,7 +440,7 @@ defineExpose({
                                             />
                                         </el-select>
                                     </template>
-                                    <!-- 树形选择 -->
+                                    <!-- 树形下拉框选择 -->
                                     <template v-if="item.type === 'treeSelect'">
                                         <el-tree-select
                                             popper-class="treeSelectPopperClass"
@@ -623,7 +638,27 @@ defineExpose({
                                             "
                                         />
                                     </template>
-                                    <!-- 树形控件 -->
+                                    <!-- 多选框控件 -->
+                                    <template v-if="item.type === 'checkbox'">
+                                        <el-checkbox-group
+                                            v-model="
+                                                props.tableFromOption.modelFormValue[`${item.prop}`]
+                                            "
+                                            :style="item.style"
+                                        >
+                                            <el-checkbox
+                                                v-for="keys in item.checkboxList"
+                                                :label="keys.value"
+                                                :disabled="
+                                                    dialogStore.detailsDialogInfor.isDetails ||
+                                                    keys.disabled
+                                                "
+                                            >
+                                                {{ keys.name }}
+                                            </el-checkbox>
+                                        </el-checkbox-group>
+                                    </template>
+                                    <!-- 树形多选控件 -->
                                     <template v-if="item.type === 'tree'">
                                         <el-tree
                                             ref="treeRef"
@@ -1107,6 +1142,17 @@ defineExpose({
 }
 :deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner::before) {
     background-color: rgba(0, 0, 0, 0);
+}
+.el-checkbox-group {
+    .el-checkbox {
+        margin-right: 15px;
+        :deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
+            color: #ccc;
+        }
+        :deep(.el-checkbox__input + .el-checkbox__label) {
+            color: #ccc;
+        }
+    }
 }
 .uploadTip {
     height: 32px;

@@ -128,7 +128,7 @@ let tableFromOption = reactive({
                                 onClick={e => {
                                     dialogStore.$patch({
                                         detailsDialogInfor: {
-                                            title: '新增应急响应程序',
+                                            title: '修改应急响应程序',
                                             isShow: true,
                                             width: 700,
                                             height: 478,

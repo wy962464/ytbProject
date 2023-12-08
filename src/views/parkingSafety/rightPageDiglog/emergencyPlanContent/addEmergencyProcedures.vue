@@ -17,7 +17,7 @@ let tableFromOption = reactive({
             type: 'textarea',
             label: '处置措施：',
             labelWidth: 100,
-            prop: 'content',
+            prop: 'berthCode',
             placeholder: '请输入',
             rules: [
                 {
@@ -34,7 +34,7 @@ let tableFromOption = reactive({
             type: 'textarea',
             label: '描述：',
             labelWidth: 100,
-            prop: 'event',
+            prop: 'berthCodess',
             placeholder: '请输入',
             rules: [
                 {

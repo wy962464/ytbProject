@@ -151,7 +151,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改来文',
+                                            isShow: true,
+                                            isUpdate: true,
+                                            obj: { ...row },
+                                            width: 700,
+                                            height: 420,
+                                            path: '/setUp/incomingManagement/addAllIncomingList',
+                                        },
+                                    });
                                 }}
                             >
                                 修改
@@ -167,7 +177,13 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('删除');
+                                    ElMessageBox.confirm('确定删除该条数据？', {
+                                        confirmButtonText: '确定',
+                                        cancelButtonText: '取消',
+                                        type: 'warning',
+                                    })
+                                        .then(() => {})
+                                        .catch(() => {});
                                 }}
                             >
                                 删除

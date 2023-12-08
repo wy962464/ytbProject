@@ -200,8 +200,7 @@ onMounted(() => {
 }
 :deep(.el-input__wrapper) {
     background-color: rgba(38, 221, 132, 0.2);
-    border: 1px solid rgba(38, 221, 132, 0.3);
-    box-shadow: 0 0 0 0;
+    box-shadow: 0 0 0 1px rgba(38, 221, 132, 0.3) inset;
     border-radius: 0px;
     .el-input__inner {
         color: #ffffff;
@@ -212,5 +211,9 @@ onMounted(() => {
         text-align: left;
         color: #cccccc;
     }
+}
+.el-form-item.is-error .el-input__wrapper {
+    box-shadow: 0 0 0 0px var(--el-color-danger) inset;
+    border-color: var(--el-color-danger);
 }
 </style>

@@ -25,7 +25,10 @@ export const DialogStore = defineStore({
                 path: "",
                 width: 700,
                 height: 570,
+                // 是否修改
                 isUpdate: false,
+                // 是否查看/详情
+                isDetails: false,
                 obj: {}
             }
         }

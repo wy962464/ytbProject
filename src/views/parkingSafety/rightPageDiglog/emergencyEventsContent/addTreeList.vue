@@ -1,3 +1,4 @@
+<!-- 新增节点 -->
 <script setup>
 import newlyAdded from '@/components/common/newlyAdded.vue';
 import { reactive } from 'vue';
