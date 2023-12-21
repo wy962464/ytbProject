@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { ThreeModel } from '@/store/modules/modelManager.js';
 import * as THREE from 'three';
 import { OrbitControls } from '@/assets/OrbitControls.js';
@@ -34,12 +34,20 @@ const moonbay = ref(null);
 const main = ref(null);
 //生命周期钩子
 onMounted(() => {
+    nextTick(() => {
+        let modelDom = document.getElementsByTagName('canvas')[0];
+        modelDom.style.width = '100%';
+        modelDom.style.height = '100%';
+    });
     moonbay.value.appendChild(externalModel().domElement);
     // 渲染结果CSS3Renderer.domElement
     moonbay.value.appendChild(css3Renderer.domElement);
     css3Renderer.domElement.style.position = 'absolute';
     css3Renderer.domElement.style.top = '0px';
     css3Renderer.domElement.style.pointerEvents = 'none';
+    css3Renderer.domElement.style.width = '100%';
+    css3Renderer.domElement.style.height = '100%';
+    css3Renderer.domElement.style.boxShadow = '0 0 1000px 55px #181818 inset';
 });
 
 /**

@@ -1,4 +1,6 @@
 <script setup>
+import { getImageUrl } from '@/utils';
+
 const props = defineProps({
     cardProps: {
         type: Object,
@@ -7,6 +9,7 @@ const props = defineProps({
                 title: '',
                 isMore: false,
                 isClick: false,
+                size: 'normal',
             };
         },
     },
@@ -18,7 +21,18 @@ function handlerClick() {
 </script>
 
 <template>
-    <div class="cardMain">
+    <div
+        class="cardMain"
+        :style="{
+            backgroundImage: `url(${
+                props.cardProps.size == 'medium'
+                    ? getImageUrl('pageImages/borderCardTwo.png')
+                    : props.cardProps.size == 'large'
+                    ? getImageUrl('pageImages/borderCardThree.png')
+                    : getImageUrl('pageImages/borderCard.png')
+            })`,
+        }"
+    >
         <div class="top">
             <div class="topLeft">{{ props.cardProps.title }}</div>
             <div class="topRightMore" v-if="props.cardProps.isMore" @click="handlerClick">
@@ -44,7 +58,7 @@ function handlerClick() {
 .cardMain {
     width: 100%;
     height: 100%;
-    background: url('@/assets/images/pageImages/borderCard.png') no-repeat;
+    background-repeat: no-repeat;
     background-size: 100% 100%;
     box-sizing: border-box;
     display: flex;

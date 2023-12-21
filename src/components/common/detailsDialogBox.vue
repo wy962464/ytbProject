@@ -9,6 +9,7 @@ function handlerClickClose() {
             isShow: false,
             isUpdate: false,
             isDetails: false,
+            obj: {},
         },
     });
 }

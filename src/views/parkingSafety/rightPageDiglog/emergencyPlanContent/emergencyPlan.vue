@@ -64,7 +64,7 @@ function handlerBasicInfor(row) {
             },
             width: 1279,
             height: 685,
-            obj: { ...row },
+            obj: row,
             path: [
                 {
                     name: '基本信息',
@@ -357,7 +357,7 @@ let tableFromOption = reactive({
                                             height: 478,
                                             path: '/parkingSafety/rightPageDiglog/emergencyPlanContent/addEmergencyPlan',
                                             isUpdate: true,
-                                            obj: { ...row },
+                                            obj: row,
                                         },
                                     });
                                 }}

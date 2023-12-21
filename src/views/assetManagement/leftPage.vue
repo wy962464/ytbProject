@@ -6,6 +6,7 @@ import floorList from '@/components/common/floorList.vue';
 
 const cardProps = reactive({
     title: '资产可视化',
+    size: 'large',
 });
 const tableTopList = [
     {

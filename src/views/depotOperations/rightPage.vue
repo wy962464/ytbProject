@@ -12,6 +12,7 @@ const cardPropsTop = reactive({
 });
 const cardPropsBottom = reactive({
     title: '出场计划',
+    size: 'medium',
     isMore: true,
 });
 function handlerClickTop() {

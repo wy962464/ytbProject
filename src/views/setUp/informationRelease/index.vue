@@ -95,7 +95,7 @@ let tableFromOption = reactive({
                                             isUpdate: true,
                                             width: 750,
                                             height: 759,
-                                            obj: { ...row },
+                                            obj: row,
                                             path: '/setUp/fileManagement/addFileManagement',
                                         },
                                     });

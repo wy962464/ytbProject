@@ -55,6 +55,7 @@ let tableFromOption = reactive({
                 comp: '13554986996',
                 iphone: '205f2ds30@szpengtu.com',
                 beizhu: '深圳市交通场站建设发展有限公司',
+                number: ['1', '2', '0'],
             },
             {
                 name: '王邦国',
@@ -87,7 +88,7 @@ let tableFromOption = reactive({
                                         title: '用户详情',
                                         isShow: true,
                                         isDetails: true,
-                                        obj: { ...row },
+                                        obj: row,
                                         width: 600,
                                         height: 700,
                                         path: '/setUp/userManager/addUserManager',
@@ -139,7 +140,7 @@ let tableFromOption = reactive({
                                             isUpdate: true,
                                             width: 600,
                                             height: 700,
-                                            obj: { ...row },
+                                            obj: row,
                                             path: '/setUp/userManager/addUserManager',
                                         },
                                     });

@@ -190,9 +190,7 @@ function handleNameClick(row) {
             title: `维修单号${row.berthCode}`,
             isShow: true,
             path: '/assetManagement/rightPageDiglog/detailassetRepairDiglog/detailRepairList',
-            obj: {
-                ...row,
-            },
+            obj: row,
         },
     });
 }

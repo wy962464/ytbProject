@@ -143,7 +143,7 @@ let tableFromOption = reactive({
                                             isUpdate: true,
                                             width: 700,
                                             height: 500,
-                                            obj: { ...row },
+                                            obj: row,
                                             path: '/setUp/personnelManager/addPersonnelManager',
                                         },
                                     });

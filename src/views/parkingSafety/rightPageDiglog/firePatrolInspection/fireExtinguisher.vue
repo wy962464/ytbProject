@@ -216,9 +216,7 @@ const handleNameClick = row => {
             width: 700,
             height: 450,
             path: '/parkingSafety/rightPageDiglog/firePatrolInspection/detailsFireExtinguisher',
-            obj: {
-                ...row,
-            },
+            obj: row,
         },
     });
 };

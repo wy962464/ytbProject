@@ -133,7 +133,7 @@ let tableFromOption = reactive({
                                             width: 700,
                                             height: 478,
                                             isUpdate: true,
-                                            obj: { ...row },
+                                            obj: row,
                                             path: '/parkingSafety/rightPageDiglog/emergencyPlanContent/addEmergencyProcedures',
                                         },
                                     });

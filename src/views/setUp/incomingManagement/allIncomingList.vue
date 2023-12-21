@@ -156,7 +156,7 @@ let tableFromOption = reactive({
                                             title: '修改来文',
                                             isShow: true,
                                             isUpdate: true,
-                                            obj: { ...row },
+                                            obj: row,
                                             width: 700,
                                             height: 420,
                                             path: '/setUp/incomingManagement/addAllIncomingList',

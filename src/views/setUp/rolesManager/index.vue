@@ -93,7 +93,7 @@ let tableFromOption = reactive({
                                             isUpdate: true,
                                             width: 700,
                                             height: 700,
-                                            obj: { ...row },
+                                            obj: row,
                                             path: '/setUp/rolesManager/addRolesManager',
                                         },
                                     });

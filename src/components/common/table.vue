@@ -648,6 +648,7 @@ defineExpose({
                                         >
                                             <el-checkbox
                                                 v-for="keys in item.checkboxList"
+                                                :key="keys.value"
                                                 :label="keys.value"
                                                 :disabled="
                                                     dialogStore.detailsDialogInfor.isDetails ||

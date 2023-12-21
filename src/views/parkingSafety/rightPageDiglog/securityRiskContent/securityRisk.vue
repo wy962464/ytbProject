@@ -178,9 +178,7 @@ function handlerClickName(row) {
             width: 700,
             height: 450,
             path: '/parkingSafety/rightPageDiglog/securityRiskContent/detailsSecurityRisk',
-            obj: {
-                ...row,
-            },
+            obj: row,
         },
     });
 }

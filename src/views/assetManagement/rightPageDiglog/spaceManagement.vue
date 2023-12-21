@@ -184,7 +184,7 @@ let tableFromOption = reactive({
                                             title: '修改空间区域',
                                             isShow: true,
                                             isUpdate: true,
-                                            obj: { ...row },
+                                            obj: row,
                                             width: 750,
                                             height: 538,
                                             path: '/assetManagement/rightPageDiglog/addSpaceManagement',

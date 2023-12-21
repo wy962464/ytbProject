@@ -13,6 +13,7 @@ const cardPropsTop = reactive({
 });
 const cardPropsBottom = reactive({
     title: '车辆进出场统计',
+    size: 'medium',
     isMore: false,
     isClick: true,
 });
