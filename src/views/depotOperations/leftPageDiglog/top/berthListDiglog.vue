@@ -338,19 +338,13 @@ let tableFromOption = reactive({
     pageSize: 10,
     pageNo: 1,
 });
-function handleCurrentChange(val) {
-    console.log(`页码${val}`);
-}
 function handlerClick(val) {
     alert(JSON.stringify(val));
 }
 </script>
 
 <template>
-    <tableBox
-        v-model:tableFromOption="tableFromOption"
-        @handleCurrentChange="handleCurrentChange"
-    />
+    <tableBox v-model:tableFromOption="tableFromOption" />
 </template>
 
 <style scoped lang="scss"></style>

@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { ThreeModel } from '@/store/modules/modelManager.js';
 import * as THREE from 'three';
 import { OrbitControls } from '@/assets/OrbitControls.js';
@@ -13,6 +13,8 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import autofit from 'autofit.js';
+import { getImageUrl } from '@/utils';
 
 // 引入扩展库CSS3DRenderer.js
 import { CSS3DObject, CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
@@ -25,6 +27,7 @@ import {
     handleReturn,
     handleKeyDown,
     handleCameraP,
+    handleBus,
     animateCamera,
     close,
     floorInformation,
@@ -34,10 +37,16 @@ const moonbay = ref(null);
 const main = ref(null);
 //生命周期钩子
 onMounted(() => {
-    nextTick(() => {
-        let modelDom = document.getElementsByTagName('canvas')[0];
-        modelDom.style.width = '100%';
-        modelDom.style.height = '100%';
+    autofit.init({
+        designHeight: 1080,
+        designWidth: 1920,
+        renderDom: '#app',
+        resize: true,
+        ignore: [
+            {
+                el: '#moonbay',
+            },
+        ],
     });
     moonbay.value.appendChild(externalModel().domElement);
     // 渲染结果CSS3Renderer.domElement
@@ -45,8 +54,6 @@ onMounted(() => {
     css3Renderer.domElement.style.position = 'absolute';
     css3Renderer.domElement.style.top = '0px';
     css3Renderer.domElement.style.pointerEvents = 'none';
-    css3Renderer.domElement.style.width = '100%';
-    css3Renderer.domElement.style.height = '100%';
     css3Renderer.domElement.style.boxShadow = '0 0 1000px 55px #181818 inset';
 });
 
@@ -79,6 +86,7 @@ const renderer = new THREE.WebGLRenderer({
     physicallyCorrectLights: true,
     logarithmicDepthBuffer: true,
 });
+
 renderer.setSize(canWidth.value, canHeight.value);
 renderer.shadowMap.enabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -153,6 +161,18 @@ composer.addPass(effectFXAA);
 // 窗口宽高发生改变
 window.addEventListener('resize', onWindowResize);
 function onWindowResize() {
+    autofit.off();
+    autofit.init({
+        designHeight: 1080,
+        designWidth: 1920,
+        renderDom: '#app',
+        resize: true,
+        ignore: [
+            {
+                el: '#moonbay',
+            },
+        ],
+    });
     canWidth.value = main.value.clientWidth;
     canHeight.value = main.value.clientHeight;
     // 更新摄像头
@@ -693,7 +713,7 @@ function checkIntersection() {
              */
             if (selectedObject.parent.name !== sceneInformation.floorName) {
                 let integrity = selectedObject.parent;
-                let selePosition = handleCameraP(integrity, camera.position);
+                let selePosition = handleCameraP(integrity.parent, camera.position);
                 // let selePositionBus = handleBus(integrity);
                 // animateCamera(selePositionBus, 2000, integrity);
                 sceneInformation.returnorNot = true;
@@ -703,14 +723,26 @@ function checkIntersection() {
                 // console.log(selePositionBus);
                 if (integrity.name.includes('公交车')) {
                     console.log(threeModel.filteringModel);
-                    option.progress = 0;
-                    option.model = integrity.parent;
-                    option.modelPosition = integrity;
+                    // option.progress = 0;
+                    // option.model = integrity.parent;
+                    // option.modelPosition = integrity;
                     console.log(option.parkingSpace);
                     console.log(option);
                     let dialog = document.createElement('div');
                     dialog.className = 'domStyle';
-                    dialog.innerText = '车辆信息';
+                    let p = document.createElement('p');
+                    let video = document.createElement('video');
+                    let videoSource = document.createElement('source');
+                    videoSource.src =
+                        'https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4';
+                    videoSource.type = 'video/mp4';
+                    video.autoplay = true;
+                    video.controls = true;
+                    p.innerText = '车辆信息';
+                    video.className = 'videoStyle';
+                    dialog.append(p);
+                    dialog.append(video);
+                    video.append(videoSource);
                     const tag = new CSS3DObject(dialog);
                     tag.name = '车辆信息';
                     console.log(integrity);
@@ -728,6 +760,8 @@ function checkIntersection() {
                         console.log(arr);
                         arr.parent.remove(arr);
                     }
+                    let selePositionBus = handleBus(integrity);
+                    animateCamera(selePositionBus, 2000, integrity.parent);
                 }
             }
             // RegExp 对象方法
@@ -979,7 +1013,6 @@ onUnmounted(() => {
 .domStyle {
     width: 300px;
     height: 300px;
-    line-height: 36px;
     text-align: center;
     font-size: 40px;
     z-index: 0;
@@ -991,6 +1024,14 @@ onUnmounted(() => {
     white-space: wrap;
     position: relative;
     box-sizing: border-box;
+    user-select: none;
+    p {
+        line-height: 50px;
+    }
+    .videoStyle {
+        width: 100%;
+        height: 200px;
+    }
 }
 .domStyle::before {
     content: '';

@@ -593,7 +593,7 @@ class OrbitControls extends EventDispatcher {
 		// }
 		function handleMouseWheel( event ) {
 			//设置相机缩放比数值越大缩放越明显
-			let factor = 15;
+			let factor = 5;
 			//从鼠标位置转化为webgl屏幕坐标位置
 			let glScreenX = (event.clientX / scope.domElement.width) * 2 - 1;
 			let glScreenY = -(event.clientY / scope.domElement.height) * 2 + 1;

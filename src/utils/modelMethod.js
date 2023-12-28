@@ -152,10 +152,28 @@ export function handleCameraP(mesh, caa) {
 
 // 处理点击公交车时的落点坐标
 export function handleBus(mesh) {
-    let selePosition = mesh.position.clone();
-    selePosition.x += 2;
-    selePosition.y += 3;
-    selePosition.z += 24;
+    let selePosition = mesh.parent.position.clone();
+    let rotaX = parseInt(mesh.parent.rotation.x * 180 / Math.PI)
+    let rotaY = parseInt(mesh.parent.rotation.y * 180 / Math.PI)
+    let rotaZ = parseInt(mesh.parent.rotation.z * 180 / Math.PI)
+    // console.log(rotaX, rotaY, rotaZ);
+    if (rotaY == 0 && (rotaX || rotaZ)) {
+        selePosition.x += 0;
+        selePosition.y += 5;
+        selePosition.z += -10;
+    } else if (rotaY == 0 && rotaX == 0 && rotaZ == 0) {
+        selePosition.x += 0;
+        selePosition.y += 5;
+        selePosition.z += 10;
+    } else if (rotaY > 0) {
+        selePosition.x += 10;
+        selePosition.y += 5;
+        selePosition.z += 0;
+    } else if (rotaY < 0) {
+        selePosition.x += -10;
+        selePosition.y += 5;
+        selePosition.z += 0;
+    }
     return selePosition;
 }
 
@@ -214,7 +232,6 @@ export function handleReturn(e) {
         } else if (threeModel.sceneInformation.name == '楼层') {
             close();
             if (threeModel.sceneInformation.returnorNot) {
-                console.log('12580');
                 floorData.value.forEach(item => {
                     if (item.name == threeModel.sceneInformation.floorName) {
                         let arr = item.value.split(',');

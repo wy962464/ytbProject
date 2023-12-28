@@ -251,7 +251,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改资产',
+                                            isShow: true,
+                                            width: 750,
+                                            height: 538,
+                                            isUpdate: true,
+                                            obj: row,
+                                            path: '/assetManagement/rightPageDiglog/addAssets',
+                                        },
+                                    });
                                 }}
                             >
                                 修改

@@ -445,6 +445,10 @@ defineExpose({
                                         <el-tree-select
                                             popper-class="treeSelectPopperClass"
                                             default-expand-all
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                             v-model="
                                                 props.tableFromOption.modelFormValue[`${item.prop}`]
                                             "

@@ -9,7 +9,7 @@ const props = defineProps({
                 title: '',
                 isMore: false,
                 isClick: false,
-                size: 'normal',
+                size: null,
             };
         },
     },

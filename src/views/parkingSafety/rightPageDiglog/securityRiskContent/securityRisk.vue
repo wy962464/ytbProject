@@ -167,9 +167,6 @@ let tableFromOption = reactive({
     pageSize: 10,
     pageNo: 1,
 });
-function handleCurrentChange(val) {
-    console.log(`页码${val}`);
-}
 function handlerClickName(row) {
     dialogStore.$patch({
         detailsDialogInfor: {
@@ -196,11 +193,7 @@ function handlerClickAdd() {
 </script>
 
 <template>
-    <tableBox
-        v-model:tableFromOption="tableFromOption"
-        @handleCurrentChange="handleCurrentChange"
-        @handlerClickAdd="handlerClickAdd"
-    />
+    <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
 </template>
 
 <style scoped lang="scss"></style>
