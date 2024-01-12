@@ -254,12 +254,11 @@ watch(
         height: 260px;
         width: 100%;
         position: absolute;
-        bottom: 0px;
+        bottom: 30px;
         left: 0;
         background: #00000075;
         display: flex;
         align-items: center;
-        margin-bottom: 30px;
         z-index: 0;
         animation: swipe 0.5s linear;
         @keyframes swipe {

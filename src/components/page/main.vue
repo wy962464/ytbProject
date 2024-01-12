@@ -41,6 +41,20 @@ const authStore = AuthStore();
                 <component :is="sidebarStore.getRightSidebarPath"></component>
             </transition>
         </div>
+        <div
+            class="content_card"
+            v-if="
+                !sidebarStore.leftSidebar.isShow &&
+                !sidebarStore.centerSidebar.isShow &&
+                !sidebarStore.rightSidebar.isShow
+            "
+        >
+            <router-view v-slot="{ Component, route }">
+                <keep-alive :include="authStore.getKeepAliveName">
+                    <component :is="Component" :key="route.path" />
+                </keep-alive>
+            </router-view>
+        </div>
         <div class="frameLeft">
             <div class="frameLeftBg"></div>
         </div>

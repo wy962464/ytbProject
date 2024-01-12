@@ -110,7 +110,7 @@ export const AuthStore = defineStore({
                                 isModel: true,
                                 leftSidebar: {
                                     path: "/building/leftPage",
-                                    isShow: true
+                                    isShow: false
                                 },
                                 centerSidebar: {
                                     path: "/building/centerPage",
