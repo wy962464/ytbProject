@@ -9,14 +9,6 @@ let tableFromOption = reactive({
     isShowTable: true,
     isShowOperateBtn: true,
     modelFormValue: {},
-    otherBtnList: [
-        {
-            name: '完成',
-            handlerClick: () => {
-                alert('dddd');
-            },
-        },
-    ],
     fromItem: [
         {
             type: 'input',
@@ -132,6 +124,21 @@ let tableFromOption = reactive({
             },
         ],
         isSerialNumber: true,
+        operatesBtnObj: {
+            width: 100,
+            operatesBtnList: [
+                {
+                    render: row => {
+                        return (
+                            <el-link underline={false} type="success" onClick={e => alert('完成')}>
+                                完成
+                            </el-link>
+                        );
+                    },
+                    hasPermi: ['update'],
+                },
+            ],
+        },
     },
     totalCount: 23,
     pageSize: 10,

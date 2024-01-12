@@ -40,7 +40,7 @@ export const AuthStore = defineStore({
                         {
                             path: "/Home",
                             name: "Home",
-                            component: "/Home/index",
+                            component: "",
                             meta: {
                                 title: "首页",
                                 isModel: true,
@@ -62,7 +62,7 @@ export const AuthStore = defineStore({
                         {
                             path: "/depotOperations",
                             name: "depotOperations",
-                            component: "/depotOperations/leftPage",
+                            component: "",
                             meta: {
                                 title: "车场运营",
                                 isModel: true,
@@ -83,7 +83,7 @@ export const AuthStore = defineStore({
                         {
                             path: "/parkingSafety",
                             name: "parkingSafety",
-                            component: "/parkingSafety/leftPage",
+                            component: "",
                             meta: {
                                 title: "车场安全",
                                 isModel: true,
@@ -104,7 +104,7 @@ export const AuthStore = defineStore({
                         {
                             path: "/building",
                             name: "building",
-                            component: "/building/leftPage",
+                            component: "",
                             meta: {
                                 title: "楼宇自控",
                                 isModel: true,
@@ -114,18 +114,18 @@ export const AuthStore = defineStore({
                                 },
                                 centerSidebar: {
                                     path: "/building/centerPage",
-                                    isShow: true
+                                    isShow: false
                                 },
                                 rightSidebar: {
                                     path: "/building/rightPage",
-                                    isShow: true
+                                    isShow: false
                                 }
                             }
                         },
                         {
                             path: "/assetManagement",
                             name: "assetManagement",
-                            component: "/assetManagement/leftPage",
+                            component: "",
                             meta: {
                                 title: "资产管理",
                                 isModel: true,

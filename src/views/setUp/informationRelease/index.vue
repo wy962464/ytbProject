@@ -61,7 +61,19 @@ let tableFromOption = reactive({
                     return (
                         <span
                             style={{ color: '#00FF84', cursor: 'pointer' }}
-                            onClick={() => alert(row.berthCode)}
+                            onClick={() => {
+                                dialogStore.$patch({
+                                    detailsDialogInfor: {
+                                        title: '信息详情',
+                                        isShow: true,
+                                        isDetails: true,
+                                        width: 750,
+                                        height: 300,
+                                        obj: row,
+                                        path: '/setUp/informationRelease/addinFormationRelease',
+                                    },
+                                });
+                            }}
                         >
                             {row.berthCode}
                         </span>
@@ -90,13 +102,13 @@ let tableFromOption = reactive({
                                 onClick={e => {
                                     dialogStore.$patch({
                                         detailsDialogInfor: {
-                                            title: '修改文件',
+                                            title: '修改信息',
                                             isShow: true,
                                             isUpdate: true,
                                             width: 750,
-                                            height: 759,
+                                            height: 350,
                                             obj: row,
-                                            path: '/setUp/fileManagement/addFileManagement',
+                                            path: '/setUp/informationRelease/addinFormationRelease',
                                         },
                                     });
                                 }}
@@ -142,7 +154,7 @@ const handlerClickAdd = () => {
             title: '新增消息信息',
             isShow: true,
             width: 700,
-            height: 700,
+            height: 350,
             path: '/setUp/informationRelease/addinFormationRelease',
         },
     });

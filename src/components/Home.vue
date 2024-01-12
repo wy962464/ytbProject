@@ -3,11 +3,7 @@ import headers from '@/components/page/header.vue';
 import mains from '@/components/page/main.vue';
 import DialogBox from '@/components/common/dialogBox.vue';
 import DetailsDialogBox from '@/components/common/detailsDialogBox.vue';
-import { AuthStore } from '@/store/modules/auth.js';
 import { provide, ref } from 'vue';
-
-const authStore = AuthStore();
-const isShowHeaderBtn = ['/detailsEmergencyEvents', '/setUp'];
 
 // 刷新当前页面
 const isRouterShow = ref(true);
@@ -20,12 +16,7 @@ provide('refresh', refreshCurrentPage);
         <header>
             <headers />
         </header>
-        <main
-            :style="{
-                background: isShowHeaderBtn.includes(authStore.routePath) ? '#020c17' : '',
-            }"
-            v-if="isRouterShow"
-        >
+        <main v-if="isRouterShow">
             <mains />
         </main>
         <DialogBox />

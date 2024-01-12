@@ -30,6 +30,8 @@ export const initRouter = async () => {
             item.children && delete item.children;
             if (item.component && typeof item.component == "string") {
                 item.component = modules["/src/views" + item.component + ".vue"];
+            } else {
+                item.component = modules["/src/views/Home/index.vue"];
             }
             if (item.meta && item.meta.leftSidebar.path) {
                 item.meta.leftSidebar.path = modules["/src/views" + item.meta.leftSidebar.path + ".vue"];

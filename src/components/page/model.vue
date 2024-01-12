@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import autofit from 'autofit.js';
 import { ThreeModel } from '@/store/modules/modelManager.js';
 import * as THREE from 'three';
 import { OrbitControls } from '@/assets/OrbitControls.js';
@@ -13,8 +14,6 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import autofit from 'autofit.js';
-import { getImageUrl } from '@/utils';
 
 // 引入扩展库CSS3DRenderer.js
 import { CSS3DObject, CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
@@ -73,7 +72,7 @@ watch(
 // 场景
 const scene = new THREE.Scene();
 let canWidth = ref(window.innerWidth);
-let canHeight = ref(window.innerHeight - 80);
+let canHeight = ref(window.innerHeight);
 
 // 相机
 let camera = reactive({});
@@ -167,11 +166,6 @@ function onWindowResize() {
         designWidth: 1920,
         renderDom: '#app',
         resize: true,
-        ignore: [
-            {
-                el: '#moonbay',
-            },
-        ],
     });
     canWidth.value = main.value.clientWidth;
     canHeight.value = main.value.clientHeight;
@@ -364,7 +358,7 @@ function floorModel() {
                         let outDrop = [];
                         let withinDrop = [];
                         item.children.map(items => {
-                            if (RegExp(/A6_/).test(items.name)) {
+                            if (RegExp(/A7_/).test(items.name)) {
                                 option.parkingSpace.push({
                                     name: items.name,
                                     position: items.position,
@@ -376,7 +370,7 @@ function floorModel() {
                                     rotation: items.rotation,
                                 });
                             }
-                            if (RegExp(/外6_/).test(items.name)) {
+                            if (RegExp(/外7_/).test(items.name)) {
                                 const coordinate = new THREE.Vector3(
                                     items.position.x,
                                     items.position.y,
@@ -384,7 +378,7 @@ function floorModel() {
                                 );
                                 outDrop.push({ name: items.name, position: coordinate });
                             }
-                            if (RegExp(/内6_/).test(items.name)) {
+                            if (RegExp(/内7_/).test(items.name)) {
                                 const coordinate = new THREE.Vector3(
                                     items.position.x,
                                     items.position.y,
@@ -515,7 +509,7 @@ let option = reactive({
     // 内轨迹线 出
     withinCurve: [],
     // 进出状态 0:进 1：出
-    status: 0,
+    status: 1,
     curve: null,
     points: [],
     progress: 0,
@@ -568,7 +562,7 @@ function moveOnCurve() {
             // 位置向量和切线向量相加即为所需朝向的点向量
             const lookAtVec = tangent.add(tmpSpherePosition);
             option.model.lookAt(lookAtVec);
-            option.progress += 0.001;
+            option.progress += 0.002;
         }
     }
 }
@@ -723,9 +717,9 @@ function checkIntersection() {
                 // console.log(selePositionBus);
                 if (integrity.name.includes('公交车')) {
                     console.log(threeModel.filteringModel);
-                    // option.progress = 0;
-                    // option.model = integrity.parent;
-                    // option.modelPosition = integrity;
+                    option.progress = 0;
+                    option.model = integrity.parent;
+                    option.modelPosition = integrity;
                     console.log(option.parkingSpace);
                     console.log(option);
                     let dialog = document.createElement('div');
@@ -738,6 +732,7 @@ function checkIntersection() {
                     videoSource.type = 'video/mp4';
                     video.autoplay = true;
                     video.controls = true;
+                    video.loop = true;
                     p.innerText = '车辆信息';
                     video.className = 'videoStyle';
                     dialog.append(p);
@@ -749,17 +744,16 @@ function checkIntersection() {
                     if (integrity.type == 'Object3D') {
                         tag.position.set(0, 0, -360);
                         tag.rotation.set(-Math.PI / 2, Math.PI, Math.PI * 2);
-                    } else {
-                        tag.position.set(0, 400, 1480);
                     }
                     let isTag = integrity.children.some(item => item.name == '车辆信息');
                     if (!isTag) {
                         integrity.add(tag);
-                    } else {
-                        let arr = integrity.children.find(item => item.name == '车辆信息');
-                        console.log(arr);
-                        arr.parent.remove(arr);
                     }
+                    // else {
+                    //     let arr = integrity.children.find(item => item.name == '车辆信息');
+                    //     console.log(arr);
+                    //     arr.parent.remove(arr);
+                    // }
                     let selePositionBus = handleBus(integrity);
                     animateCamera(selePositionBus, 2000, integrity.parent);
                 }
@@ -893,7 +887,7 @@ function outsideTrajectoryLine(drop, parkingSpace, floor) {
         scene.add(curveObject);
     });
 }
-// 生成内轨迹线
+// 生成内轨迹线 出
 function withinTrajectoryLine(drop, parkingSpace, floor) {
     let dropList = drop.sort((a, b) => a.name.slice(3) - b.name.slice(3));
     parkingSpace.map(item => {
@@ -973,6 +967,7 @@ function withinTrajectoryLine(drop, parkingSpace, floor) {
             }
             const lineAll = new THREE.LineCurve3(dropList[10].position, dropList[11].position);
             curve.curves.push(lineAll);
+        } else {
         }
         let points = curve.getPoints(500);
         option.withinCurve.push({ name: item.name, curve: curve, points: points });

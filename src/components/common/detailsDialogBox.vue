@@ -59,7 +59,7 @@ function handlerClickClose() {
         top: 50%;
         left: 50%;
         z-index: 4;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -47%);
         background: #ccc;
         cursor: default;
         background: url('@/assets/images/pageImages/detailsBj.png') no-repeat;

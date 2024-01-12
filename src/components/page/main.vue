@@ -14,48 +14,32 @@ const authStore = AuthStore();
         <div class="content_model">
             <Model />
         </div>
+        <!-- 左侧边栏 -->
         <div
-            class="content_card"
-            v-if="
-                (sidebarStore.leftSidebar.isShow && sidebarStore.leftSidebar.path) ||
-                (sidebarStore.centerSidebar.isShow && sidebarStore.centerSidebar.path) ||
-                (sidebarStore.rightSidebar.isShow && sidebarStore.rightSidebar.path)
-            "
+            class="leftSidebar"
+            v-if="sidebarStore.leftSidebar.isShow && sidebarStore.leftSidebar.path"
         >
-            <!-- 左侧边栏 -->
-            <div
-                class="leftSidebar"
-                v-if="sidebarStore.leftSidebar.isShow && sidebarStore.leftSidebar.path"
-            >
-                <transition appear name="left-transform" mode="out-in">
-                    <component :is="sidebarStore.getLeftSidebarPath"></component>
-                </transition>
-            </div>
-            <!-- 中间栏 -->
-            <div
-                class="centerSidebar"
-                v-if="sidebarStore.centerSidebar.isShow && sidebarStore.centerSidebar.path"
-            >
-                <transition appear name="center-transform" mode="out-in">
-                    <component :is="sidebarStore.getCenterSidebarPath"></component>
-                </transition>
-            </div>
-            <!-- 右侧边栏 -->
-            <div
-                class="rightSidebar"
-                v-if="sidebarStore.rightSidebar.isShow && sidebarStore.rightSidebar.path"
-            >
-                <transition appear name="right-transform" mode="out-in">
-                    <component :is="sidebarStore.getRightSidebarPath"></component>
-                </transition>
-            </div>
+            <transition appear name="left-transform" mode="out-in">
+                <component :is="sidebarStore.getLeftSidebarPath"></component>
+            </transition>
         </div>
-        <div v-else class="content_card">
-            <router-view v-slot="{ Component, route }">
-                <keep-alive :include="authStore.getKeepAliveName">
-                    <component :is="Component" :key="route.path" />
-                </keep-alive>
-            </router-view>
+        <!-- 中间栏 -->
+        <div
+            class="centerSidebar"
+            v-if="sidebarStore.centerSidebar.isShow && sidebarStore.centerSidebar.path"
+        >
+            <transition appear name="center-transform" mode="out-in">
+                <component :is="sidebarStore.getCenterSidebarPath"></component>
+            </transition>
+        </div>
+        <!-- 右侧边栏 -->
+        <div
+            class="rightSidebar"
+            v-if="sidebarStore.rightSidebar.isShow && sidebarStore.rightSidebar.path"
+        >
+            <transition appear name="right-transform" mode="out-in">
+                <component :is="sidebarStore.getRightSidebarPath"></component>
+            </transition>
         </div>
         <div class="frameLeft">
             <div class="frameLeftBg"></div>
@@ -113,35 +97,34 @@ const authStore = AuthStore();
     .content_card {
         height: 100%;
         width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
         box-sizing: border-box;
         padding-bottom: 30px;
-
-        .leftSidebar {
-            text-align: center;
-            height: 100%;
-            width: 450px;
-            position: relative;
-            left: 0%;
-        }
-        .centerSidebar {
-            box-sizing: border-box;
-            text-align: center;
-            height: calc(100% / 3 - 20px);
-            width: calc(100% - 900px);
-            position: relative;
-            padding: 0 20px;
-        }
-        .rightSidebar {
-            text-align: center;
-            height: 100%;
-            width: 450px;
-            position: relative;
-            right: 0%;
-        }
     }
+    .leftSidebar {
+        text-align: center;
+        height: calc(100% - 50px);
+        width: 450px;
+        position: absolute;
+        left: 30px;
+    }
+    .centerSidebar {
+        box-sizing: border-box;
+        text-align: center;
+        height: calc((100% - 50px) / 3 - 20px);
+        width: calc(100% - 960px);
+        position: absolute;
+        padding: 0 20px;
+        bottom: 30px;
+        left: 480px;
+    }
+    .rightSidebar {
+        text-align: center;
+        height: calc(100% - 50px);
+        width: 450px;
+        position: absolute;
+        right: 30px;
+    }
+
     .frameRight {
         height: 100%;
         width: 20px;
@@ -203,6 +186,7 @@ const authStore = AuthStore();
     display: flex;
     justify-content: space-between;
     padding: 20px 30px 30px 30px;
+    background: #020c17;
     .frameRight {
         height: 100%;
         width: 20px;
