@@ -9,7 +9,7 @@ import http from "@/api/http";
 export function getExportFile(url, data, fileName) {
     http.getFile(url, data, { isLoading: true }).then(res => {
         let blob = new Blob([res.data], {
-            type: "application/vnd.ms-excel; charset=UTF-8",
+            type: res.data.type,
         });
         const url = window.URL.createObjectURL(blob);
         let ele = document.createElement("a");
