@@ -17,5 +17,6 @@ export function getExportFile(url, data, fileName) {
         ele.setAttribute("download", fileName); //用于设置下载文件的文件名
         ele.click();
         ele.remove();
+        window.URL.revokeObjectURL(url)
     })
 }
