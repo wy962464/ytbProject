@@ -21,7 +21,7 @@ let tableFromOption = reactive({
                         isShow: true,
                         width: 750,
                         height: 580,
-                        path: '/setUp/conferenceRoom/addAppointment',
+                        path: '/setUp/management/conferenceRoom/addAppointment',
                     },
                 });
             },
@@ -197,7 +197,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
                 {
                     render: row => {
@@ -213,7 +212,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['del'],
                 },
             ],
         },

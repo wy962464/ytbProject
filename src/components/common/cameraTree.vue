@@ -237,11 +237,23 @@ let data = reactive([
     background-color: rgba(2, 50, 64, 0.3) !important;
     border-color: rgba(15, 151, 103, 100) !important;
 }
+:deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner) {
+    background-color: rgba(31, 255, 147, 0.8) !important;
+    border-color: rgba(31, 255, 147, 0.8) !important;
+}
 :deep(.el-checkbox) {
     --el-checkbox-disabled-checked-icon-color: rgba(255, 255, 255, 1);
 }
 :deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner::before) {
-    background-color: rgba(0, 0, 0, 0);
+    content: '';
+    position: absolute;
+    display: block;
+    background-color: var(--el-checkbox-checked-icon-color);
+    height: 2px;
+    transform: scale(0.5);
+    left: 0;
+    right: 0;
+    top: 5px;
 }
 :deep(.el-tree-node:focus > .el-tree-node__content) {
     background-color: rgba(0, 0, 0, 0) !important;
@@ -263,6 +275,17 @@ let data = reactive([
     }
     .el-checkbox .el-checkbox__inner {
         display: none;
+    }
+    .el-tree-node__content {
+        --el-tree-node-content-height: 32px;
+    }
+
+    .el-tree-node__content:hover {
+        background: linear-gradient(
+            to right,
+            rgba(31, 255, 147, 0),
+            rgba(31, 255, 147, 0.5)
+        ) !important;
     }
 }
 

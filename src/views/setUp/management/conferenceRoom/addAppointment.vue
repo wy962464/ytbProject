@@ -93,7 +93,6 @@ let tableFromOption = reactive({
             ],
             style: {
                 width: '200px',
-                height: '32px',
             },
         },
         {

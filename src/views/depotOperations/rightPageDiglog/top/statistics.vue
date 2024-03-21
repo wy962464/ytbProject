@@ -80,12 +80,12 @@ function handlerBtn(value) {
     text-align: center;
     color: #ffffff;
     background-color: rgba(13, 21, 30, 0);
-    border: 1px solid #153f3f;
+    border: 2px solid #153f3f;
     line-height: 24px;
     cursor: pointer;
     &.active {
         color: #08bab9ff;
-        border: 1px solid #08bab9ff;
+        border: 2px solid #08bab9ff;
     }
 }
 </style>

@@ -91,7 +91,7 @@ let tableFromOption = reactive({
                                         obj: row,
                                         width: 600,
                                         height: 700,
-                                        path: '/setUp/userManager/addUserManager',
+                                        path: '/setUp/configure/userManager/addUserManager',
                                     },
                                 });
                             }}
@@ -141,7 +141,7 @@ let tableFromOption = reactive({
                                             width: 600,
                                             height: 700,
                                             obj: row,
-                                            path: '/setUp/userManager/addUserManager',
+                                            path: '/setUp/configure/userManager/addUserManager',
                                         },
                                     });
                                 }}
@@ -150,7 +150,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
                 {
                     render: row => {
@@ -172,7 +171,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['del'],
                 },
             ],
         },
@@ -188,7 +186,7 @@ const handlerClickAdd = () => {
             isShow: true,
             width: 600,
             height: 700,
-            path: '/setUp/userManager/addUserManager',
+            path: '/setUp/configure/userManager/addUserManager',
         },
     });
 };

@@ -70,7 +70,7 @@ let tableFromOption = reactive({
                                         width: 750,
                                         height: 300,
                                         obj: row,
-                                        path: '/setUp/informationRelease/addinFormationRelease',
+                                        path: '/setUp/management/informationRelease/addinFormationRelease',
                                     },
                                 });
                             }}
@@ -108,7 +108,7 @@ let tableFromOption = reactive({
                                             width: 750,
                                             height: 350,
                                             obj: row,
-                                            path: '/setUp/informationRelease/addinFormationRelease',
+                                            path: '/setUp/management/informationRelease/addinFormationRelease',
                                         },
                                     });
                                 }}
@@ -117,7 +117,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
                 {
                     render: row => {
@@ -139,7 +138,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['del'],
                 },
             ],
         },
@@ -155,7 +153,7 @@ const handlerClickAdd = () => {
             isShow: true,
             width: 700,
             height: 350,
-            path: '/setUp/informationRelease/addinFormationRelease',
+            path: '/setUp/management/informationRelease/addinFormationRelease',
         },
     });
 };

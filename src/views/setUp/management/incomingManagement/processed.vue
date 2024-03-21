@@ -1,4 +1,4 @@
-<!-- 待处理 -->
+<!-- 已处理 -->
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
@@ -130,12 +130,11 @@ let tableFromOption = reactive({
                 {
                     render: row => {
                         return (
-                            <el-link underline={false} type="success" onClick={e => alert('处理')}>
-                                处理
+                            <el-link underline={false} type="success" onClick={e => alert('完成')}>
+                                完成
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
             ],
         },
@@ -150,13 +149,13 @@ const handleNameClick = row => {
 </script>
 
 <template>
-    <div class="pendingProcessing">
+    <div class="processed">
         <tableBox v-model:tableFromOption="tableFromOption" />
     </div>
 </template>
 
 <style scoped lang="scss">
-.pendingProcessing {
+.processed {
     width: 100%;
     height: 100%;
 }

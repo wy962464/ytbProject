@@ -431,6 +431,19 @@ watch(
                 rgba(31, 255, 147, 0),
                 rgba(31, 255, 147, 0.5)
             );
+            :deep(.el-tree-node) {
+                .el-tree-node__content {
+                    --el-tree-node-content-height: 32px;
+                }
+
+                .el-tree-node__content:hover {
+                    background: linear-gradient(
+                        to right,
+                        rgba(31, 255, 147, 0),
+                        rgba(31, 255, 147, 0.5)
+                    ) !important;
+                }
+            }
         }
     }
 }

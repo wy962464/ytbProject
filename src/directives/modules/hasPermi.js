@@ -1,3 +1,4 @@
+import { AuthStore } from '@/store/modules/auth.js';
 // 权限管理的自定义指令
 /**
  * @description  权限详情
@@ -9,9 +10,10 @@
  */
 const hasPermi = {
     mounted(el, binding, vnode) {
+        const authStore = AuthStore();
         const { value } = binding
         const all_permission = "*:*:*";
-        const permissions = ["add", "del", "update", 'maintenance', 'details']
+        const permissions = authStore.getPermissions ?? []
         if (value && value instanceof Array && value.length > 0) {
             const permissionFlag = value
             const hasPermissions = permissions.some(permission => {

@@ -3,7 +3,6 @@
 import { reactive, ref } from 'vue';
 import newlyAdded from '@/components/common/newlyAdded.vue';
 
-const newly = ref(null);
 let tableFromOption = reactive({
     isShowForm: true,
     modelFormValue: {},
@@ -65,7 +64,7 @@ let tableFromOption = reactive({
 
 <template>
     <div class="addinFormationRelease">
-        <newlyAdded ref="newly" v-model:tableFromOption="tableFromOption" />
+        <newlyAdded v-model:tableFromOption="tableFromOption" />
     </div>
 </template>
 

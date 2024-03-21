@@ -4,12 +4,15 @@ import { checkedType } from '@/utils/index';
 import { useTableFrom } from '@/utils/tableFromHandler';
 import uploadFile from '@/components/common/uploadFile.vue';
 import { DialogStore } from '@/store/modules/dialog.js';
+import { AuthStore } from '@/store/modules/auth.js';
 
 const dialogStore = DialogStore();
+const authStore = AuthStore();
 const fromRef = ref(null);
 const uploadRef = ref(null);
 const elTables = ref(null);
 const treeRef = ref(null);
+let filterHasPermiStatus = [];
 
 const {
     dataListObj,
@@ -43,6 +46,27 @@ onMounted(() => {
         (props.tableFromOption.isShowTable || props.tableFromOption.isLibrary)
     ) {
         getDataList();
+    }
+    if (
+        props.tableFromOption.isShowTable &&
+        props.tableFromOption.tableObj.operatesBtnObj &&
+        props.tableFromOption.tableObj.operatesBtnObj.operatesBtnList &&
+        props.tableFromOption.tableObj.operatesBtnObj.operatesBtnList.length > 0
+    ) {
+        let filterHasPermi = [];
+        props.tableFromOption.tableObj.operatesBtnObj.operatesBtnList.map(item => {
+            filterHasPermi.push(item.hasPermi?.join() ?? ['*:*:*'].join());
+        });
+        filterHasPermiStatus = filterHasPermi.map(item => {
+            if (
+                authStore.getPermissions.includes(item) ||
+                authStore.getPermissions.includes('*:*:*')
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 });
 /**
@@ -484,6 +508,10 @@ defineExpose({
                                             @panel-change="focusFn"
                                             format="YYYY-MM"
                                             value-format="YYYY-MM"
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                             :shortcuts="[
                                                 {
                                                     text: '今天',
@@ -505,6 +533,10 @@ defineExpose({
                                             popper-class="nonScopePickerClass"
                                             format="YYYY"
                                             value-format="YYYY"
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                             :shortcuts="[
                                                 {
                                                     text: '今天',
@@ -527,6 +559,10 @@ defineExpose({
                                             format="YYYY-MM-DD"
                                             value-format="YYYY-MM-DD"
                                             @panel-change="focusFn"
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                             :shortcuts="[
                                                 {
                                                     text: '今天',
@@ -551,6 +587,10 @@ defineExpose({
                                             format="YYYY-MM-DD"
                                             value-format="YYYY-MM-DD"
                                             prefix-icon=""
+                                            :disabled="
+                                                dialogStore.detailsDialogInfor.isDetails ||
+                                                item.disabled
+                                            "
                                         />
                                     </template>
                                     <!-- 日期时间范围 -->
@@ -723,6 +763,7 @@ defineExpose({
                     <el-button
                         v-for="item in props.tableFromOption.otherBtnList"
                         :key="item.name"
+                        v-hasPermi="item.hasPermi || ['*:*:*']"
                         color="rgba(13, 21, 30, 0)"
                         @click="item.handlerClick"
                     >
@@ -904,7 +945,7 @@ defineExpose({
                         "
                     >
                         <el-table-column
-                            v-hasPermi="['update', 'del']"
+                            v-if="filterHasPermiStatus.some(item => item == true)"
                             :label="props.tableFromOption.tableObj.operatesBtnObj.title || '操作'"
                             :align="props.tableFromOption.tableObj.operatesBtnObj.align || 'center'"
                             :min-width="props.tableFromOption.tableObj.operatesBtnObj.minWidth"
@@ -918,7 +959,7 @@ defineExpose({
                                             .operatesBtnList"
                                     >
                                         <renderDom
-                                            v-hasPermi="item.hasPermi"
+                                            v-hasPermi="item.hasPermi || ['*:*:*']"
                                             :row="scope.row"
                                             :render="item.render"
                                         ></renderDom>
@@ -993,6 +1034,7 @@ defineExpose({
                 width: 48px;
                 display: flex;
                 margin-right: 20px;
+                margin-top: 3px;
                 .leftSwitchBtn {
                     width: 24px;
                     height: 24px;
@@ -1142,11 +1184,23 @@ defineExpose({
     background-color: rgba(2, 50, 64, 0.3) !important;
     border-color: rgba(15, 151, 103, 100) !important;
 }
+:deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner) {
+    background-color: rgba(31, 255, 147, 0.8) !important;
+    border-color: rgba(31, 255, 147, 0.8) !important;
+}
 :deep(.el-checkbox) {
     --el-checkbox-disabled-checked-icon-color: rgba(255, 255, 255, 1);
 }
 :deep(.el-checkbox__input.is-indeterminate .el-checkbox__inner::before) {
-    background-color: rgba(0, 0, 0, 0);
+    content: '';
+    position: absolute;
+    display: block;
+    background-color: var(--el-checkbox-checked-icon-color);
+    height: 2px;
+    transform: scale(0.5);
+    left: 0;
+    right: 0;
+    top: 5px;
 }
 .el-checkbox-group {
     .el-checkbox {
@@ -1247,5 +1301,18 @@ defineExpose({
         rgba(31, 255, 147, 0),
         rgba(31, 255, 147, 0.5)
     );
+    :deep(.el-tree-node) {
+        .el-tree-node__content {
+            --el-tree-node-content-height: 32px;
+        }
+
+        .el-tree-node__content:hover {
+            background: linear-gradient(
+                to right,
+                rgba(31, 255, 147, 0),
+                rgba(31, 255, 147, 0.5)
+            ) !important;
+        }
+    }
 }
 </style>

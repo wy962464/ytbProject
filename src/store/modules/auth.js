@@ -8,7 +8,8 @@ export const AuthStore = defineStore({
         return {
             ajaxCount: 0,
             authMenuList: [],
-            routePath: null
+            routePath: null,
+            permissions: ["*:*:*"]
         }
     },
     getters: {
@@ -21,7 +22,8 @@ export const AuthStore = defineStore({
         // 获取当前路由信息
         getRoutePath: state => state.routePath,
         // 获取需要缓存的页面
-        getKeepAliveName: state => getKeepAliveRouterName(state.authMenuList)
+        getKeepAliveName: state => getKeepAliveRouterName(state.authMenuList),
+        getPermissions: state => state.permissions,
     },
     actions: {
         // 更新请求次数
@@ -197,6 +199,30 @@ export const AuthStore = defineStore({
                             meta: {
                                 isHide: true,
                                 title: "",
+                                isModel: false,
+                                leftSidebar: {
+                                    path: "",
+                                    isShow: false
+                                },
+                                centerSidebar: {
+                                    path: "",
+                                    isShow: false
+                                },
+                                rightSidebar: {
+                                    path: "",
+                                    isShow: false
+                                }
+                            }
+                        },
+                        // 调度系统
+                        {
+                            path: "/dispatch",
+                            name: "dispatch",
+                            component: "/dispatch/index",
+                            meta: {
+                                title: "",
+                                isHide: true,
+                                isFull: true,
                                 isModel: false,
                                 leftSidebar: {
                                     path: "",

@@ -160,7 +160,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
                 {
                     render: row => {
@@ -176,7 +175,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['del'],
                 },
             ],
         },
@@ -188,9 +186,7 @@ let tableFromOption = reactive({
 </script>
 
 <template>
-    <tableBox
-        v-model:tableFromOption="tableFromOption"
-    />
+    <tableBox v-model:tableFromOption="tableFromOption" />
 </template>
 
 <style scoped lang="scss"></style>

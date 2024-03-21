@@ -142,7 +142,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
                 {
                     render: row => {
@@ -158,7 +157,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['del'],
                 },
             ],
         },

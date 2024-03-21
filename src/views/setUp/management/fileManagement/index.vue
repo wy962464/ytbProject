@@ -161,7 +161,7 @@ let tableFromOption = reactive({
                                             width: 750,
                                             height: 759,
                                             obj: row,
-                                            path: '/setUp/fileManagement/addFileManagement',
+                                            path: '/setUp/management/fileManagement/addFileManagement',
                                         },
                                     });
                                 }}
@@ -170,7 +170,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
                 {
                     render: row => {
@@ -186,7 +185,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['del'],
                 },
             ],
         },
@@ -210,7 +208,7 @@ const handlerClickAdd = () => {
             isShow: true,
             width: 750,
             height: 759,
-            path: '/setUp/fileManagement/addFileManagement',
+            path: '/setUp/management/fileManagement/addFileManagement',
         },
     });
 };
@@ -231,7 +229,7 @@ const handlerClickAdd = () => {
                         default-expand-all
                         icon="ArrowRightBold"
                         node-key="id"
-                        :current-node-key="2"
+                        check-strictly
                         @current-change="handleCurrentChange"
                     >
                         <template v-slot="{ node, data }">
@@ -303,6 +301,19 @@ const handlerClickAdd = () => {
                     rgba(31, 255, 147, 0),
                     rgba(31, 255, 147, 0.5)
                 );
+                :deep(.el-tree-node) {
+                    .el-tree-node__content {
+                        --el-tree-node-content-height: 32px;
+                    }
+
+                    .el-tree-node__content:hover {
+                        background: linear-gradient(
+                            to right,
+                            rgba(31, 255, 147, 0),
+                            rgba(31, 255, 147, 0.5)
+                        ) !important;
+                    }
+                }
             }
         }
     }

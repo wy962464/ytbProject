@@ -695,14 +695,6 @@ body {
   }
 }
 
-.el-tree-node__content {
-  --el-tree-node-content-height: 32px;
-}
-
-.el-tree-node__content:hover {
-  background: linear-gradient(to right, rgba(31, 255, 147, 0), rgba(31, 255, 147, 0.5)) !important;
-}
-
 // el-dropdown 下拉弹框的样式
 .dropdownPopperClass {
   border: 1px solid #275252 !important;
@@ -748,6 +740,18 @@ body {
         rgba(31, 255, 147, 0),
         rgba(31, 255, 147, 0.5));
     color: #ffffff;
+
+    .el-tree-node {
+      .el-tree-node__content {
+        --el-tree-node-content-height: 32px;
+      }
+
+      .el-tree-node__content:hover {
+        background: linear-gradient(to right,
+            rgba(31, 255, 147, 0),
+            rgba(31, 255, 147, 0.5)) !important;
+      }
+    }
   }
 
   // :has 父级选择器
@@ -781,18 +785,18 @@ body {
   height: 30px;
   padding: 0 10px;
   color: #ffffff;
-  line-height: 28px;
+  line-height: 26px;
   text-align: center;
   cursor: pointer;
   font-weight: 500;
   font-size: 12px;
   box-sizing: border-box;
-  border: 1px solid #275252;
+  border: 2px solid #275252;
   background: rgba(13, 21, 30, 0.63);
   margin-right: 10px;
 
   &:hover {
-    border: 1px solid #00ff84;
+    border: 2px solid #00ff84;
     color: #00ff84;
   }
 }

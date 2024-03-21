@@ -32,12 +32,15 @@ watch(
     }
 );
 onMounted(() => {
-    autofit.init({
-        designHeight: 1080,
-        designWidth: 1920,
-        renderDom: '#app',
-        resize: true,
-    });
+    autofit.init(
+        {
+            designHeight: 1080,
+            designWidth: 1920,
+            renderDom: '#app',
+            resize: true,
+        },
+        false
+    );
 });
 </script>
 

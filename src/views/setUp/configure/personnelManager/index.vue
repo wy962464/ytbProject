@@ -1,4 +1,4 @@
-<!-- 角色管理 -->
+<!-- 人员管理 -->
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
@@ -16,15 +16,41 @@ let tableFromOption = reactive({
         {
             type: 'input',
             prop: 'topic',
-            placeholder: '中文名称',
+            placeholder: '员工编码',
             style: {
                 width: '124px',
             },
         },
         {
+            type: 'select',
+            prop: 'direction',
+            placeholder: '人员类别',
+            style: {
+                width: '124px',
+            },
+            options: [
+                {
+                    label: '司机',
+                    value: '0',
+                },
+                {
+                    label: '售票员',
+                    value: '1',
+                },
+                {
+                    label: '安保人员',
+                    value: '2',
+                },
+                {
+                    label: '技术人员',
+                    value: '3',
+                },
+            ],
+        },
+        {
             type: 'input',
             prop: 'content',
-            placeholder: '英文名称',
+            placeholder: '所在单位',
             style: {
                 width: '124px',
             },
@@ -33,45 +59,69 @@ let tableFromOption = reactive({
     tableObj: {
         tableData: [
             {
-                name: 'wxAdmin',
-                sex: '巡查管理员',
-                berthType: '是',
-                comp: '',
+                name: '余海泉',
+                sex: '男',
+                berthType: '驾驶员',
+                comp: '巴士集团第五分公司',
+                iphone: '13823252078',
+                beizhu: '',
             },
             {
-                name: 'ddry',
-                sex: '调度人员',
-                berthType: '是',
-                comp: '',
+                name: '余海泉',
+                sex: '男',
+                berthType: '驾驶员',
+                comp: '巴士集团第五分公司',
+                iphone: '13823252078',
+                beizhu: '',
             },
             {
-                name: 'driver2',
-                sex: '驾驶员',
-                berthType: '是',
-                comp: '',
+                name: '余海泉',
+                sex: '男',
+                berthType: '驾驶员',
+                comp: '巴士集团第五分公司',
+                iphone: '13823252078',
+                beizhu: '',
             },
             {
-                name: 'drivers',
-                sex: '驾驶员',
-                berthType: '是',
-                comp: '',
+                name: '余海泉',
+                sex: '男',
+                berthType: '驾驶员',
+                comp: '巴士集团第五分公司',
+                iphone: '13823252078',
+                beizhu: '',
+            },
+            {
+                name: '余海泉',
+                sex: '男',
+                berthType: '驾驶员',
+                comp: '巴士集团第五分公司',
+                iphone: '13823252078',
+                beizhu: '',
             },
         ],
         tableHeader: [
             {
                 prop: 'name',
-                label: '英文名称',
+                label: '姓名',
             },
             {
                 prop: 'sex',
-                label: '中文名称',
+                label: '性别',
             },
             {
                 prop: 'berthType',
-                label: '是否启用',
+                label: '职位',
             },
             {
                 prop: 'comp',
+                label: '单位',
+            },
+            {
+                prop: 'iphone',
+                label: '联系电话',
+            },
+            {
+                prop: 'beizhu',
                 label: '备注',
             },
         ],
@@ -88,13 +138,13 @@ let tableFromOption = reactive({
                                 onClick={e => {
                                     dialogStore.$patch({
                                         detailsDialogInfor: {
-                                            title: '修改角色信息',
+                                            title: '修改员工信息',
                                             isShow: true,
                                             isUpdate: true,
                                             width: 700,
-                                            height: 700,
+                                            height: 500,
                                             obj: row,
-                                            path: '/setUp/rolesManager/addRolesManager',
+                                            path: '/setUp/configure/personnelManager/addPersonnelManager',
                                         },
                                     });
                                 }}
@@ -103,7 +153,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
                 },
                 {
                     render: row => {
@@ -125,7 +174,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['del'],
                 },
             ],
         },
@@ -137,24 +185,24 @@ let tableFromOption = reactive({
 const handlerClickAdd = () => {
     dialogStore.$patch({
         detailsDialogInfor: {
-            title: '新增角色信息',
+            title: '新增员工信息',
             isShow: true,
             width: 700,
-            height: 700,
-            path: '/setUp/rolesManager/addRolesManager',
+            height: 500,
+            path: '/setUp/configure/personnelManager/addPersonnelManager',
         },
     });
 };
 </script>
 
 <template>
-    <div class="rolesManager">
+    <div class="personnelManager">
         <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
     </div>
 </template>
 
 <style scoped lang="scss">
-.rolesManager {
+.personnelManager {
     width: 100%;
     height: 100%;
 }

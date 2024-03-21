@@ -7,26 +7,26 @@ let systemMainOption = reactive({
     path: [
         {
             name: '来文清单',
-            component: '/setUp/incomingManagement/allIncomingList',
+            component: '/setUp/management/incomingManagement/allIncomingList',
         },
         {
             name: '待下派',
-            component: '/setUp/incomingManagement/toBeDispatched',
+            component: '/setUp/management/incomingManagement/toBeDispatched',
             value: 10,
         },
         {
             name: '待处理',
-            component: '/setUp/incomingManagement/pendingProcessing',
+            component: '/setUp/management/incomingManagement/pendingProcessing',
             value: 20,
         },
         {
             name: '已处理',
-            component: '/setUp/incomingManagement/processed',
+            component: '/setUp/management/incomingManagement/processed',
             value: 30,
         },
         {
             name: '已完成',
-            component: '/setUp/incomingManagement/completed',
+            component: '/setUp/management/incomingManagement/completed',
             value: 40,
         },
     ],

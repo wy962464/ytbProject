@@ -329,7 +329,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['details'],
                 },
             ],
         },

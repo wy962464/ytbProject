@@ -16,15 +16,12 @@ import {
  * @param meta.isFull ==> 是否全屏
  * @param meta.isModel ==> 是否显示模型
  * @param meta.leftSidebar ==> 左侧边栏信息
- * @param meta.leftSidebar.title ==> 左侧边栏标题
  * @param meta.leftSidebar.path ==> 左侧边栏地址
  * @param meta.leftSidebar.isShow ==> 左侧边栏是否显
  * @param meta.centerSidebar ==> 中间组件信息
- * @param meta.centerSidebar.title ==> 中间组件标题
  * @param meta.centerSidebar.path ==> 中间组件地址
  * @param meta.centerSidebar.isShow ==> 中间组件是否显示
  * @param meta.rightSidebar ==> 右侧边栏信息
- * @param meta.rightSidebar.title ==> 右侧边栏标题
  * @param meta.rightSidebar.path ==> 右侧边栏地址
  * @param meta.rightSidebar.isShow ==> 右侧边栏是否显示
  */

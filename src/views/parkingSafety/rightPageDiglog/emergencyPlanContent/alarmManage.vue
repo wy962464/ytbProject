@@ -182,7 +182,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['add'],
                 },
                 {
                     render: row => {
@@ -192,7 +191,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['add'],
                 },
             ],
         },

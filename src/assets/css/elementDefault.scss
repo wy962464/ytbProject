@@ -1,8 +1,8 @@
 :deep(.el-input__wrapper) {
-  height: 20px;
+  height: 28px;
   background-color: rgba(13, 21, 30, 0);
   border-radius: 0px;
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
 
   .el-input__inner {
     height: 18px;
@@ -25,7 +25,7 @@
 }
 
 :deep(.el-input.is-disabled .el-input__wrapper) {
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
   background: rgba(13, 21, 30, 0);
   --el-disabled-border-color: rgba(13, 21, 30, 0);
 }
@@ -35,39 +35,39 @@
 }
 
 :deep(.el-form-item.is-error .el-input__wrapper) {
-  box-shadow: 0 0 0 1px var(--el-color-danger) inset;
+  box-shadow: 0 0 0 2px var(--el-color-danger) inset;
   border-color: var(--el-color-danger);
   --el-select-border-color-hover: var(--el-color-danger);
 }
 
 
 :deep(.el-form-item.is-error .el-textarea__inner) {
-  box-shadow: 0 0 0 1px var(--el-color-danger) inset;
+  box-shadow: 0 0 0 2px var(--el-color-danger) inset;
   border-color: var(--el-color-danger);
 }
 
 :deep(.el-select) {
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
 
   .el-input.is-disabled .el-input__wrapper:hover {
-    box-shadow: 0 0 0 1px #275252 inset;
+    box-shadow: 0 0 0 2px #275252 inset;
   }
 }
 
 :deep(.el-select:hover:not(.el-select--disabled) .el-input__wrapper) {
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
 }
 
 :deep(.el-range-editor.is-active:hover) {
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
 }
 
 :deep(.el-date-editor.el-input__wrapper:hover) {
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
 }
 
 :deep(.el-textarea.is-disabled .el-textarea__inner) {
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
   background: rgba(13, 21, 30, 0);
 }
 
@@ -77,7 +77,7 @@
   background-color: rgba(13, 21, 30, 0);
   border-radius: 0px;
   box-shadow: 0 0 0 0;
-  box-shadow: 0 0 0 1px #275252 inset;
+  box-shadow: 0 0 0 2px #275252 inset;
   font-weight: 500;
   font-size: 12px;
   text-align: left;
@@ -87,7 +87,7 @@
 
 :deep(.el-date-editor) {
   box-sizing: border-box;
-  height: 24px;
+  height: 30px;
 
   .el-range__icon {
     margin-right: 8px;
@@ -112,7 +112,7 @@
 }
 
 :deep(.el-select .el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 0 !important;
+  box-shadow: 0 0 0 1px #275252 inset !important;
 }
 
 //下拉框的文本颜色
@@ -147,8 +147,8 @@
 // --------- el-button 按钮样式的修改   ---------
 .el-button {
   min-width: 70px;
-  height: 24px;
-  border: 1px solid #275252;
+  height: 30px;
+  border: 2px solid #275252;
   padding: 0 10px;
   border-radius: 0px;
   margin-bottom: 18px;

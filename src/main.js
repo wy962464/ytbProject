@@ -22,4 +22,4 @@ import 'vue3-video-play/dist/style.css' // 引入css
 let app = createApp(App)
 app.use(router).use(store).use(directives).use(elementIcon).use(vue3TreeOrg).use(vue3videoPlay).mount('#app')
 // 全局挂载
-// app.config.globalProperties.$dayjs = dayjs
+app.config.globalProperties.$dayjs = dayjs

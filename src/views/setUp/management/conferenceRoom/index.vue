@@ -7,15 +7,15 @@ let systemMainOption = reactive({
     path: [
         {
             name: '所有预约',
-            component: '/setUp/conferenceRoom/allAppointments',
+            component: '/setUp/management/conferenceRoom/allAppointments',
         },
         {
             name: '我的预约',
-            component: '/setUp/conferenceRoom/myAppointment',
+            component: '/setUp/management/conferenceRoom/myAppointment',
         },
         {
             name: '会议审批',
-            component: '/setUp/conferenceRoom/meetingApproval',
+            component: '/setUp/management/conferenceRoom/meetingApproval',
         },
     ],
     tabSeletNum: 0,

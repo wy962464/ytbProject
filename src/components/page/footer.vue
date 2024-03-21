@@ -20,7 +20,6 @@
     font-weight: 500;
     font-size: 12px;
     span {
-        color: #253640;
         margin: 0 5px;
     }
 }

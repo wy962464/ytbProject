@@ -7,17 +7,14 @@ export const SidebarStore = defineStore({
         return {
             isModel: true,
             leftSidebar: {
-                title: "",
                 path: null,
                 isShow: true
             },
             centerSidebar: {
-                title: "",
                 path: null,
                 isShow: true
             },
             rightSidebar: {
-                title: "",
                 path: null,
                 isShow: true
             }

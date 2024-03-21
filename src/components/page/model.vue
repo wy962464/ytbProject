@@ -36,17 +36,20 @@ const moonbay = ref(null);
 const main = ref(null);
 //生命周期钩子
 onMounted(() => {
-    autofit.init({
-        designHeight: 1080,
-        designWidth: 1920,
-        renderDom: '#app',
-        resize: true,
-        ignore: [
-            {
-                el: '#moonbay',
-            },
-        ],
-    });
+    autofit.init(
+        {
+            designHeight: 1080,
+            designWidth: 1920,
+            renderDom: '#app',
+            resize: true,
+            ignore: [
+                {
+                    el: '#moonbay',
+                },
+            ],
+        },
+        false
+    );
     moonbay.value.appendChild(externalModel().domElement);
     // 渲染结果CSS3Renderer.domElement
     moonbay.value.appendChild(css3Renderer.domElement);
@@ -161,12 +164,15 @@ composer.addPass(effectFXAA);
 window.addEventListener('resize', onWindowResize);
 function onWindowResize() {
     autofit.off();
-    autofit.init({
-        designHeight: 1080,
-        designWidth: 1920,
-        renderDom: '#app',
-        resize: true,
-    });
+    autofit.init(
+        {
+            designHeight: 1080,
+            designWidth: 1920,
+            renderDom: '#app',
+            resize: true,
+        },
+        false
+    );
     canWidth.value = main.value.clientWidth;
     canHeight.value = main.value.clientHeight;
     // 更新摄像头

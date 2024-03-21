@@ -130,7 +130,6 @@ let tableFromOption = reactive({
                             </el-link>
                         );
                     },
-                    hasPermi: ['add'],
                 },
             ],
         },

@@ -12,59 +12,120 @@ const getComponentPath = url => {
 };
 let menuList = [
     {
-        name: '综合管理',
+        name: '数据管理',
         key: '1',
         children: [
             {
-                name: '会议管理',
+                name: '公交车管理',
                 key: '1-1',
-                path: '/setUp/conferenceRoom/index',
+                path: '/setUp/record/bus/index',
+            },
+            {
+                name: '私家车管理',
+                key: '1-2',
+                path: '/setUp/record/privateCar/index',
+            },
+            // {
+            //     name: '司机管理',
+            //     key: '1-3',
+            //     path: '',
+            // },
+            // {
+            //     name: '线路管理',
+            //     key: '1-4',
+            //     path: '',
+            // },
+            // {
+            //     name: '站内寻车',
+            //     key: '1-5',
+            //     path: '',
+            // },
+            // {
+            //     name: '资产清单管理',
+            //     key: '1-6',
+            //     path: '',
+            // },
+            // {
+            //     name: '资产空间管理',
+            //     key: '1-7',
+            //     path: '',
+            // },
+            // {
+            //     name: '资产维修',
+            //     key: '1-8',
+            //     path: '',
+            // },
+            // {
+            //     name: '资产构件库',
+            //     key: '1-9',
+            //     path: '',
+            // },
+            // {
+            //     name: '1ED管理',
+            //     key: '1-10',
+            //     path: '',
+            // },
+            // {
+            //     name: '摄像头管理',
+            //     key: '1-11',
+            //     path: '',
+            // },
+        ],
+    },
+    {
+        name: '综合管理',
+        key: '2',
+        children: [
+            {
+                name: '会议管理',
+                key: '2-1',
+                path: '/setUp/management/conferenceRoom/index',
             },
             {
                 name: '文件管理',
-                key: '1-2',
-                path: '/setUp/fileManagement/index',
+                key: '2-2',
+                path: '/setUp/management/fileManagement/index',
             },
             {
                 name: '信息发布',
-                key: '1-3',
-                path: '/setUp/informationRelease/index',
+                key: '2-3',
+                path: '/setUp/management/informationRelease/index',
             },
             {
                 name: '来文管理',
-                key: '1-4',
-                path: '/setUp/incomingManagement/index',
+                key: '2-4',
+                path: '/setUp/management/incomingManagement/index',
             },
             {
                 name: '用房管理',
-                key: '1-5',
-                path: '/setUp/housingManagement/index',
+                key: '2-5',
+                path: '/setUp/management/housingManagement/index',
             },
         ],
     },
     {
         name: '配置管理',
-        key: '2',
+        key: '3',
         children: [
             {
                 name: '单位管理',
-                key: '2-1',
-                path: '/setUp/unitsManager/index',
+                key: '3-1',
+                path: '/setUp/configure/unitsManager/index',
             },
             {
                 name: '人员管理',
-                key: '2-2',
-                path: '/setUp/personnelManager/index',
+                key: '3-2',
+                path: '/setUp/configure/personnelManager/index',
             },
             {
                 name: '用户管理',
-                key: '2-3',
-                path: '/setUp/userManager/index',
+                key: '3-3',
+                path: '/setUp/configure/userManager/index',
             },
             {
                 name: '角色管理',
-                key: '2-4',
-                path: '/setUp/rolesManager/index',
+                key: '3-4',
+                path: '/setUp/configure/rolesManager/index',
             },
         ],
     },

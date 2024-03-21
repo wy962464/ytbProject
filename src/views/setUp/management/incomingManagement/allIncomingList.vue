@@ -1,13 +1,16 @@
-<!-- 已处理 -->
+<!-- 来文清单 -->
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
+import { DialogStore } from '@/store/modules/dialog.js';
 
+const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
     isQueryBtn: true,
     isShowTable: true,
     isShowOperateBtn: true,
+    isBasicOperateBtn: true,
     modelFormValue: {},
     fromItem: [
         {
@@ -87,16 +90,6 @@ let tableFromOption = reactive({
             {
                 prop: 'taskList',
                 label: '任务清单',
-                render: row => {
-                    return (
-                        <span
-                            style={{ color: '#00FF84', cursor: 'pointer' }}
-                            onClick={() => handleNameClick(row)}
-                        >
-                            {row.taskList}
-                        </span>
-                    );
-                },
             },
             {
                 prop: 'sourceUnit',
@@ -125,17 +118,76 @@ let tableFromOption = reactive({
         ],
         isSerialNumber: true,
         operatesBtnObj: {
-            width: 100,
+            width: 140,
             operatesBtnList: [
                 {
                     render: row => {
                         return (
-                            <el-link underline={false} type="success" onClick={e => alert('完成')}>
-                                完成
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '任务详情',
+                                            isShow: true,
+                                            width: 700,
+                                            height: 570,
+                                            path: '/setUp/management/incomingManagement/detailsAllIncomingList',
+                                        },
+                                    });
+                                }}
+                            >
+                                详情
                             </el-link>
                         );
                     },
-                    hasPermi: ['update'],
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改来文',
+                                            isShow: true,
+                                            isUpdate: true,
+                                            obj: row,
+                                            width: 700,
+                                            height: 420,
+                                            path: '/setUp/management/incomingManagement/addAllIncomingList',
+                                        },
+                                    });
+                                }}
+                            >
+                                修改
+                            </el-link>
+                        );
+                    },
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
+                                    ElMessageBox.confirm('确定删除该条数据？', {
+                                        confirmButtonText: '确定',
+                                        cancelButtonText: '取消',
+                                        type: 'warning',
+                                    })
+                                        .then(() => {})
+                                        .catch(() => {});
+                                }}
+                            >
+                                删除
+                            </el-link>
+                        );
+                    },
                 },
             ],
         },
@@ -145,18 +197,29 @@ let tableFromOption = reactive({
     pageNo: 1,
 });
 const handleNameClick = row => {
-    console.log(row);
+    alert(JSON.stringify(row));
+};
+const handlerClickAdd = () => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: '新增来文',
+            isShow: true,
+            width: 700,
+            height: 420,
+            path: '/setUp/management/incomingManagement/addAllIncomingList',
+        },
+    });
 };
 </script>
 
 <template>
-    <div class="processed">
-        <tableBox v-model:tableFromOption="tableFromOption" />
+    <div class="allIncomingList">
+        <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
     </div>
 </template>
 
 <style scoped lang="scss">
-.processed {
+.allIncomingList {
     width: 100%;
     height: 100%;
 }

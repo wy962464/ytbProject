@@ -200,7 +200,7 @@ onMounted(() => {
 }
 :deep(.el-input__wrapper) {
     background-color: rgba(38, 221, 132, 0.2);
-    box-shadow: 0 0 0 1px rgba(38, 221, 132, 0.3) inset;
+    box-shadow: 0 0 0 2px rgba(38, 221, 132, 0.3) inset;
     border-radius: 0px;
     .el-input__inner {
         color: #ffffff;

@@ -9,7 +9,7 @@ const authStore = AuthStore();
 </script>
 
 <template>
-    <div class="content" v-if="sidebarStore.isModel">
+    <div class="contentOne" v-if="sidebarStore.isModel">
         <!-- 模型 -->
         <div class="content_model">
             <Model />
@@ -67,7 +67,7 @@ const authStore = AuthStore();
             </footer>
         </div>
     </div>
-    <div class="contents" v-else>
+    <div class="contentsTwo" v-else>
         <router-view v-slot="{ Component, route }">
             <transition appear name="left-transform" mode="out-in">
                 <keep-alive :include="authStore.getKeepAliveName">
@@ -90,7 +90,7 @@ const authStore = AuthStore();
 </template>
 
 <style scoped lang="scss">
-.content {
+.contentOne {
     height: 100%;
     width: 100%;
     position: relative;
@@ -192,7 +192,7 @@ const authStore = AuthStore();
         }
     }
 }
-.contents {
+.contentsTwo {
     height: 100%;
     width: 100%;
     position: relative;
@@ -254,7 +254,6 @@ const authStore = AuthStore();
         }
     }
 }
-
 /* left-transform */
 .left-transform-leave-active,
 .left-transform-enter-active {
