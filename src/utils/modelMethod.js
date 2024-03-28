@@ -213,7 +213,7 @@ export function handleReturn(e) {
         // 一种是：楼层：------》进入建筑：  ------》园区:
         if (threeModel.sceneInformation.name == '外立面') {
             threeModel.sceneInformation.floorName = null
-            let posi = new THREE.Vector3(-77.21076430892649, 91.93051414474087, 153.81490632197443);
+            let posi = new THREE.Vector3(-65.28382261060523, 63.39588949028136, 102.24099187262465);
             let mesh = { position: new THREE.Vector3(0, 0, 0) };
             animateCamera(posi, 1500, mesh);
         } else if (threeModel.sceneInformation.name == '建筑层') {
@@ -226,7 +226,7 @@ export function handleReturn(e) {
             threeModel.sceneInformation.name = '外立面';
             threeModel.sceneInformation.floorName = null
             close();
-            let posi = new THREE.Vector3(-77.21076430892649, 91.93051414474087, 153.81490632197443);
+            let posi = new THREE.Vector3(-65.28382261060523, 63.39588949028136, 102.24099187262465);
             let mesh = { position: new THREE.Vector3(0, 0, 0) };
             animateCamera(posi, 1500, mesh);
         } else if (threeModel.sceneInformation.name == '楼层') {

@@ -83,7 +83,7 @@ onMounted(() => {
  * @param tableFromOption.fromItem.placeholder 表单控件placeholder
  * @param tableFromOption.fromItem.style 表单控件样式
  * @param tableFromOption.isShowSwitchBtn 是否显示表单前切换按钮
- * @param tableFromOption.isQueryBtn 是否显示查询重置按钮
+ * @param tableFromOption.isShowQueryBtn 是否显示查询重置按钮
  * @param tableFromOption.isShowOperateBtn 是否显示操作按钮
  * @param tableFromOption.isBasicOperateBtn 是否显示基本操作按钮
  * @param tableFromOption.otherBtnList 其他按钮列表
@@ -350,12 +350,13 @@ defineExpose({
                         ref="fromRef"
                         :model="props.tableFromOption.modelFormValue"
                         :label-width="props.tableFromOption.labelWidth"
-                        :inline="props.tableFromOption.inline || false"
+                        :inline="props.tableFromOption.inline || true"
                         hide-required-asterisk
+                        :style="props.tableFromOption.style"
                     >
                         <template v-for="item in props.tableFromOption.fromItem">
                             <!-- 动态表单 -->
-                            <template v-if="item.type === 'domains'">
+                            <template v-if="item.type === 'domainsOne'">
                                 <template
                                     v-for="(domain, index) in props.tableFromOption.modelFormValue
                                         .domainList"
@@ -388,6 +389,92 @@ defineExpose({
                                             placeholder="请输入"
                                             type="textarea"
                                             resize="none"
+                                        />
+                                        <div class="programsBtn" @click="removeDomain(index)">
+                                            删除
+                                        </div>
+                                    </el-form-item>
+                                </template>
+                            </template>
+                            <template v-if="item.type === 'domainsTwo'">
+                                <template
+                                    v-for="(domain, index) in props.tableFromOption.modelFormValue
+                                        .domainList"
+                                >
+                                    <el-form-item
+                                        label="时间段："
+                                        :prop="'domainList.' + index + '.time1'"
+                                        :rules="[
+                                            {
+                                                required: true,
+                                                message: `请选择时间`,
+                                                trigger: ['change', 'blur'],
+                                            },
+                                        ]"
+                                        :label-width="item.labelWidth"
+                                    >
+                                        <el-time-select
+                                            v-model="domain.time1"
+                                            style="width: 120px"
+                                            start="00:00"
+                                            step="00:05"
+                                            end="23:55"
+                                            placeholder=""
+                                            popper-class="timeSelectPopperClass"
+                                        />
+                                    </el-form-item>
+                                    <div
+                                        style="
+                                            display: inline-block;
+                                            position: relative;
+                                            width: 30px;
+                                        "
+                                    >
+                                        <span style="position: absolute; top: -20px; left: 0">
+                                            —
+                                        </span>
+                                    </div>
+                                    <el-form-item
+                                        label=""
+                                        :prop="'domainList.' + index + '.time2'"
+                                        :label-width="item.labelWidth"
+                                        :rules="[
+                                            {
+                                                required: true,
+                                                message: `请选择时间`,
+                                                trigger: ['change', 'blur'],
+                                            },
+                                        ]"
+                                    >
+                                        <el-time-select
+                                            v-model="domain.time2"
+                                            style="width: 120px"
+                                            start="00:00"
+                                            step="00:05"
+                                            end="23:55"
+                                            placeholder=""
+                                            popper-class="timeSelectPopperClass"
+                                        />
+                                    </el-form-item>
+                                    <el-form-item
+                                        label="每十分钟计划出车量："
+                                        :prop="'domainList.' + index + '.number'"
+                                        :label-width="item.labelWidth"
+                                        :rules="[
+                                            {
+                                                required: true,
+                                                message: `请输入计划出车量`,
+                                                trigger: ['change', 'blur'],
+                                            },
+                                        ]"
+                                    >
+                                        <el-input-number
+                                            v-model="domain.number"
+                                            :min="1"
+                                            :max="10"
+                                            controls-position="right"
+                                            placeholder="计划出车量"
+                                            style="width: 120px; margin-right: 20px"
                                         />
                                         <div class="programsBtn" @click="removeDomain(index)">
                                             删除
@@ -624,36 +711,29 @@ defineExpose({
                                             :limit="item.limit"
                                         >
                                             <template #tip>
-                                                <div class="el-upload__tip uploadTip">
-                                                    <div class="icon"></div>
+                                                <div class="upload_rule">
+                                                    <span v-if="item?.accept?.length > 0">
+                                                        {{ item?.accept?.join(',') }}
+                                                    </span>
                                                     <div
-                                                        class="text"
+                                                        class="uploadTip"
                                                         v-if="
+                                                            !props.tableFromOption.modelFormValue[
+                                                                `${item.prop}`
+                                                            ] ||
                                                             props.tableFromOption.modelFormValue[
-                                                                item.prop
-                                                            ] &&
-                                                            props.tableFromOption.modelFormValue[
-                                                                item.prop
-                                                            ].length > 0
-                                                        "
-                                                        :title="
-                                                            props.tableFromOption.modelFormValue[
-                                                                item.prop
-                                                            ][0].name
+                                                                `${item.prop}`
+                                                            ].length < 1
                                                         "
                                                     >
-                                                        {{
-                                                            props.tableFromOption.modelFormValue[
-                                                                item.prop
-                                                            ][0].name
-                                                        }}
-                                                    </div>
-                                                    <div class="text" v-else>
-                                                        {{
-                                                            item.rules && item.rules.length > 0
-                                                                ? item.rules[0].message
-                                                                : '请选择文件'
-                                                        }}
+                                                        <div class="icon"></div>
+                                                        <div class="text">
+                                                            {{
+                                                                item.rules && item.rules.length > 0
+                                                                    ? item.rules[0].message
+                                                                    : '请选择文件'
+                                                            }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </template>
@@ -726,14 +806,16 @@ defineExpose({
                                     </template>
                                     <!-- vnodes -->
                                     <template v-if="item.type === 'vnodes'">
-                                        <renderDom :render="item.render"></renderDom>
+                                        <div :style="item.style">
+                                            <renderDom :render="item.render"></renderDom>
+                                        </div>
                                     </template>
                                 </el-form-item>
                             </template>
                         </template>
                     </el-form>
                     <!-- 查询重置按钮 -->
-                    <div class="queryBtnList" v-if="props.tableFromOption.isQueryBtn">
+                    <div class="queryBtnList" v-if="props.tableFromOption.isShowQueryBtn">
                         <el-button color="rgba(13, 21, 30, 0)" @click="handlerQueryList">
                             查询
                         </el-button>
@@ -1060,9 +1142,6 @@ defineExpose({
                 }
             }
             .el-form {
-                display: flex;
-                justify-content: flex-start;
-                flex-wrap: wrap;
                 .el-form-item {
                     margin-right: 10px;
                     :deep(.el-form-item__label) {
@@ -1099,7 +1178,7 @@ defineExpose({
             width: 100%;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-gap: 20px 20px;
+            gap: 20px 20px;
             .libraryBox {
                 height: 270px;
                 width: 300px;
@@ -1213,27 +1292,44 @@ defineExpose({
         }
     }
 }
-.uploadTip {
-    height: 32px;
-    background: rgb(3, 25, 29);
-    font-weight: 400;
+.upload_rule {
     font-size: 12px;
-    text-align: left;
-    color: #ffffff;
-    padding-left: 10px;
-    display: flex;
-    align-items: center;
-    .text {
-        margin-left: 6px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+    line-height: 30px;
+    .uploadTip {
+        margin-top: 7px;
+        height: 34px;
+        background: rgb(3, 25, 29);
+        font-weight: 400;
+        font-size: 12px;
+        text-align: left;
+        color: #ffffff;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        .text {
+            margin-left: 6px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .icon {
+            width: 12px;
+            height: 12px;
+            background: url('@/assets/images/homeImages/assetManagement/lianjie.png') no-repeat;
+            background-size: 100% 100%;
+        }
     }
-    .icon {
-        width: 12px;
-        height: 12px;
-        background: url('@/assets/images/homeImages/assetManagement/lianjie.png') no-repeat;
-        background-size: 100% 100%;
+}
+:deep(.el-upload-list) {
+    margin: 5px 0 0;
+    .el-upload-list__item {
+        background: rgb(3, 25, 29);
+    }
+    .el-upload-list__item-name {
+        color: #cccccc;
+    }
+    .el-upload-list__item:hover {
+        background: rgb(3, 25, 29);
     }
 }
 .leftContent {

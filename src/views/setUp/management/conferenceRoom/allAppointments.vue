@@ -112,7 +112,7 @@ const calendarOptions = reactive({
 });
 let tableFromOption = reactive({
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowSwitchBtn: true,
     modelFormValue: {},
     fromItem: [

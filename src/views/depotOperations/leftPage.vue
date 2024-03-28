@@ -324,7 +324,7 @@ function handlerClickBottom() {
             height: 100%;
             display: grid;
             grid-template-columns: repeat(4, calc(100% / 4 - 18px));
-            grid-gap: 0 10px;
+            gap: 0 10px;
             padding: 20px 0 27px 0;
             justify-content: center;
             align-items: flex-end;

@@ -1,4 +1,4 @@
-<!-- 私家车管理 -->
+<!-- 摄像头管理 -->
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
@@ -7,15 +7,15 @@ import { DialogStore } from '@/store/modules/dialog.js';
 const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowTable: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
     otherBtnList: [
         {
-            name: '导出',
+            name: '绑定',
             handlerClick: () => {
-                alert('导出');
+                alert('绑定');
             },
         },
         {
@@ -30,108 +30,41 @@ let tableFromOption = reactive({
         {
             type: 'input',
             prop: 'topic',
-            placeholder: '车牌号',
+            placeholder: '摄像机编码',
             style: {
                 width: '124px',
             },
         },
         {
-            type: 'treeSelect',
-            label: '',
-            prop: 'type',
-            placeholder: '所属单位',
+            type: 'input',
+            prop: 'topic',
+            placeholder: '摄像机IP',
             style: {
-                width: '200px',
+                width: '124px',
             },
-            treeSelectList: [
-                {
-                    value: 1,
-                    label: '配电系统',
-                    children: [
-                        {
-                            value: 2,
-                            label: '低压柜',
-                        },
-                        {
-                            value: 3,
-                            label: '变压器',
-                        },
-                        {
-                            value: 4,
-                            label: '高压柜',
-                        },
-                        {
-                            value: 5,
-                            label: '补偿柜',
-                        },
-                    ],
-                },
-                {
-                    value: 6,
-                    label: '二供水系统',
-                    children: [
-                        {
-                            value: 7,
-                            label: '给水泵',
-                        },
-                    ],
-                },
-                {
-                    value: 8,
-                    label: '供排水系统',
-                    children: [
-                        {
-                            value: 9,
-                            label: '潜水泵',
-                        },
-                    ],
-                },
-                {
-                    value: 10,
-                    label: '供排水系统',
-                    children: [
-                        {
-                            value: 11,
-                            label: '整体网络架构系统',
-                        },
-                        {
-                            value: 12,
-                            label: '管理服务器及主机',
-                        },
-                        {
-                            value: 13,
-                            label: '车辆识别监控',
-                        },
-                        {
-                            value: 14,
-                            label: '道闸系统',
-                        },
-                    ],
-                },
-            ],
         },
         {
             type: 'select',
             prop: 'direction',
-            placeholder: '车辆状态',
+            placeholder: '所属楼层',
             style: {
                 width: '124px',
             },
             options: [
                 {
-                    label: '离场',
+                    label: '一楼',
                     value: '0',
                 },
                 {
-                    label: '在场',
+                    label: '二楼',
                     value: '1',
                 },
                 {
-                    label: '维保中',
+                    label: '三楼',
                     value: '2',
                 },
                 {
-                    label: '清洁中',
+                    label: '四楼',
                     value: '3',
                 },
             ],
@@ -140,61 +73,68 @@ let tableFromOption = reactive({
     tableObj: {
         tableData: [
             {
-                name: '渝A25QX3',
-                sex: '深圳市交通场站建设发展有限公司',
-                berthType: '',
-                comp: '',
-                iphone: '邹勇',
-                beizhu: '',
-                dianhua: '13480649545',
-                leixing: '私家车',
+                name: 'T008',
+                sex: '备用出入口牌照-01',
+                sss: '枪机',
+                berthType: '牌照识别摄像机',
+                comp: '一层',
+                iphone: '192.168.2.96',
+                beizhu: '标准RTSP/RTP协议',
+                weizhi: '',
+                status: '在线',
             },
             {
-                name: '粤B0U3V9',
-                sex: '巴士集团第五分公司',
-                berthType: '机关',
-                comp: '',
-                iphone: '朱卫东',
-                beizhu: '',
-                dianhua: '13686848301',
-                leixing: '私家车',
+                name: 'T401',
+                sex: '4L-牌照-01',
+                sss: '枪机',
+                berthType: '牌照识别摄像机',
+                comp: '四层',
+                iphone: '192.168.2.72',
+                beizhu: '标准RTSP/RTP协议',
+                weizhi: '',
+                status: '在线',
             },
         ],
         tableHeader: [
             {
                 prop: 'name',
-                label: '车牌号',
+                label: '摄像机编号',
             },
             {
                 prop: 'sex',
-                label: '所属单位',
+                label: '摄像机名称',
+            },
+            {
+                prop: 'sss',
+                label: '摄像机类型',
             },
             {
                 prop: 'berthType',
-                label: '所属车队',
+                label: '摄像机类别',
             },
             {
                 prop: 'comp',
-                label: '所属线路',
+                label: '所属楼层',
             },
             {
                 prop: 'iphone',
-                label: '姓名',
+                label: 'IP地址',
             },
             {
                 prop: 'beizhu',
-                label: '职位',
+                label: '链接协议',
             },
             {
-                prop: 'dianhua',
-                label: '联系电话',
+                prop: 'weizhi',
+                label: '位置描述',
             },
             {
-                prop: 'leixing',
-                label: '车辆类型',
+                prop: 'status',
+                label: '状态',
             },
         ],
         isSerialNumber: true,
+        isMultiple: true,
         operatesBtnObj: {
             width: 100,
             operatesBtnList: [
@@ -207,13 +147,13 @@ let tableFromOption = reactive({
                                 onClick={e => {
                                     dialogStore.$patch({
                                         detailsDialogInfor: {
-                                            title: '修改车辆',
+                                            title: '修改摄像机',
                                             isShow: true,
                                             isUpdate: true,
                                             width: 700,
-                                            height: 400,
+                                            height: 450,
                                             obj: row,
-                                            path: '/setUp/record/bus/addBusInfor',
+                                            path: '/setUp/record/cameraManage/addCameraManage',
                                         },
                                     });
                                 }}
@@ -246,6 +186,7 @@ let tableFromOption = reactive({
                 },
             ],
         },
+        selectionChangeList: [],
     },
     totalCount: 23,
     pageSize: 10,
@@ -254,24 +195,34 @@ let tableFromOption = reactive({
 const handlerClickAdd = () => {
     dialogStore.$patch({
         detailsDialogInfor: {
-            title: '新增车辆',
+            title: '新增摄像机',
             isShow: true,
             width: 700,
-            height: 400,
-            path: '/setUp/record/bus/addBusInfor',
+            height: 450,
+            path: '/setUp/record/cameraManage/addCameraManage',
         },
     });
 };
 </script>
 
 <template>
-    <div class="privateCar">
+    <div class="cameraManage">
         <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
     </div>
 </template>
 
 <style scoped lang="scss">
-.privateCar {
+:deep(.el-table__header .el-checkbox) {
+    display: none;
+}
+:deep(.el-table__header thead tr) {
+    th:nth-child(2) .cell {
+        &::after {
+            content: '操作';
+        }
+    }
+}
+.cameraManage {
     width: 100%;
     height: 100%;
 }

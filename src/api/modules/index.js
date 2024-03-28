@@ -14,8 +14,8 @@ export function getExportFile(url, data, fileName, type) {
         });
         const url = window.URL.createObjectURL(blob);
         let ele = document.createElement("a");
-        ele.setAttribute("href", url); //设置下载文件的url地址
-        ele.setAttribute("download", fileName); //用于设置下载文件的文件名
+        ele.setAttribute("href", url);
+        ele.setAttribute("download", fileName);
         ele.click();
         ele.remove();
         window.URL.revokeObjectURL(url)

@@ -124,7 +124,7 @@ let tableFromOption = reactive({
         },
     ],
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowTable: true,
     tableObj: {
         tableData: [

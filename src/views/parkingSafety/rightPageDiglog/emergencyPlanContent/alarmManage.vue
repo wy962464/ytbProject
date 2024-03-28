@@ -8,7 +8,7 @@ const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowOperateBtn: true,
     modelFormValue: {},
     fromItem: [

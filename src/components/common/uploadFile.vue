@@ -1,6 +1,7 @@
 <!-- 文件上传 -->
 <script setup>
 import { ref, watch, computed } from 'vue';
+import { genFileId } from 'element-plus';
 
 const uploadRef = ref(null);
 const props = defineProps({
@@ -83,6 +84,7 @@ const handleExceed = files => {
     if (props.limit === 1) {
         uploadRef.value?.clearFiles();
         const file = files[0];
+        file.uid = genFileId();
         uploadRef.value?.handleStart(file);
     } else {
         ElNotification({
@@ -111,6 +113,19 @@ const uploadSuccess = (response, uploadFile) => {
         type: 'success',
     });
 };
+const upOnpreview = UploadFile => {
+    console.log(UploadFile);
+    let blob = new Blob([UploadFile.raw], {
+        type: UploadFile.raw.type,
+    });
+    const url = window.URL.createObjectURL(blob);
+    let ele = document.createElement('a');
+    ele.setAttribute('href', url);
+    ele.setAttribute('download', UploadFile.name);
+    ele.click();
+    ele.remove();
+    window.URL.revokeObjectURL(url);
+};
 const handleChange = (uploadFile, uploadFiles) => {
     emit('update:fileList', uploadFiles);
 };
@@ -130,7 +145,7 @@ defineExpose({
         ref="uploadRef"
         v-model:file-list="_fileList"
         :style="style"
-        :show-file-list="limit === 1 ? false : true"
+        :show-file-list="true"
         :action="uploadUrlBackMessage"
         :multiple="multiple"
         :limit="limit"
@@ -142,6 +157,7 @@ defineExpose({
         :on-change="handleChange"
         :before-upload="uploadFileBeforeUpload"
         :on-success="uploadSuccess"
+        :on-preview="upOnpreview"
     >
         <slot name="content"></slot>
         <el-button class="uploadFileBtn" color="rgba(13, 21, 30, 0)">选择文件</el-button>

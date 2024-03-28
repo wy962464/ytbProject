@@ -80,7 +80,7 @@ let canHeight = ref(window.innerHeight);
 // 相机
 let camera = reactive({});
 camera = new THREE.PerspectiveCamera(75, canWidth.value / canHeight.value, 1, 3000);
-camera.position.set(-77.21076430892649, 91.93051414474087, 153.81490632197443);
+camera.position.set(-65.28382261060523, 63.39588949028136, 102.24099187262465);
 camera.lookAt(0, 0, 0);
 // 渲染器
 const renderer = new THREE.WebGLRenderer({

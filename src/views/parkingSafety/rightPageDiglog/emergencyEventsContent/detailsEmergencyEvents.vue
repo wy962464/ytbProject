@@ -365,7 +365,7 @@ watch(
             height: 100%;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px 10px;
+            gap: 10px 10px;
             padding-bottom: 10px;
             box-sizing: border-box;
             padding-right: 10px;

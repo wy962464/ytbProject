@@ -7,7 +7,7 @@ import { getImageUrl } from '@/utils';
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     modelFormValue: {},
     fromItem: [
         {

@@ -188,6 +188,35 @@ body {
   }
 }
 
+// --------- el-time-select  时间选择   ---------
+.timeSelectPopperClass {
+  background-color: rgba(26, 37, 46, 1) !important;
+  border: 1px solid #275252 !important;
+
+  .el-select-dropdown__item.selected {
+    background-color: #1c9261;
+    color: #ffffff;
+    font-weight: normal;
+  }
+
+  .el-select-dropdown__item {
+    color: #ffffff;
+  }
+
+  .el-select-dropdown__item.hover,
+  .el-select-dropdown__item:hover {
+    background-color: #1c9261;
+    color: #ffffff;
+  }
+
+  .el-popper__arrow {
+    &::before {
+      background-color: #173139 !important;
+      border: 1px solid #33464b !important;
+    }
+  }
+}
+
 // el-date-picker 下拉框弹窗的样式
 // 非范围 
 .nonScopePickerClass {

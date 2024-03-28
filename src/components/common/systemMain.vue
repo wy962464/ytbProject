@@ -14,10 +14,7 @@ const props = defineProps({
 });
 let path = ref(null);
 const getComponentPath = () => {
-    if (
-        props.systemMainOption.path &&
-        checkedType(props.systemMainOption.path) === 'String'
-    ) {
+    if (props.systemMainOption.path && checkedType(props.systemMainOption.path) === 'String') {
         path = defineAsyncComponent(modules['/src/views' + props.systemMainOption.path + '.vue']);
     } else if (
         props.systemMainOption.path &&

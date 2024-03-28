@@ -4,6 +4,7 @@ import { reactive, onMounted } from 'vue';
 import tableBox from '@/components/common/table.vue';
 import { isContent } from '@/utils/index';
 import { DialogStore } from '@/store/modules/dialog.js';
+import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
 
 const dialogStore = DialogStore();
 function handleRowClick(row, column, cell, event) {
@@ -83,7 +84,7 @@ function handlerBasicInfor(row) {
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
     modelFormValue: {},
@@ -414,12 +415,9 @@ onMounted(() => {
             @rowClick="handleRowClick"
             @handlerClickAdd="handlerClickAdd"
         />
-        <div class="details">
-            <div class="card-title">
-                <div class="card-name">详细信息</div>
-                <div class="card-line"></div>
-            </div>
-            <div class="card-main">
+        <detailsInforStyle class="detailStyle">
+            <template #name>详细信息</template>
+            <template #main>
                 <p>预案名称：{{ isContent(details.berthCode) }}</p>
                 <p>预案类型：{{ isContent(details.berthCodess) }}</p>
                 <p>适用事件：{{ isContent(details.berthType) }}</p>
@@ -430,17 +428,19 @@ onMounted(() => {
                         <div class="value">{{ isContent(details.reason) }}</div>
                     </el-scrollbar>
                 </div>
-            </div>
-            <div
-                class="card-bottom"
-                v-if="
-                    tableFromOption.tableObj.tableData &&
-                    tableFromOption.tableObj.tableData.length > 0
-                "
-            >
-                <div class="card-btn" @click="handlerClickFiring">启动应急预案</div>
-            </div>
-        </div>
+            </template>
+            <template #bottom>
+                <div
+                    class="card-bottom"
+                    v-if="
+                        tableFromOption.tableObj.tableData &&
+                        tableFromOption.tableObj.tableData.length > 0
+                    "
+                >
+                    <div class="card-btn" @click="handlerClickFiring">启动应急预案</div>
+                </div>
+            </template>
+        </detailsInforStyle>
     </div>
 </template>
 
@@ -453,68 +453,18 @@ onMounted(() => {
         width: calc(100% - 520px);
         height: 100%;
     }
-    .details {
+    .detailStyle {
         width: 500px;
-        height: 100%;
-        box-sizing: border-box;
-        padding-top: 20px;
         margin-left: 20px;
-        box-shadow: 0 0 30px 0 #041d2c inset;
-        .card-title {
-            width: 100%;
-            height: 22px;
+        .reason {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 10px;
-            box-sizing: border-box;
-            .card-name {
-                height: 16px;
-                line-height: 16px;
-                font-weight: 500;
-                font-size: 16px;
-                text-align: left;
-                color: #ffffff;
-                margin-bottom: 5px;
-                &::before {
-                    content: '';
-                    display: inline-block;
-                    width: 3px;
-                    height: 16px;
-                    background-color: #24fdfa;
-                    margin-right: 10px;
-                    margin-bottom: 5px;
-                    vertical-align: middle;
-                }
+            line-height: 18px;
+            margin-top: 7px;
+            .lable {
+                white-space: nowrap;
             }
-            .card-line {
-                height: 1px;
-                width: 100%;
-                background: url('@/assets/images/pageImages/titleLine.png') no-repeat;
-                background-size: 100% 100%;
-            }
-        }
-        .card-main {
-            box-sizing: border-box;
-            height: calc(100% - 22px - 100px);
-            width: 100%;
-            padding: 30px 20px 0 20px;
-            font-weight: 400;
-            font-size: 14px;
-            text-align: left;
-            color: #ffffff;
-            line-height: 30px;
-
-            .reason {
-                display: flex;
-                line-height: 18px;
-                margin-top: 7px;
-                .lable {
-                    white-space: nowrap;
-                }
-                .value {
-                    line-height: 20px;
-                }
+            .value {
+                line-height: 20px;
             }
         }
         .card-bottom {

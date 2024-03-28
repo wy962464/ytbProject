@@ -4,7 +4,7 @@ import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
 
 let tableFromOption = reactive({
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowTable: true,
     modelFormValue: {},
     fromItem: [

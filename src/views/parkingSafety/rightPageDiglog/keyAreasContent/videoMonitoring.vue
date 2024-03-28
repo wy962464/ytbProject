@@ -74,7 +74,7 @@ const handlerClickView = arr => {
             height: 100%;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px 10px;
+            gap: 10px 10px;
             box-sizing: border-box;
             justify-content: center;
             padding-right: 10px;

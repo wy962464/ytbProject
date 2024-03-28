@@ -18,58 +18,58 @@ let menuList = [
             {
                 name: '公交车管理',
                 key: '1-1',
-                path: '/setUp/record/bus/index',
+                path: '/setUp/record/busManage/index',
             },
             {
                 name: '私家车管理',
                 key: '1-2',
-                path: '/setUp/record/privateCar/index',
+                path: '/setUp/record/privateCarManage/index',
             },
-            // {
-            //     name: '司机管理',
-            //     key: '1-3',
-            //     path: '',
-            // },
-            // {
-            //     name: '线路管理',
-            //     key: '1-4',
-            //     path: '',
-            // },
+            {
+                name: '司机管理',
+                key: '1-3',
+                path: '/setUp/record/driverManage/index',
+            },
+            {
+                name: '线路管理',
+                key: '1-4',
+                path: '/setUp/record/lineManage/index',
+            },
             // {
             //     name: '站内寻车',
             //     key: '1-5',
             //     path: '',
             // },
-            // {
-            //     name: '资产清单管理',
-            //     key: '1-6',
-            //     path: '',
-            // },
-            // {
-            //     name: '资产空间管理',
-            //     key: '1-7',
-            //     path: '',
-            // },
-            // {
-            //     name: '资产维修',
-            //     key: '1-8',
-            //     path: '',
-            // },
-            // {
-            //     name: '资产构件库',
-            //     key: '1-9',
-            //     path: '',
-            // },
-            // {
-            //     name: '1ED管理',
-            //     key: '1-10',
-            //     path: '',
-            // },
-            // {
-            //     name: '摄像头管理',
-            //     key: '1-11',
-            //     path: '',
-            // },
+            {
+                name: '资产清单管理',
+                key: '1-6',
+                path: '/assetManagement/rightPageDiglog/inventoryManagement',
+            },
+            {
+                name: '资产空间管理',
+                key: '1-7',
+                path: '/setUp/record/assetSpaceManage/index',
+            },
+            {
+                name: '资产维修',
+                key: '1-8',
+                path: '/setUp/record/assetRepair/index',
+            },
+            {
+                name: '资产构件库',
+                key: '1-9',
+                path: '/assetManagement/rightPageDiglog/memberProperty',
+            },
+            {
+                name: 'LED管理',
+                key: '1-10',
+                path: '/depotOperations/leftPageDiglog/center/displayScreen',
+            },
+            {
+                name: '摄像头管理',
+                key: '1-11',
+                path: '/setUp/record/cameraManage/index',
+            },
         ],
     },
     {
@@ -144,27 +144,29 @@ const handlerClickSelect = (index, indexPath, item) => {
         <div class="setUp_left">
             <detailsInforStyle :isShowTitle="false">
                 <template #main>
-                    <el-menu
-                        :default-active="defaultActive"
-                        :collapse="false"
-                        background-color="rgba(0, 0, 0, 0)"
-                        text-color="#ffffff"
-                        active-text-color="#00ff84"
-                        @select="handlerClickSelect"
-                    >
-                        <el-sub-menu :index="item.key" v-for="item in menuList" :key="item.key">
-                            <template #title>
-                                <span style="font-size: 16px">{{ item.name }}</span>
-                            </template>
-                            <el-menu-item
-                                :index="keys.key"
-                                v-for="keys in item.children"
-                                :key="keys.key"
-                            >
-                                {{ keys.name }}
-                            </el-menu-item>
-                        </el-sub-menu>
-                    </el-menu>
+                    <el-scrollbar>
+                        <el-menu
+                            :default-active="defaultActive"
+                            :collapse="false"
+                            background-color="rgba(0, 0, 0, 0)"
+                            text-color="#ffffff"
+                            active-text-color="#00ff84"
+                            @select="handlerClickSelect"
+                        >
+                            <el-sub-menu :index="item.key" v-for="item in menuList" :key="item.key">
+                                <template #title>
+                                    <span style="font-size: 16px">{{ item.name }}</span>
+                                </template>
+                                <el-menu-item
+                                    :index="keys.key"
+                                    v-for="keys in item.children"
+                                    :key="keys.key"
+                                >
+                                    {{ keys.name }}
+                                </el-menu-item>
+                            </el-sub-menu>
+                        </el-menu>
+                    </el-scrollbar>
                 </template>
             </detailsInforStyle>
         </div>

@@ -52,7 +52,7 @@ let data = reactive([
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
     otherBtnList: [
@@ -251,6 +251,21 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
+                                    alert('维修');
+                                }}
+                            >
+                                维修
+                            </el-link>
+                        );
+                    },
+                },
+                {
+                    render: row => {
+                        return (
+                            <el-link
+                                underline={false}
+                                type="success"
+                                onClick={e => {
                                     dialogStore.$patch({
                                         detailsDialogInfor: {
                                             title: '修改资产',
@@ -280,21 +295,6 @@ let tableFromOption = reactive({
                                 }}
                             >
                                 删除
-                            </el-link>
-                        );
-                    },
-                },
-                {
-                    render: row => {
-                        return (
-                            <el-link
-                                underline={false}
-                                type="success"
-                                onClick={e => {
-                                    alert('维修');
-                                }}
-                            >
-                                维修
                             </el-link>
                         );
                     },

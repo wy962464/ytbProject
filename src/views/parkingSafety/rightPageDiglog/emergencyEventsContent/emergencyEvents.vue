@@ -9,7 +9,7 @@ const router = useRouter();
 const crypoto = new Crypoto();
 let tableFromOption = reactive({
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowTable: true,
     modelFormValue: {},
     labelWidth: 0,

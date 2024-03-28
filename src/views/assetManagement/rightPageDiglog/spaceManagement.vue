@@ -10,7 +10,7 @@ const floorList = floorData.value;
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
     otherBtnList: [

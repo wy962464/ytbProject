@@ -165,6 +165,7 @@ const centerList = [
             background-size: 100% 100%;
         }
         .right {
+            width: calc(100% - 155px);
             font-weight: 500;
             font-size: 16px;
             text-align: left;

@@ -60,7 +60,7 @@ let tableFromOption = reactive({
             },
         },
         {
-            type: 'domains',
+            type: 'domainsOne',
             labelWidth: 100,
             style: {
                 width: '520px',

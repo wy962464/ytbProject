@@ -4,6 +4,7 @@ import { reactive, onMounted } from 'vue';
 import tableBox from '@/components/common/table.vue';
 import { DialogStore } from '@/store/modules/dialog.js';
 import { isContent } from '@/utils/index';
+import detailsInforStyle from '@/components/common/detailsInforStyle.vue';
 
 const dialogStore = DialogStore();
 function handlerClickAdd() {
@@ -20,7 +21,7 @@ function handlerClickAdd() {
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
     modelFormValue: {},
@@ -195,12 +196,9 @@ onMounted(() => {
             @rowClick="handleRowClick"
             @handlerClickAdd="handlerClickAdd"
         />
-        <div class="details">
-            <div class="card-title">
-                <div class="card-name">详细信息</div>
-                <div class="card-line"></div>
-            </div>
-            <div class="card-main">
+        <detailsInforStyle class="detailStyle">
+            <template #name>详细信息</template>
+            <template #main>
                 <el-scrollbar>
                     <div class="reason" v-for="(item, index) in details.domainList" :key="index">
                         <div class="lable">{{ isContent(item.lable) }}：</div>
@@ -209,8 +207,8 @@ onMounted(() => {
                         </div>
                     </div>
                 </el-scrollbar>
-            </div>
-        </div>
+            </template>
+        </detailsInforStyle>
     </div>
 </template>
 
@@ -223,68 +221,18 @@ onMounted(() => {
         width: calc(100% - 520px);
         height: 100%;
     }
-    .details {
+    .detailStyle {
         width: 500px;
-        height: 100%;
-        box-sizing: border-box;
-        padding-top: 20px;
         margin-left: 20px;
-        box-shadow: 0 0 30px 0 #041d2c inset;
-        .card-title {
-            width: 100%;
-            height: 22px;
+        .reason {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 10px;
-            box-sizing: border-box;
-            .card-name {
-                height: 16px;
-                line-height: 16px;
-                font-weight: 500;
-                font-size: 16px;
-                text-align: left;
-                color: #ffffff;
-                margin-bottom: 5px;
-                &::before {
-                    content: '';
-                    display: inline-block;
-                    width: 3px;
-                    height: 16px;
-                    background-color: #24fdfa;
-                    margin-right: 10px;
-                    vertical-align: middle;
-                    margin-bottom: 5px;
-                }
+            line-height: 18px;
+            margin-top: 7px;
+            .lable {
+                white-space: nowrap;
             }
-            .card-line {
-                height: 1px;
-                width: 100%;
-                background: url('@/assets/images/pageImages/titleLine.png') no-repeat;
-                background-size: 100% 100%;
-            }
-        }
-        .card-main {
-            box-sizing: border-box;
-            height: calc(100% - 22px);
-            width: 100%;
-            padding: 30px 20px 25px 20px;
-            font-weight: 400;
-            font-size: 14px;
-            text-align: left;
-            color: #ffffff;
-            line-height: 30px;
-
-            .reason {
-                display: flex;
-                line-height: 18px;
-                margin-top: 7px;
-                .lable {
-                    white-space: nowrap;
-                }
-                .value {
-                    line-height: 20px;
-                }
+            .value {
+                line-height: 20px;
             }
         }
     }

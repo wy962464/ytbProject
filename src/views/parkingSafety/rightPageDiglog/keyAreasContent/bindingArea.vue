@@ -9,7 +9,7 @@ let handlerClick = row => {
 let tableFromOption = reactive({
     isShowTable: true,
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowOperateBtn: true,
     otherBtnList: [
         {

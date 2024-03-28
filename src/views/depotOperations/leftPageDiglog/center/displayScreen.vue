@@ -2,9 +2,12 @@
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
+import { DialogStore } from '@/store/modules/dialog.js';
+
+const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
     isShowTable: true,
@@ -153,7 +156,17 @@ let tableFromOption = reactive({
                                 underline={false}
                                 type="success"
                                 onClick={e => {
-                                    alert('修改');
+                                    dialogStore.$patch({
+                                        detailsDialogInfor: {
+                                            title: '修改摄像机',
+                                            isShow: true,
+                                            isUpdate: true,
+                                            width: 700,
+                                            height: 500,
+                                            obj: row,
+                                            path: '/depotOperations/leftPageDiglog/center/addDisplayScreen',
+                                        },
+                                    });
                                 }}
                             >
                                 修改
@@ -183,10 +196,21 @@ let tableFromOption = reactive({
     pageSize: 10,
     pageNo: 1,
 });
+const handlerClickAdd = () => {
+    dialogStore.$patch({
+        detailsDialogInfor: {
+            title: '新增显示屏',
+            isShow: true,
+            width: 700,
+            height: 500,
+            path: '/depotOperations/leftPageDiglog/center/addDisplayScreen',
+        },
+    });
+};
 </script>
 
 <template>
-    <tableBox v-model:tableFromOption="tableFromOption" />
+    <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
 </template>
 
 <style scoped lang="scss"></style>

@@ -1,4 +1,4 @@
-<!-- 公交车管理 -->
+<!-- 司机管理 -->
 <script setup lang="jsx">
 import { reactive } from 'vue';
 import tableBox from '@/components/common/table.vue';
@@ -7,30 +7,16 @@ import { DialogStore } from '@/store/modules/dialog.js';
 const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowTable: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
-    otherBtnList: [
-        {
-            name: '导出',
-            handlerClick: () => {
-                alert('导出');
-            },
-        },
-        {
-            name: '导入',
-            handlerClick: () => {
-                alert('导入');
-            },
-        },
-    ],
     modelFormValue: {},
     fromItem: [
         {
             type: 'input',
-            prop: 'topic',
-            placeholder: '车牌号',
+            prop: 'name',
+            placeholder: '姓名',
             style: {
                 width: '124px',
             },
@@ -110,116 +96,65 @@ let tableFromOption = reactive({
                 },
             ],
         },
-        {
-            type: 'select',
-            prop: 'direction',
-            placeholder: '车辆状态',
-            style: {
-                width: '124px',
-            },
-            options: [
-                {
-                    label: '司机',
-                    value: '0',
-                },
-                {
-                    label: '售票员',
-                    value: '1',
-                },
-                {
-                    label: '安保人员',
-                    value: '2',
-                },
-                {
-                    label: '技术人员',
-                    value: '3',
-                },
-            ],
-        },
     ],
     tableObj: {
         tableData: [
             {
-                name: '粤B06582D',
-                sex: '巴士集团第五分公司',
-                berthType: '妈湾车队',
-                comp: 'M347	',
-                iphone: '已充电',
-                beizhu: '公交车',
+                name: '余海泉',
+                sex: '男',
+                berthType: '巴士集团第五分公司',
+                comp: '港湾车队',
+                iphone: '204',
+                dianhua: '13823252078	',
+                beizhu: '',
             },
             {
-                name: '粤B06582D',
-                sex: '巴士集团第五分公司',
-                berthType: '妈湾车队',
-                comp: 'M347	',
-                iphone: '已充电',
-                beizhu: '公交车',
+                name: '罗加宏',
+                sex: '男',
+                berthType: '巴士集团第五分公司',
+                comp: '港湾车队',
+                iphone: '204',
+                dianhua: '13410353973',
+                beizhu: '',
             },
             {
-                name: '粤B06582D',
-                sex: '巴士集团第五分公司',
-                berthType: '妈湾车队',
-                comp: 'M347	',
-                iphone: '已充电',
-                beizhu: '公交车',
-            },
-            {
-                name: '粤B06582D',
-                sex: '巴士集团第五分公司',
-                berthType: '妈湾车队',
-                comp: 'M347	',
-                iphone: '已充电',
-                beizhu: '公交车',
-            },
-            {
-                name: '粤B06582D',
-                sex: '巴士集团第五分公司',
-                berthType: '妈湾车队',
-                comp: 'M347	',
-                iphone: '已充电',
-                beizhu: '公交车',
-            },
-            {
-                name: '粤B06582D',
-                sex: '巴士集团第五分公司',
-                berthType: '妈湾车队',
-                comp: 'M347	',
-                iphone: '已充电',
-                beizhu: '公交车',
-            },
-            {
-                name: '粤B06582D',
-                sex: '巴士集团第五分公司',
-                berthType: '妈湾车队',
-                comp: 'M347	',
-                iphone: '已充电',
-                beizhu: '公交车',
+                name: '朱炼华',
+                sex: '女',
+                berthType: '巴士集团第五分公司',
+                comp: '妈湾车队',
+                iphone: '81',
+                dianhua: '13979598200',
+                beizhu: '',
             },
         ],
         tableHeader: [
             {
                 prop: 'name',
-                label: '车牌号',
+                label: '姓名',
             },
             {
                 prop: 'sex',
-                label: '所属单位',
+                label: '性别',
             },
             {
                 prop: 'berthType',
-                label: '所属车队',
+                label: '所属单位',
             },
             {
                 prop: 'comp',
-                label: '所属线路',
+                label: '所属车队',
             },
             {
                 prop: 'iphone',
-                label: '车辆状态',
+                label: '所属线路',
+            },
+            {
+                prop: 'dianhua',
+                label: '联系电话',
             },
             {
                 prop: 'beizhu',
-                label: '车辆类型',
+                label: '备注',
             },
         ],
         isSerialNumber: true,
@@ -235,13 +170,13 @@ let tableFromOption = reactive({
                                 onClick={e => {
                                     dialogStore.$patch({
                                         detailsDialogInfor: {
-                                            title: '修改车辆',
+                                            title: '修改司机',
                                             isShow: true,
                                             isUpdate: true,
                                             width: 700,
-                                            height: 400,
+                                            height: 450,
                                             obj: row,
-                                            path: '/setUp/record/bus/addBusInfor',
+                                            path: '/setUp/record/driverManage/addDriverManage',
                                         },
                                     });
                                 }}
@@ -282,24 +217,24 @@ let tableFromOption = reactive({
 const handlerClickAdd = () => {
     dialogStore.$patch({
         detailsDialogInfor: {
-            title: '新增车辆',
+            title: '新增司机',
             isShow: true,
             width: 700,
-            height: 400,
-            path: '/setUp/record/bus/addBusInfor',
+            height: 450,
+            path: '/setUp/record/driverManage/addDriverManage',
         },
     });
 };
 </script>
 
 <template>
-    <div class="bus">
+    <div class="driverManage">
         <tableBox v-model:tableFromOption="tableFromOption" @handlerClickAdd="handlerClickAdd" />
     </div>
 </template>
 
 <style scoped lang="scss">
-.bus {
+.driverManage {
     width: 100%;
     height: 100%;
 }

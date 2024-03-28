@@ -90,15 +90,15 @@ function handlerClickClose() {
                 text-align: left;
                 color: #ffffff;
                 margin-bottom: 5px;
+                display: flex;
                 &::before {
                     content: '';
-                    display: inline-block;
+                    display: block;
                     width: 3px;
                     height: 16px;
                     background-color: #24fdfa;
                     margin-right: 10px;
                     margin-bottom: 5px;
-                    vertical-align: middle;
                 }
             }
             .card-line {

@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-    <div class="Home"></div>
+    <div class="Home">正在开发中，请稍后......</div>
 </template>
 
 <style scoped lang="scss">

@@ -72,7 +72,7 @@
 }
 
 :deep(.el-textarea__inner) {
-  min-height: 54px !important;
+  min-height: 30px !important;
   color: #ffffff;
   background-color: rgba(13, 21, 30, 0);
   border-radius: 0px;
@@ -187,4 +187,32 @@
 .el-link.el-link--success {
   --el-link-text-color: #00FF84;
   --el-link-hover-text-color: #00ff84bd;
+}
+
+// --------- el-input-number  数字输入框   ---------
+
+:deep(.el-input-number) {
+  --el-color-primary: #275252;
+  --el-border-radius-base: 0px;
+  box-shadow: 0 0 0 2px #275252 inset;
+
+  .el-input-number__increase {
+    border-color: #275252;
+    background: #275252;
+    color: #cccccc;
+  }
+
+  .el-input-number__decrease {
+    border-color: #275252;
+    background: #275252;
+    color: #cccccc;
+  }
+
+  .el-input-number__increase:hover {
+    color: #FFFFFF;
+  }
+
+  .el-input-number__decrease:hover {
+    color: #FFFFFF;
+  }
 }

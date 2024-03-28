@@ -7,7 +7,7 @@ import { DialogStore } from '@/store/modules/dialog.js';
 const dialogStore = DialogStore();
 let tableFromOption = reactive({
     isShowForm: true,
-    isQueryBtn: true,
+    isShowQueryBtn: true,
     isShowTable: true,
     isShowOperateBtn: true,
     isBasicOperateBtn: true,
